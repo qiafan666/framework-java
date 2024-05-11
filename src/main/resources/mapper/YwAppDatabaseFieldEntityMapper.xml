@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ning.web.mapper.YwAppDatabaseFieldEntityMapper">
+  <resultMap id="BaseResultMap" type="com.ning.web.entity.YwAppDatabaseFieldEntity">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="database_id" jdbcType="BIGINT" property="databaseId" />
+    <result column="field" jdbcType="VARCHAR" property="field" />
+    <result column="field_type" jdbcType="VARCHAR" property="fieldType" />
+    <result column="table_name" jdbcType="VARCHAR" property="tableName" />
+    <result column="table_created_time" jdbcType="TIMESTAMP" property="tableCreatedTime" />
+    <result column="sample_data" jdbcType="VARCHAR" property="sampleData" />
+    <result column="classify" jdbcType="VARCHAR" property="classify" />
+    <result column="classify_basis" jdbcType="VARCHAR" property="classifyBasis" />
+    <result column="is_sensitive" jdbcType="INTEGER" property="isSensitive" />
+    <result column="sensitive_level" jdbcType="VARCHAR" property="sensitiveLevel" />
+    <result column="sensitive_basis" jdbcType="VARCHAR" property="sensitiveBasis" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="match_method" jdbcType="VARCHAR" property="matchMethod" />
+    <result column="is_deleted" jdbcType="INTEGER" property="isDeleted" />
+    <result column="updated_time" jdbcType="TIMESTAMP" property="updatedTime" />
+    <result column="created_time" jdbcType="TIMESTAMP" property="createdTime" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from yw_app_database_field
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ning.web.entity.YwAppDatabaseFieldEntity">
+    insert into yw_app_database_field (id, database_id, field, 
+      field_type, table_name, table_created_time, 
+      sample_data, classify, classify_basis, 
+      is_sensitive, sensitive_level, sensitive_basis, 
+      remark, match_method, is_deleted, 
+      updated_time, created_time)
+    values (#{id,jdbcType=BIGINT}, #{databaseId,jdbcType=BIGINT}, #{field,jdbcType=VARCHAR}, 
+      #{fieldType,jdbcType=VARCHAR}, #{tableName,jdbcType=VARCHAR}, #{tableCreatedTime,jdbcType=TIMESTAMP}, 
+      #{sampleData,jdbcType=VARCHAR}, #{classify,jdbcType=VARCHAR}, #{classifyBasis,jdbcType=VARCHAR}, 
+      #{isSensitive,jdbcType=INTEGER}, #{sensitiveLevel,jdbcType=VARCHAR}, #{sensitiveBasis,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR}, #{matchMethod,jdbcType=VARCHAR}, #{isDeleted,jdbcType=INTEGER}, 
+      #{updatedTime,jdbcType=TIMESTAMP}, #{createdTime,jdbcType=TIMESTAMP})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.ning.web.entity.YwAppDatabaseFieldEntity">
+    update yw_app_database_field
+    set database_id = #{databaseId,jdbcType=BIGINT},
+      field = #{field,jdbcType=VARCHAR},
+      field_type = #{fieldType,jdbcType=VARCHAR},
+      table_name = #{tableName,jdbcType=VARCHAR},
+      table_created_time = #{tableCreatedTime,jdbcType=TIMESTAMP},
+      sample_data = #{sampleData,jdbcType=VARCHAR},
+      classify = #{classify,jdbcType=VARCHAR},
+      classify_basis = #{classifyBasis,jdbcType=VARCHAR},
+      is_sensitive = #{isSensitive,jdbcType=INTEGER},
+      sensitive_level = #{sensitiveLevel,jdbcType=VARCHAR},
+      sensitive_basis = #{sensitiveBasis,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      match_method = #{matchMethod,jdbcType=VARCHAR},
+      is_deleted = #{isDeleted,jdbcType=INTEGER},
+      updated_time = #{updatedTime,jdbcType=TIMESTAMP},
+      created_time = #{createdTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select id, database_id, field, field_type, table_name, table_created_time, sample_data, 
+    classify, classify_basis, is_sensitive, sensitive_level, sensitive_basis, remark, 
+    match_method, is_deleted, updated_time, created_time
+    from yw_app_database_field
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, database_id, field, field_type, table_name, table_created_time, sample_data, 
+    classify, classify_basis, is_sensitive, sensitive_level, sensitive_basis, remark, 
+    match_method, is_deleted, updated_time, created_time
+    from yw_app_database_field
+  </select>
+</mapper>

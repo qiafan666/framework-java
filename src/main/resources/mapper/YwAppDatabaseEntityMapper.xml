@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ning.web.mapper.YwAppDatabaseEntityMapper">
+  <resultMap id="BaseResultMap" type="com.ning.web.entity.YwAppDatabaseEntity">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="group_id" jdbcType="BIGINT" property="groupId" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="ip" jdbcType="VARCHAR" property="ip" />
+    <result column="ssl_ca" jdbcType="VARCHAR" property="sslCa" />
+    <result column="ssl_client_key" jdbcType="VARCHAR" property="sslClientKey" />
+    <result column="ssl_client_cert" jdbcType="VARCHAR" property="sslClientCert" />
+    <result column="database_name" jdbcType="VARCHAR" property="databaseName" />
+    <result column="port" jdbcType="VARCHAR" property="port" />
+    <result column="database_user" jdbcType="VARCHAR" property="databaseUser" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="classify_id" jdbcType="BIGINT" property="classifyId" />
+    <result column="layer_id" jdbcType="BIGINT" property="layerId" />
+    <result column="sample_num" jdbcType="INTEGER" property="sampleNum" />
+    <result column="app_id" jdbcType="BIGINT" property="appId" />
+    <result column="is_deleted" jdbcType="INTEGER" property="isDeleted" />
+    <result column="updated_time" jdbcType="TIMESTAMP" property="updatedTime" />
+    <result column="created_time" jdbcType="TIMESTAMP" property="createdTime" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from yw_app_database
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ning.web.entity.YwAppDatabaseEntity">
+    insert into yw_app_database (id, name, group_id, 
+      type, ip, ssl_ca, ssl_client_key, 
+      ssl_client_cert, database_name, port, 
+      database_user, password, classify_id, 
+      layer_id, sample_num, app_id, 
+      is_deleted, updated_time, created_time
+      )
+    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{groupId,jdbcType=BIGINT}, 
+      #{type,jdbcType=VARCHAR}, #{ip,jdbcType=VARCHAR}, #{sslCa,jdbcType=VARCHAR}, #{sslClientKey,jdbcType=VARCHAR}, 
+      #{sslClientCert,jdbcType=VARCHAR}, #{databaseName,jdbcType=VARCHAR}, #{port,jdbcType=VARCHAR}, 
+      #{databaseUser,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{classifyId,jdbcType=BIGINT}, 
+      #{layerId,jdbcType=BIGINT}, #{sampleNum,jdbcType=INTEGER}, #{appId,jdbcType=BIGINT}, 
+      #{isDeleted,jdbcType=INTEGER}, #{updatedTime,jdbcType=TIMESTAMP}, #{createdTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.ning.web.entity.YwAppDatabaseEntity">
+    update yw_app_database
+    set name = #{name,jdbcType=VARCHAR},
+      group_id = #{groupId,jdbcType=BIGINT},
+      type = #{type,jdbcType=VARCHAR},
+      ip = #{ip,jdbcType=VARCHAR},
+      ssl_ca = #{sslCa,jdbcType=VARCHAR},
+      ssl_client_key = #{sslClientKey,jdbcType=VARCHAR},
+      ssl_client_cert = #{sslClientCert,jdbcType=VARCHAR},
+      database_name = #{databaseName,jdbcType=VARCHAR},
+      port = #{port,jdbcType=VARCHAR},
+      database_user = #{databaseUser,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      classify_id = #{classifyId,jdbcType=BIGINT},
+      layer_id = #{layerId,jdbcType=BIGINT},
+      sample_num = #{sampleNum,jdbcType=INTEGER},
+      app_id = #{appId,jdbcType=BIGINT},
+      is_deleted = #{isDeleted,jdbcType=INTEGER},
+      updated_time = #{updatedTime,jdbcType=TIMESTAMP},
+      created_time = #{createdTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select id, name, group_id, type, ip, ssl_ca, ssl_client_key, ssl_client_cert, database_name, 
+    port, database_user, password, classify_id, layer_id, sample_num, app_id, is_deleted, 
+    updated_time, created_time
+    from yw_app_database
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, name, group_id, type, ip, ssl_ca, ssl_client_key, ssl_client_cert, database_name, 
+    port, database_user, password, classify_id, layer_id, sample_num, app_id, is_deleted, 
+    updated_time, created_time
+    from yw_app_database
+  </select>
+</mapper>

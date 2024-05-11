@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ning.web.mapper.YwAppBehaviorEntityMapper">
+  <resultMap id="BaseResultMap" type="com.ning.web.entity.YwAppBehaviorEntity">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="app_id" jdbcType="BIGINT" property="appId" />
+    <result column="api_id" jdbcType="BIGINT" property="apiId" />
+    <result column="app_database_field_id" jdbcType="BIGINT" property="appDatabaseFieldId" />
+    <result column="behavior_url" jdbcType="VARCHAR" property="behaviorUrl" />
+    <result column="param" jdbcType="VARCHAR" property="param" />
+    <result column="req_method" jdbcType="VARCHAR" property="reqMethod" />
+    <result column="behavior_definition" jdbcType="VARCHAR" property="behaviorDefinition" />
+    <result column="behavior_style" jdbcType="INTEGER" property="behaviorStyle" />
+    <result column="is_deleted" jdbcType="INTEGER" property="isDeleted" />
+    <result column="updated_time" jdbcType="TIMESTAMP" property="updatedTime" />
+    <result column="created_time" jdbcType="TIMESTAMP" property="createdTime" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from yw_app_behavior
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ning.web.entity.YwAppBehaviorEntity">
+    insert into yw_app_behavior (id, app_id, api_id, 
+      app_database_field_id, behavior_url, param, 
+      req_method, behavior_definition, behavior_style, 
+      is_deleted, updated_time, created_time
+      )
+    values (#{id,jdbcType=BIGINT}, #{appId,jdbcType=BIGINT}, #{apiId,jdbcType=BIGINT}, 
+      #{appDatabaseFieldId,jdbcType=BIGINT}, #{behaviorUrl,jdbcType=VARCHAR}, #{param,jdbcType=VARCHAR}, 
+      #{reqMethod,jdbcType=VARCHAR}, #{behaviorDefinition,jdbcType=VARCHAR}, #{behaviorStyle,jdbcType=INTEGER}, 
+      #{isDeleted,jdbcType=INTEGER}, #{updatedTime,jdbcType=TIMESTAMP}, #{createdTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.ning.web.entity.YwAppBehaviorEntity">
+    update yw_app_behavior
+    set app_id = #{appId,jdbcType=BIGINT},
+      api_id = #{apiId,jdbcType=BIGINT},
+      app_database_field_id = #{appDatabaseFieldId,jdbcType=BIGINT},
+      behavior_url = #{behaviorUrl,jdbcType=VARCHAR},
+      param = #{param,jdbcType=VARCHAR},
+      req_method = #{reqMethod,jdbcType=VARCHAR},
+      behavior_definition = #{behaviorDefinition,jdbcType=VARCHAR},
+      behavior_style = #{behaviorStyle,jdbcType=INTEGER},
+      is_deleted = #{isDeleted,jdbcType=INTEGER},
+      updated_time = #{updatedTime,jdbcType=TIMESTAMP},
+      created_time = #{createdTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select id, app_id, api_id, app_database_field_id, behavior_url, param, req_method, 
+    behavior_definition, behavior_style, is_deleted, updated_time, created_time
+    from yw_app_behavior
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, app_id, api_id, app_database_field_id, behavior_url, param, req_method, 
+    behavior_definition, behavior_style, is_deleted, updated_time, created_time
+    from yw_app_behavior
+  </select>
+</mapper>

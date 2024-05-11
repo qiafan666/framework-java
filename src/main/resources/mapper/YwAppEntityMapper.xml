@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ning.web.mapper.YwAppEntityMapper">
+  <resultMap id="BaseResultMap" type="com.ning.web.entity.YwAppEntity">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="app_name" jdbcType="VARCHAR" property="appName" />
+    <result column="icon" jdbcType="VARCHAR" property="icon" />
+    <result column="describe" jdbcType="VARCHAR" property="describe" />
+    <result column="style" jdbcType="VARCHAR" property="style" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="webroot" jdbcType="VARCHAR" property="webroot" />
+    <result column="index" jdbcType="VARCHAR" property="index" />
+    <result column="nginx_address" jdbcType="VARCHAR" property="nginxAddress" />
+    <result column="nginx_port" jdbcType="VARCHAR" property="nginxPort" />
+    <result column="api_style" jdbcType="VARCHAR" property="apiStyle" />
+    <result column="nginx_protocol" jdbcType="VARCHAR" property="nginxProtocol" />
+    <result column="http_status" jdbcType="VARCHAR" property="httpStatus" />
+    <result column="classify_status" jdbcType="VARCHAR" property="classifyStatus" />
+    <result column="databaselog_status" jdbcType="VARCHAR" property="databaselogStatus" />
+    <result column="apilog_status" jdbcType="VARCHAR" property="apilogStatus" />
+    <result column="enable_status" jdbcType="VARCHAR" property="enableStatus" />
+    <result column="session_timeout" jdbcType="INTEGER" property="sessionTimeout" />
+    <result column="session_monitor" jdbcType="VARCHAR" property="sessionMonitor" />
+    <result column="session_control" jdbcType="VARCHAR" property="sessionControl" />
+    <result column="session_send_message" jdbcType="VARCHAR" property="sessionSendMessage" />
+    <result column="session_video" jdbcType="VARCHAR" property="sessionVideo" />
+    <result column="session_log" jdbcType="VARCHAR" property="sessionLog" />
+    <result column="session_script" jdbcType="VARCHAR" property="sessionScript" />
+    <result column="cache_status" jdbcType="VARCHAR" property="cacheStatus" />
+    <result column="pem" jdbcType="VARCHAR" property="pem" />
+    <result column="key" jdbcType="VARCHAR" property="key" />
+    <result column="gateway_server" jdbcType="VARCHAR" property="gatewayServer" />
+    <result column="gateway_webrootlocation" jdbcType="VARCHAR" property="gatewayWebrootlocation" />
+    <result column="script_ids" jdbcType="VARCHAR" property="scriptIds" />
+    <result column="is_deleted" jdbcType="INTEGER" property="isDeleted" />
+    <result column="updated_time" jdbcType="TIMESTAMP" property="updatedTime" />
+    <result column="created_time" jdbcType="TIMESTAMP" property="createdTime" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from yw_app
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ning.web.entity.YwAppEntity">
+    insert into yw_app (id, app_name, icon, 
+      describe, style, address, 
+      webroot, index, nginx_address, 
+      nginx_port, api_style, nginx_protocol, 
+      enable_status, session_timeout, session_monitor, 
+      session_control, session_send_message, session_video, 
+      session_log, seesion_script, http_status,classify_status,
+     databaselog_status,apilog_status,cache_status,
+      pem, key, gateway_server, 
+      gateway_webrootlocation, script_ids, is_deleted, 
+      updated_time, created_time)
+    values (#{id,jdbcType=BIGINT}, #{appName,jdbcType=VARCHAR}, #{icon,jdbcType=VARCHAR}, 
+      #{describe,jdbcType=VARCHAR}, #{style,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+      #{webroot,jdbcType=VARCHAR}, #{index,jdbcType=VARCHAR}, #{nginxAddress,jdbcType=VARCHAR}, 
+      #{nginxPort,jdbcType=VARCHAR}, #{apiStyle,jdbcType=VARCHAR}, #{nginxProtocol,jdbcType=VARCHAR}, 
+      #{enableStatus,jdbcType=VARCHAR}, #{sessionTimeout,jdbcType=INTEGER}, #{sessionMonitor,jdbcType=VARCHAR}, 
+      #{sessionControl,jdbcType=VARCHAR}, #{sessionSendMessage,jdbcType=VARCHAR}, #{sessionVideo,jdbcType=VARCHAR}, 
+      #{sessionLog,jdbcType=VARCHAR}, #{seesionScript,jdbcType=VARCHAR}, #{httpStatus,jdbcType=VARCHAR},
+            #{classifyStatus,jdbcType=VARCHAR}, #{databaselogStatus,jdbcType=VARCHAR}, #{apilogStatus,jdbcType=VARCHAR}, #{cacheStatus,jdbcType=VARCHAR},
+      #{pem,jdbcType=VARCHAR}, #{key,jdbcType=VARCHAR}, #{gatewayServer,jdbcType=VARCHAR}, 
+      #{gatewayWebrootlocation,jdbcType=VARCHAR}, #{scriptIds,jdbcType=VARCHAR}, #{isDeleted,jdbcType=INTEGER}, 
+      #{updatedTime,jdbcType=TIMESTAMP}, #{createdTime,jdbcType=TIMESTAMP})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.ning.web.entity.YwAppEntity">
+    update yw_app
+    set app_name = #{appName,jdbcType=VARCHAR},
+      icon = #{icon,jdbcType=VARCHAR},
+      describe = #{describe,jdbcType=VARCHAR},
+      style = #{style,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      webroot = #{webroot,jdbcType=VARCHAR},
+      index = #{index,jdbcType=VARCHAR},
+      nginx_address = #{nginxAddress,jdbcType=VARCHAR},
+      nginx_port = #{nginxPort,jdbcType=VARCHAR},
+      api_style = #{apiStyle,jdbcType=VARCHAR},
+      nginx_protocol = #{nginxProtocol,jdbcType=VARCHAR},
+      enable_status = #{enableStatus,jdbcType=VARCHAR},
+      session_timeout = #{sessionTimeout,jdbcType=INTEGER},
+      session_monitor = #{sessionMonitor,jdbcType=VARCHAR},
+      session_control = #{sessionControl,jdbcType=VARCHAR},
+      session_send_message = #{sessionSendMessage,jdbcType=VARCHAR},
+      session_video = #{sessionVideo,jdbcType=VARCHAR},
+      session_log = #{sessionLog,jdbcType=VARCHAR},
+      seesion_script = #{seesionScript,jdbcType=VARCHAR},
+      http_status = #{httpStatus,jdbcType=VARCHAR},
+      classify_status = #{classifyStatus,jdbcType=VARCHAR},
+      apilog_status = #{apilogStatus,jdbcType=VARCHAR},
+      databaselog_status = #{databaselogStatus,jdbcType=VARCHAR},
+      cache_status = #{cacheStatus,jdbcType=VARCHAR},
+      pem = #{pem,jdbcType=VARCHAR},
+      key = #{key,jdbcType=VARCHAR},
+      gateway_server = #{gatewayServer,jdbcType=VARCHAR},
+      gateway_webrootlocation = #{gatewayWebrootlocation,jdbcType=VARCHAR},
+      script_ids = #{scriptIds,jdbcType=VARCHAR},
+      is_deleted = #{isDeleted,jdbcType=INTEGER},
+      updated_time = #{updatedTime,jdbcType=TIMESTAMP},
+      created_time = #{createdTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select id, app_name, icon, describe, style, address, webroot, index, nginx_address, 
+    nginx_port, api_style, nginx_protocol, enable_status, session_timeout, session_monitor, 
+    session_control, session_send_message, session_video, session_log, seesion_script,
+        http_status,classify_status,databaselog_status,apilog_status,
+    cache_status, pem, key, gateway_server, gateway_webrootlocation, script_ids, is_deleted, 
+    updated_time, created_time
+    from yw_app
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, app_name, icon, describe, style, address, webroot, index, nginx_address, 
+    nginx_port, api_style, nginx_protocol, enable_status, session_timeout, session_monitor, 
+    session_control, session_send_message, session_video, session_log, seesion_script,
+        http_status,classify_status,databaselog_status,apilog_status,
+    cache_status, pem, key, gateway_server, gateway_webrootlocation, script_ids, is_deleted, 
+    updated_time, created_time
+    from yw_app
+  </select>
+</mapper>

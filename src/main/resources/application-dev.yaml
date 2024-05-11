@@ -1,0 +1,48 @@
+server:
+  port: 8081
+
+spring:
+  datasource:
+    username: test
+    password: test2022!@#$
+    url: jdbc:mysql://127.0.0.1:3306/test?serverTimezone=Asia/Shanghai&characterEncoding=utf8&useSSL=false
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    initial-size: 5
+    min-idle: 5
+    max-active: 50
+    max-wait: 60000
+    test-while-idle: true
+    time-between-eviction-runs-millis: 60000
+    min-evictable-idle-time-millis: 30000
+    validation-query: select 'x'
+    test-on-borrow: false
+    test-on-return: false
+    pool-prepared-statements: true
+    filters: stat,slf4j,wall
+    max-pool-prepared-statement-per-connection-size: 20
+    use-global-data-source-stat: true
+    connect-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+
+
+# logback
+logging:
+  #config: # 日志配置文件,Spring Boot默认使用classpath路径下的日志配置文件,如:logback.xml
+  level:
+    org.springframework.web: DEBUG
+  file:
+    name: /data/test/logs/test-bd.log
+    path: /data/test/logs
+
+swagger:
+  enable: true
+
+# nfs dir
+#nfs:
+#  share:
+    #node-url: 192.168.1.185
+#    dir: /data/test/share
+#    url: http://192.168.31.8:5580/file/
+
+
+
