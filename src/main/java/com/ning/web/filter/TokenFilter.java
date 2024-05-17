@@ -3,12 +3,12 @@ package com.ning.web.filter;
 
 import com.alibaba.fastjson.JSONObject;
 
-import com.ning.web.base.bean.WebResultCode;
-import com.ning.web.base.constants.TokenConsts;
-import com.ning.web.base.enums.CharsetEnum;
-import com.ning.web.base.common.CommonResult;
+import com.ning.web.jotato.base.model.result.BaseResultData;
+import com.ning.web.jotato.project.bean.WebResultCode;
+import com.ning.web.jotato.project.constants.TokenConsts;
+import com.ning.web.jotato.base.enums.CharsetEnum;
 
-import com.ning.web.base.utils.TokenUtil;
+import com.ning.web.jotato.project.utils.TokenUtil;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.servlet.*;
@@ -73,11 +73,10 @@ public class TokenFilter implements Filter {
             return;
         }
         if(bool) {
-        	CommonResult<String> result = new CommonResult<String>(WebResultCode.USER_GEETEST_VALIDATE_FAIL.code(), WebResultCode.USER_GEETEST_VALIDATE_FAIL.message(),"" );
-            response.getWriter().print(JSONObject.toJSON(result));
+
+            response.getWriter().print(JSONObject.toJSON(BaseResultData.failure(WebResultCode.TOKEN_STATUS_EXPIRED.code(),WebResultCode.TOKEN_STATUS_EXPIRED.message())));
         }else {
-        	CommonResult<String> result = new CommonResult<String>(WebResultCode.TOKEN_STATUS_INVALID.code(), WebResultCode.TOKEN_STATUS_INVALID.message(),"" );
-            response.getWriter().print(JSONObject.toJSON(result));
+            response.getWriter().print(JSONObject.toJSON(BaseResultData.failure(WebResultCode.TOKEN_STATUS_INVALID.code(),WebResultCode.TOKEN_STATUS_INVALID.message())));
         }
     }
 

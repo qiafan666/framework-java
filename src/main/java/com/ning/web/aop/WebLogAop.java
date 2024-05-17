@@ -1,7 +1,7 @@
 package com.ning.web.aop;
 
 import com.alibaba.fastjson.JSONObject;
-import com.ning.web.base.constants.TokenConsts;
+import com.ning.web.jotato.project.constants.TokenConsts;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;

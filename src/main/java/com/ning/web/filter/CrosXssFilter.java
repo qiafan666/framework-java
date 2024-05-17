@@ -1,9 +1,9 @@
 package com.ning.web.filter;
 
 import com.alibaba.fastjson.JSON;
-import com.ning.web.base.bean.IResultCode;
-import com.ning.web.base.common.CommonResult;
+import com.ning.web.jotato.base.model.IResultCode;
 import com.ning.web.filter.xss.XssHttpServletRequestWrapper;
+import com.ning.web.jotato.base.model.result.BaseResultData;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.annotation.Order;
 
@@ -64,7 +64,7 @@ public class CrosXssFilter implements Filter {
     private void outReponse(HttpServletResponse response,String errMsg) {
         response.setContentType("application/json; charset=utf-8");
         response.setCharacterEncoding("UTF-8");
-        CommonResult resp = CommonResult.failed(IResultCode.ILLEGAL_ARGUMENT,errMsg);
+        BaseResultData resp = BaseResultData.failure(IResultCode.ILLEGAL_ARGUMENT.code(),errMsg);
         PrintWriter out = null;
         try{
             out = response.getWriter();

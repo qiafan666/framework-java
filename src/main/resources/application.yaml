@@ -12,7 +12,8 @@ mybatis-plus:
   configuration:
     map-underscore-to-camel-case: true
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-  mapper-locations: classpath*:mapper/**/*Mapper.xml
+  mapper-locations: classpath*:mapper/*.xml
+  type-aliases-package: com.ning.web.entity
   global-config:
     #驼峰下划线转换
     column-underline: true
