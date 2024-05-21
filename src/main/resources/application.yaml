@@ -2,12 +2,20 @@ spring:
   profiles:
     active: dev #默认为开发环境
   application:
-    name: web-server
+    name: @project.artifactId@
+  messages:
+    encoding: UTF-8
+    basename: i18n/*
+    cache-duration: 1
+    default-language: zh-CN
   servlet:
     multipart:
       enabled: true #是否启用http上传处理
       max-request-size: 100MB #最大请求文件的大小
       max-file-size: 10MB #设置单个文件最大长度
+  main:
+    # spring启动后发现的bean会覆盖之前相同名称的bean
+    allow-bean-definition-overriding: true
 mybatis-plus:
   configuration:
     map-underscore-to-camel-case: true
@@ -19,3 +27,9 @@ mybatis-plus:
     column-underline: true
     #字段策略 0:"忽略判断",1:"非 NULL 判断"),2:"非空判断"
     field-strategy: 1
+server:
+  servlet:
+    encoding:
+      charset: UTF-8
+      force: true
+      enabled: true

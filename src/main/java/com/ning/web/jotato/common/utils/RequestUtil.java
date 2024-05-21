@@ -10,7 +10,7 @@ import java.net.UnknownHostException;
 /**
  * @program: tc590-parent
  * 请求逻辑处理
- * @author doaction
+ * @author ning
  * @create: 2022-06-20 23:34
  * @version: 5.0
  * @Copyright: (c) by Systex Group(China)Ltd. SCM

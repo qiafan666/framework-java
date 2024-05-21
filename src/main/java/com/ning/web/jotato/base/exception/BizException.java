@@ -5,7 +5,7 @@ import com.ning.web.jotato.base.model.IResult;
 /**
  * 系统业务级异常
  * 
- * @author doaction
+ * @author ning
  *
  */
 public class BizException extends CommonException {

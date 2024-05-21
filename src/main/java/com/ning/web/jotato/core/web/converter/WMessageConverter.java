@@ -11,6 +11,7 @@ import com.ning.web.jotato.common.exception.RestException;
 import com.ning.web.jotato.common.utils.WebUtil;
 import com.ning.web.jotato.core.request.BaseReq;
 import com.ning.web.jotato.core.support.logger.LogPrinter;
+import com.ning.web.jotato.core.validator.WMessageValidator;
 import com.ning.web.jotato.core.web.context.ActionContext;
 import com.ning.web.jotato.core.web.context.ActionContextBuilder;
 import com.ning.web.jotato.core.web.interceptor.custom.WInterceptorHandler;
@@ -46,8 +47,8 @@ import java.util.Map;
 public class WMessageConverter extends FastJsonHttpMessageConverter implements HandlerMethodArgumentResolver {
     @Autowired
     private LogPrinter logPrinter;
-/*    @Autowired
-    private WMessageValidator messageValidator;*/
+    @Autowired
+    private WMessageValidator messageValidator;
     @Autowired
     private WInterceptorHandler interceptorHandler;
     private static final ThreadLocal<Object> afterInterceptorExecCache = new ThreadLocal();
@@ -123,7 +124,7 @@ public class WMessageConverter extends FastJsonHttpMessageConverter implements H
         }
 
         this.interceptorHandler.doBeforeInterceptor(actionContext);
-        //this.messageValidator.validInMeaasge(actionContext);
+        this.messageValidator.validInMeaasge(actionContext);
         return actionContext.getInPacket();
     }
 

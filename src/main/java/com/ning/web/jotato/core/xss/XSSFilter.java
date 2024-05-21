@@ -14,7 +14,7 @@ import java.net.URLDecoder;
 import java.util.regex.Pattern;
 
 /**
- * Created by barrydong on 2016-12-01.
+ * Created by ning 2023年5月21日15:59:55.
  */
 @Slf4j
 public class XSSFilter implements Filter {

@@ -8,7 +8,7 @@ import java.nio.charset.Charset;
 /**
  * 字符集工具类
  * 
- * @author doaction
+ * @author ning
  */
 public enum CharsetEnum {
 

@@ -1,0 +1,44 @@
+{
+  "serverUrl": "http://localhost:8080",
+  "outPath": "../docs",
+  "pathPrefix": "",
+  "allInOneDocFileName":"index.html",
+  "allInOne": true,
+  "createDebugPage": true,
+  "showAuthor": true,
+  "style": "xt256",
+  "revisionLogs": [{
+      "version": "1.0",
+      "revisionTime": "2024-01-01 00:00",
+      "status": "创建",
+      "author": "zy",
+      "remarks": ""
+    },{
+      "version": "1.1",
+      "revisionTime": "2024-01-19 00:00",
+      "status": "修改",
+      "author": "zy",
+      "remarks": ""
+    }
+  ],
+  "requestHeaders": [
+    {
+      "name": "Authorization",
+      "type": "string",
+      "desc": "Authorization Token",
+      "required": true,
+      "since": "1.0",
+      "pathPatterns": "/api/**,/admin/api/**",
+      "excludePathPatterns": "/open/**"
+    }
+  ],
+  "ignoreRequestParams": [
+    "org.springframework.ui.ModelMap"
+  ],
+  "groups": [
+    {
+      "name": "应用管理",
+      "apis": "com.ning.web.controller.*"
+    }
+  ]
+}

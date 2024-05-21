@@ -7,6 +7,7 @@ import com.ning.web.pojo.req.ReqAppCreate;
 import com.ning.web.pojo.req.ReqAppList;
 import com.ning.web.pojo.req.ReqAppUpdate;
 import com.ning.web.pojo.resp.RespAppList;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -27,4 +28,6 @@ public interface IAppService extends IService<AppEntity> {
     void update(ReqAppUpdate request);
 
     void delete(List<Long> request);
+
+    void processFile(MultipartFile multipartFile);
 }

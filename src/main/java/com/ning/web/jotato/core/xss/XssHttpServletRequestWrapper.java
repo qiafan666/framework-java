@@ -14,7 +14,7 @@ import java.util.Objects;
 import java.util.regex.Pattern;
 
 /**
- * Created by za-zhangyong on 2017/11/16.
+ * Created by ning on 2020/11/16.
  */
 public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
     public XssHttpServletRequestWrapper(HttpServletRequest request) {

@@ -19,5 +19,4 @@ public interface AppEntityConvertor {
 
     AppEntity appCreateRequestToAppEntity(ReqAppCreate request);
 
-    AppEntity appUpdateRequestToAppEntity(ReqAppUpdate request);
 }
