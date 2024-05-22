@@ -37,7 +37,7 @@ public class ValidatorRule {
     }
 
     public boolean parseResult(String ruleString) {
-        String[] v = ruleString.split("~");
+        String[] v = ruleString.split(";");
         if (v.length == 0) {
             return false;
         } else {
