@@ -47,7 +47,7 @@ public class ValidatorRule {
             this.setMust(this.getVal(v, 2, "opt").equalsIgnoreCase("must"));
             this.setCanBeEmpty(this.getVal(v, 3, "empty").equalsIgnoreCase("empty"));
             this.setDefVal(this.getVal(v, 4, ""));
-            if (this.getVal(v, 5, "").isEmpty()) {
+            if (this.getVal(v, 5, String.valueOf(Long.MAX_VALUE)).isEmpty()) {
                 this.setLength(1024L);
             }else {
                 this.setLength(Long.parseLong(this.getVal(v, 5, String.valueOf(Long.MAX_VALUE))));
