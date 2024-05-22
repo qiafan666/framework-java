@@ -49,10 +49,9 @@ public class ValidatorRule {
             this.setDefVal(this.getVal(v, 4, ""));
             if (this.getVal(v, 5, "").isEmpty()) {
                 this.setLength(1024L);
-            }else{
+            }else {
                 this.setLength(Long.parseLong(this.getVal(v, 5, String.valueOf(Long.MAX_VALUE))));
             }
-
             this.setMin(this.getVal(v, 6, ""));
             this.setMax(this.getVal(v, 7, ""));
             this.setPattern(this.getVal(v, 8, ""));
