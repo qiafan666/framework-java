@@ -14,7 +14,7 @@ public abstract class ValidatorFactory {
             switch (vt) {
                 case STRING:
                     return new StringValidator();
-                case LONG:
+                case NUMBER:
                     return new NumberValidator();
                 case BOOLEAN:
                     return new BooleanValidator();

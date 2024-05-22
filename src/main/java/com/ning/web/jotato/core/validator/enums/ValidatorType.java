@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 
 public enum ValidatorType {
     STRING,
-    LONG,
+    NUMBER,
     BOOLEAN,
     DOUBLE,
     DATE,

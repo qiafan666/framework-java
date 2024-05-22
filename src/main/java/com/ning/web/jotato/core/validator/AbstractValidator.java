@@ -35,7 +35,7 @@ public abstract class AbstractValidator implements Validator {
             if (!rule.isCanBeEmpty() && "".equals(this.val)) {
                 throw new RestException("SYS013", I18NUtil.getMessage("SYS013", new Object[]{this.keyPath}));
             } else if (this.val != null && (long)this.val.length() > rule.getLength()) {
-                throw new RestException("SYS015", I18NUtil.getMessage("SYS015", new Object[]{this.keyPath}));
+                throw new RestException("SYS017", I18NUtil.getMessage("SYS017", new Object[]{this.keyPath,rule.getLength()}));
             } else {
                 if (this.val != null) {
                     this.doValid();

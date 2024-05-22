@@ -44,10 +44,15 @@ public class ValidatorRule {
             this.setKeyPath(this.getVal(v, 0, v[0]));
             this.setKey(this.getVal(v, 0, v[0]));
             this.setType(this.getVal(v, 1, "string").toLowerCase());
-            this.setMust(this.getVal(v, 2, "opt").toLowerCase().equals("must"));
-            this.setCanBeEmpty(this.getVal(v, 3, "empty").toLowerCase().equals("empty"));
+            this.setMust(this.getVal(v, 2, "opt").equalsIgnoreCase("must"));
+            this.setCanBeEmpty(this.getVal(v, 3, "empty").equalsIgnoreCase("empty"));
             this.setDefVal(this.getVal(v, 4, ""));
-            this.setLength(Long.parseLong(this.getVal(v, 5, String.valueOf(Long.MAX_VALUE))));
+            if (this.getVal(v, 5, "").isEmpty()) {
+                this.setLength(1024L);
+            }else{
+                this.setLength(Long.parseLong(this.getVal(v, 5, String.valueOf(Long.MAX_VALUE))));
+            }
+
             this.setMin(this.getVal(v, 6, ""));
             this.setMax(this.getVal(v, 7, ""));
             this.setPattern(this.getVal(v, 8, ""));

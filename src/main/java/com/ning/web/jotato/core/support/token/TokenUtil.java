@@ -12,13 +12,17 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
-public class TokenJwt {
+public class TokenUtil{
 
 
     //过期时间
     private static final Integer TIME_OUT_DAY = 5;
     //需要重新生成的天数 如果token的时间超过这个 则重新生成token
 
+    // tokkenActiveDays 过期时间
+    // key 存入的key
+    // value 存入的value json字符串
+    // publicKey 公钥
     public static String createToken(Integer tokenActiveDays,String key, String value, String publicKey) {
         Calendar calendar = Calendar.getInstance();
         if (tokenActiveDays==null||tokenActiveDays==0) {

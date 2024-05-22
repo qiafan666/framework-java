@@ -47,9 +47,10 @@ public class AppController {
     }
 
     @PostMapping(value = "/create")
-    @MessageValid(
-            "appName~string~must~unempty~~2"
-    )
+    @MessageValid({
+            "appName~string~must~unempty~~2",
+            "appStatus~string~must~unempty~~32~~~^(online|offline)$"
+    })
     public BaseResult create(@RequestBody ReqAppCreate request) {
         iAppService.create(request);
         return BaseResultData.success();
