@@ -9,6 +9,7 @@ import java.lang.annotation.*;
 // 其中，数据类型支持 bool,datetime,date,decimal,jsonArray,jsonObject,number,string等
 // string类型支持正则表达式，例如：^(online|offline)$
 // 如果empty且有默认值，则默认值会作为参数值
+// 前四项目为必传项目，后面根据实际情况 example "appStatus:string:must:unempty"
 
 @Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)

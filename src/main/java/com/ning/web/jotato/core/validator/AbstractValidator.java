@@ -62,7 +62,7 @@ public abstract class AbstractValidator implements Validator {
             Pattern pattern = Pattern.compile(this.rule.getPattern());
             Matcher matcher = pattern.matcher(this.val);
             if (!matcher.matches()) {
-                throw new RestException("SYS018", I18NUtil.getMessage("SYS018", new Object[]{this.keyPath}));
+                throw new RestException("SYS019", I18NUtil.getMessage("SYS019", new Object[]{this.keyPath,this.val,this.rule.getPattern()}));
             }
         }
 
