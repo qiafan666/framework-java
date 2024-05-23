@@ -27,14 +27,19 @@ public class CodeGenerator {
     //表table的前缀，不加到生成的类名中
     private static final String[] PREFIX = {"sys_","yw_"};
     //要生成的表名
-    private static final String[] TABLES = {"yw_app"};
+    private static final String[] TABLES = {"sys_user"};
     private static final String DB_ColumnName_create_time = "created_time";
     private static final String DB_ColumnName_modify_time = "updated_time";
     private static final String DB_ColumnName_is_deleted = "is_deleted";
-    //项目模块名
+
+    //功能模块名称，生成的文件会存放到模块下
+    //当前项目路径 + 项目路径
+    private static final String PROJECT_PATH = "/java/src/framework-java";
+
     private static final String PROJECT_MODULE = "";
-    //项目路径
+
     private static final String BASE_PACKAGE = "com.ning.web";
+
     private static final String PACKAGE_ENTITY = "entity";
     private static final String PACKAGE_MAPPER = "mapper";
     // mapp.xml 生成路径
@@ -48,17 +53,14 @@ public class CodeGenerator {
     // ======================================================
 
     public static void main(String[] args) {
-        //当前项目路径 + 项目路径
-        //        TODO 修改点
-        String projectPath ="/java/src/framework-java/"; //System.getProperty("user.dir").concat(PROJECT_PATH);
 
         FastAutoGenerator generator = FastAutoGenerator.create(JDBC_URL, JDBC_USERNAME, JDBC_PASSWORD);
         //2、全局配置
-        configGlobal(generator, projectPath);
+        configGlobal(generator, PROJECT_PATH);
         //3、包配置
-        configPackage(generator, projectPath);
+        configPackage(generator, PROJECT_PATH);
         //4、包相关配置
-        configPackage(generator, projectPath);
+        configPackage(generator, PROJECT_PATH);
         //5、策略配置
         configStrategy(generator);
         //6、模板引擎配置
@@ -219,4 +221,6 @@ public class CodeGenerator {
                             .mapperXml("templates/mapper.xml");
                 });
     }
+
+
 }

@@ -40,12 +40,22 @@ public class AppController {
     private IAppService iAppService;
 
 
+    /**
+     * 列表查询
+     * @param request 查询列表
+     * @return BaseResultData<Page<RespAppList>>
+     */
     @PostMapping(value = "/list")
     public BaseResultData<Page<RespAppList>> list(@RequestBody ReqAppList request) {
         Page<RespAppList> page =  iAppService.list(request);
         return BaseResultData.success(page);
     }
 
+    /**
+     * 创建
+     * @param request 创建
+     * @return BaseResult
+     */
     @PostMapping(value = "/create")
     @MessageValid({
             "appName:number:must:unempty",
