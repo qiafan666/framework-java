@@ -62,8 +62,9 @@ public class CURDGenerator {
             "    }\n"
             ;
 
-    private static final String FILE_Service_CONTENT = " " +
-            "   void create(Req€NameCreate request);\n" +
+    private static final String FILE_Service_CONTENT = "" +
+            "\n"+
+            "    void create(Req€NameCreate request);\n" +
             "\n" +
             "    Page<Resp€NameList> list(Req€NameList request);\n" +
             "\n" +
@@ -71,25 +72,72 @@ public class CURDGenerator {
             "\n" +
             "    void delete(List<Long> request);";
     private static final String FILE_Impl_CONTENT = " " +
-            "   @Override\n" +
+            "\n"+
+            "    @Override\n" +
             "    public void create(Req€NameCreate request) {\n" +
-            "\n" +
+            "\n"+
+            "        €NameEntity entity = new €NameEntity();\n" +
+            "        BeanUtils.copyProperties(request, entity);\n" +
+            "        //TODO 校验参数\n" +
+            "        this.save(entity);\n"+
             "    }\n" +
             "\n" +
             "    @Override\n" +
             "    public Page<Resp€NameList> list(Req€NameList request) {\n" +
-            "        return null;\n" +
+            "\n"+
+            "        Page<€NameEntity> page = new Page<>(request.getPageNo(), request.getPageSize());\n" +
+            "        LambdaQueryWrapper<€NameEntity> queryWrapper = Wrappers.lambdaQuery();\n" +
+            "        queryWrapper.orderByDesc(€NameEntity::getCreatedTime);\n" +
+            "        //TODO 查询条件\n" +
+            "\n" +
+            "        Page<€NameEntity> result = this.page(page, queryWrapper);\n" +
+            "\n" +
+            "        List<Resp€NameList> convertList = €NameEntityConvertor.INSTANCE.€NameEntityToResp€NameList(result.getRecords());\n" +
+            "        Page<Resp€NameList> objectPage = new Page<>(request.getPageNo(), request.getPageSize(), result.getTotal());\n" +
+            "        objectPage.setRecords(convertList);\n" +
+            "        return  objectPage;\n"+
             "    }\n" +
             "\n" +
             "    @Override\n" +
             "    public void update(Req€NameUpdate request) {\n" +
             "\n" +
+            "        €NameEntity entity = this.getById(request.getId());\n" +
+            "        if (entity == null) {\n" +
+            "            throw new RestException(\"COMMON0001\");\n" +
+            "        }\n" +
+            "        NullAwareBeanUtils.copyProperties(request, entity);\n" +
+            "        //TODO 参数校验\n" +
+            "        this.updateById(entity);\n"+
             "    }\n" +
             "\n" +
             "    @Override\n" +
             "    public void delete(List<Long> request) {\n" +
-            "\n" +
+            "\n"+
+            "        request.forEach(id -> {\n" +
+            "        €NameEntity entity = this.getById(id);\n" +
+            "        if (entity == null) {\n" +
+            "            throw new RestException(\"COMMON0001\");\n" +
+            "            }\n" +
+            "        entity.setIsDeleted(1);\n" +
+            "        this.updateById(entity);\n" +
+            "        });\n"+
             "    }";
+    private static final String FILE_Converter_CONTENT = "\n" +
+            "import org.mapstruct.Mapper;\n" +
+            "import org.mapstruct.factory.Mappers;\n" +
+            "\n" +
+            "\n" +
+            "import java.util.List;\n" +
+            "\n" +
+            "@Mapper(componentModel = \"spring\")\n" +
+            "public interface €NameEntityConvertor {\n" +
+            "\n" +
+            "\n" +
+            "    €NameEntityConvertor INSTANCE = Mappers.getMapper(€NameEntityConvertor.class);\n" +
+            "\n" +
+            "\n" +
+            "    List<Resp€NameList> €NameEntityToResp€NameList(List<€NameEntity> records);\n" +
+            "}\n";
     private static final String ReqCreate_CONTENT = "" +
             "import lombok.Data;\n" +
             "import lombok.EqualsAndHashCode;\n" +
@@ -127,8 +175,10 @@ public class CURDGenerator {
     // 注意：当前自动生成代码是在CodeGenerator.java中基础上生成的，一旦CodeGenerator.java修改，这里的代码也要改
     private static final String controllerPath = "D:\\java\\src\\framework-java\\src\\main\\java\\com\\ning\\web\\controller";
     private static final String servicePath = "D:\\java\\src\\framework-java\\src\\main\\java\\com\\ning\\web\\service";
+    private static final String implPath = "D:\\java\\src\\framework-java\\src\\main\\java\\com\\ning\\web\\service\\impl";
     private static final String reqPath = "D:\\java\\src\\framework-java\\src\\main\\java\\com\\ning\\web\\pojo\\req";
     private static final String respPath = "D:\\java\\src\\framework-java\\src\\main\\java\\com\\ning\\web\\pojo\\resp";
+    private static final String converterPath = "D:\\java\\src\\framework-java\\src\\main\\java\\com\\ning\\web\\convert";
 
     // 主方法
     public static void main(String[] args) throws IOException {
@@ -137,6 +187,7 @@ public class CURDGenerator {
         ArrayList<String> list = new ArrayList<>();
         list.add(controllerPath);
         list.add(servicePath);
+        list.add(implPath);
 
         for (String path : list) {
             File dir = new File(path);
@@ -168,7 +219,7 @@ public class CURDGenerator {
                     } else if (file.getName().endsWith("Service.java")) {
                         fileType = "Service";
                     }else if (file.getName().endsWith("ServiceImpl.java")) {
-//                        fileType = "Impl";
+                        fileType = "Impl";
                     }else {
                         continue;
                     }
@@ -352,6 +403,7 @@ public class CURDGenerator {
         createFile2(reqPath,name);
         createFile3(reqPath,name);
         createFile4(respPath,name);
+        createFile5(converterPath,name);
     }
 
     public static void createFile1(String path,String name) throws IOException {
@@ -408,6 +460,23 @@ public class CURDGenerator {
     public static void createFile4(String path,String name) throws IOException {
         String respListContent = StringUtils.replace(RespList_CONTENT, "€Name", name);
         String respListFileName = "Resp" +name + "List.java";
+
+        File file3 = new File(path, respListFileName);
+
+        // 如果文件不存在，则创建新文件
+        if (!file3.exists()) {
+            file3.createNewFile();
+        }
+
+        // 写入文件内容
+        try (FileWriter writer = new FileWriter(file3);
+             BufferedWriter bufferedWriter = new BufferedWriter(writer)) {
+            bufferedWriter.write(respListContent);
+        }
+    }
+    public static void createFile5(String path,String name) throws IOException {
+        String respListContent = StringUtils.replace(FILE_Converter_CONTENT, "€Name", name);
+        String respListFileName = name + "EntityConvertor.java";
 
         File file3 = new File(path, respListFileName);
 

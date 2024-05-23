@@ -9,7 +9,7 @@ import java.beans.PropertyDescriptor;
 import java.util.HashSet;
 import java.util.Set;
 
-public class NullBeanUtils {
+public class NullAwareBeanUtils {
 
     public static void copyProperties(Object source, Object target) throws BeansException {
         BeanWrapper src = new BeanWrapperImpl(source);
