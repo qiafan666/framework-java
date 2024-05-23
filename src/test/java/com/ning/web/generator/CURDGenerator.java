@@ -154,7 +154,7 @@ public class CURDGenerator {
             "@Data\n" +
             "public class Req€NameUpdate extends BaseReq {\n" +
             "\n" +
-            "    private Long appId;\n" +
+            "    private Long id;\n" +
             "}\n";
     private static final String ReqList_CONTENT = "" +
             "import lombok.Data;\n" +
