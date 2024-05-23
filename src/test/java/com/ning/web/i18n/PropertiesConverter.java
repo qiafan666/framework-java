@@ -10,12 +10,15 @@ import java.util.Properties;
  */
 public class PropertiesConverter {
 
+    private static final String defaultMessagePath = "D:\\java\\src\\framework-java\\src\\main\\resources\\i18n\\messages.properties";
+    private static final String zhCNMessagePath = "D:\\java\\src\\framework-java\\src\\main\\resources\\i18n\\messages_zh_CN.properties";
+    private static final String enUSMessagePath = "D:\\java\\src\\framework-java\\src\\main\\resources\\i18n\\messages_en_US.properties";
     public static void main(String[] args) {
 
         List<String> files = new ArrayList<>();
-        files.add("D:\\java\\src\\framework-java\\src\\main\\resources\\i18n\\messages.properties");
-        files.add("D:\\java\\src\\framework-java\\src\\main\\resources\\i18n\\messages_zh_CN.properties");
-        files.add("D:\\java\\src\\framework-java\\src\\main\\resources\\i18n\\messages_en_US.properties");
+        files.add(defaultMessagePath);
+        files.add(zhCNMessagePath);
+        files.add(enUSMessagePath);
 
         for (String file : files) {
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), "ISO-8859-1"))) {

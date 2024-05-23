@@ -1,4 +1,4 @@
-package com.ning.web.dao;
+package com.ning.web.generator;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.generator.FastAutoGenerator;

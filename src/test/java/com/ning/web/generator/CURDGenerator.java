@@ -1,4 +1,4 @@
-package com.ning.web.dao;
+package com.ning.web.generator;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -6,7 +6,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GeneratorCURD {
+public class CURDGenerator {
 
     private static final String FILE_Controller_CONTENT = " " +
             "   @Resource\n" +
