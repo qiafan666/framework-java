@@ -3,7 +3,7 @@ package com.ning.web.jotato.base.model;
 public interface IResult {
     IResult SUCCESS = new IResult() {
         public String getCode() {
-            return "0";
+            return "200";
         }
 
         public String getMessage() {
@@ -12,7 +12,7 @@ public interface IResult {
     };
     IResult SYSTEM_ERROR = new IResult() {
         public String getCode() {
-            return "-1";
+            return "500";
         }
 
         public String getMessage() {
@@ -21,7 +21,7 @@ public interface IResult {
     };
     IResult ILLEGAL_ARGUMENT = new IResult() {
         public String getCode() {
-            return "-2";
+            return "501";
         }
 
         public String getMessage() {
