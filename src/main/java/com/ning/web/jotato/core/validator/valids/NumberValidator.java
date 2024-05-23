@@ -17,11 +17,17 @@ public class NumberValidator extends AbstractValidator implements Validator {
 
     @Override
     protected void doValid() {
+
         if (StringUtils.isNotEmpty(this.val)) {
             super.doValidPattern();
 
             try {
                 long newVal = Long.parseLong(this.val);
+                //如果number must unempty，并且value=0，则抛出异常
+                if (this.rule.isMust() && !this.rule.isCanBeEmpty() && newVal == 0){
+                    throw new RestException("SYS013", I18NUtil.getMessage("SYS013", new Object[]{this.keyPath}));
+                }
+
                 long max;
                 if (StringUtils.isNotEmpty(this.rule.getMin())) {
                     max = Long.parseLong(this.rule.getMin());

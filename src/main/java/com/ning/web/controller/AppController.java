@@ -48,7 +48,7 @@ public class AppController {
 
     @PostMapping(value = "/create")
     @MessageValid({
-            "appName:string:must:unempty::2",
+            "appName:number:must:unempty",
             "appStatus:string:must:unempty::32:::^(online|offline)$"
     })
     public BaseResult create(@RequestBody ReqAppCreate request) {
