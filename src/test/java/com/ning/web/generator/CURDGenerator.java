@@ -13,6 +13,15 @@ import static java.lang.Thread.sleep;
 public class CURDGenerator {
     // controller、service、impl、req、resp路径
     // 注意：当前自动生成代码是在CodeGenerator.java中基础上生成的，一旦CodeGenerator.java修改，这里的代码也要改
+    // 如果要替换到其他路径,在其他项目替换即可
+    // com.ning.web.pojo.req   ======>   com.xxx.xxx
+    // com.ning.web.pojo.resp  ======>   com.xxx.xxx
+    // com.ning.web.service    ======>   com.xxx.xxx
+    // com.ning.web.entity     ======>   com.xxx.xxx
+    // com.ning.web.mapper     ======>   com.xxx.xxx
+    // com.ning.web.jotato.base.model.result      ======>   com.xxx.xxx
+    // com.ning.web.jotato.core.request.BaseReq      ======>   com.xxx.xxx
+    // com.ning.web.jotato.core.request.BasePageQuery      ======>   com.xxx.xxx
 /*===================================================================================================================*/
     //code generator 里面的PROJECT_PATH
     private static final String PROJECT_PATH = "D:\\java\\src\\framework-java";
@@ -48,7 +57,7 @@ public class CURDGenerator {
             "    /**\n" +
             "     * 列表查询\n" +
             "     * @param request 查询参数\n" +
-            "     * @return BaseResultData<Page<Resp€NameList>>\n" +
+            "     * @return BaseResultData<Page<Resp€NameList>> 返回结果\n" +
             "     * @author ning\n"+
             "     */\n" +
             "    @PostMapping(value = \"/list\")\n" +
@@ -60,7 +69,7 @@ public class CURDGenerator {
             "    /**\n" +
             "     * 创建\n" +
             "     * @param request 创建参数\n" +
-            "     * @return BaseResult\n" +
+            "     * @return BaseResult 返回结果\n" +
             "     * @author ning\n"+
             "     */\n"+
             "    @PostMapping(value = \"/create\")\n" +
@@ -72,7 +81,7 @@ public class CURDGenerator {
             "    /**\n" +
             "     * 删除\n" +
             "     * @param request 删除参数\n" +
-            "     * @return BaseResult\n" +
+            "     * @return BaseResult 返回结果\n" +
             "     * @author ning\n"+
             "     */\n"+
             "    @PostMapping(value = \"/delete\")\n" +
@@ -84,7 +93,7 @@ public class CURDGenerator {
             "    /**\n" +
             "     * 更新\n" +
             "     * @param request 更新参数\n" +
-            "     * @return BaseResult\n" +
+            "     * @return BaseResult 返回结果\n" +
             "     * @author ning\n"+
             "     */\n"+
             "    @PostMapping(value = \"/update\")\n" +
@@ -434,6 +443,11 @@ public class CURDGenerator {
                 while ((line = reader.readLine()) != null) {
 
                     lineNumber++;
+
+                    // 跳过/p
+                    if (line.contains("<p>") || line.contains("</p>")) {
+                        continue;
+                    }
 
                     // 检查特定行的条件
                     if (lineNumber == 2 && line.trim().isEmpty()) {

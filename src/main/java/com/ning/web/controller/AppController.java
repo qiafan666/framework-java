@@ -25,9 +25,7 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * <p>
  * 应用表 前端控制器
- * </p>
  *
  * @author ning
  * @since 2024-05-16 06:26:42
