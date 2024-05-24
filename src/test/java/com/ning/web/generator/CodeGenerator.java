@@ -27,7 +27,7 @@ public class CodeGenerator {
     //表table的前缀，不加到生成的类名中
     private static final String[] PREFIX = {"sys_","yw_"};
     //要生成的表名
-    private static final String[] TABLES = {"sys_user"};
+    private static final String[] TABLES = {"yw_alarm","yw_alarm_detail","yw_alarm_handle"};
     private static final String DB_ColumnName_create_time = "created_time";
     private static final String DB_ColumnName_modify_time = "updated_time";
     private static final String DB_ColumnName_is_deleted = "is_deleted";

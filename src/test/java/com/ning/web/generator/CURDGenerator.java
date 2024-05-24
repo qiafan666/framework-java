@@ -243,7 +243,7 @@ public class CURDGenerator {
             }
         }
 
-        //休息10秒
+        //休息2秒
         for (int i = 0; i < 2; i++) {
             System.out.println("正在生成代码，请稍后...");
             sleep(1000);
@@ -293,10 +293,6 @@ public class CURDGenerator {
         if (dir1.exists() && dir1.isDirectory()) {
             File[] files = dir1.listFiles();
             for (File file : files) {
-                // 不是操作的controller文件则跳过
-                if (!operateName.contains(file.getName())){
-                    continue;
-                }
 
                 if (file.isFile() && file.getName().endsWith(".java")) {
                     if (file.getName().endsWith("List.java")) {
