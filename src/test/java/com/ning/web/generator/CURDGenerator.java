@@ -3,26 +3,35 @@ package com.ning.web.generator;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 
+import static com.ning.web.generator.CodeGenerator.PREFIX;
+import static com.ning.web.generator.CodeGenerator.TABLES;
 import static java.lang.Thread.sleep;
 
 public class CURDGenerator {
     // controller、service、impl、req、resp路径
     // 注意：当前自动生成代码是在CodeGenerator.java中基础上生成的，一旦CodeGenerator.java修改，这里的代码也要改
-    // 如果要替换到其他路径,在其他项目替换即可
+
+    // 以下内容需要去迁移的项目替换
     // com.ning.web.pojo.req   ======>   com.xxx.xxx
     // com.ning.web.pojo.resp  ======>   com.xxx.xxx
     // com.ning.web.service    ======>   com.xxx.xxx
     // com.ning.web.entity     ======>   com.xxx.xxx
     // com.ning.web.mapper     ======>   com.xxx.xxx
+
+    //以下内容是可以在当前文件中修改的
     // com.ning.web.jotato.base.model.result      ======>   com.xxx.xxx
     // com.ning.web.jotato.core.request.BaseReq      ======>   com.xxx.xxx
     // com.ning.web.jotato.core.request.BasePageQuery      ======>   com.xxx.xxx
+    // com.ning.web.jotato.common.exception.RestException      ======>   com.xxx.xxx
+    // com.ning.web.jotato.common.utils.NullAwareBeanUtils      ======>   com.xxx.xxx
 /*===================================================================================================================*/
+
+    private static final String AUTHOR = "ning";
     //code generator 里面的PROJECT_PATH
     private static final String PROJECT_PATH = "D:\\java\\src\\framework-java";
     //code generator 里面的MODULE_PATH
@@ -46,6 +55,10 @@ public class CURDGenerator {
     private static final String baseReqImportPath = "com.ning.web.jotato.core.request.BaseReq";
     //全局搜索BasePage的包路径
     private static final String basePageImportPath = "com.ning.web.jotato.core.request.BasePageQuery";
+    //全局搜索RestException的包路径
+    private static final String restExceptionImportPath = "com.ning.web.jotato.common.exception.RestException";
+    //全局搜索NullAwareBeanUtils的包路径
+    private static final String nullAwareBeanUtilsImportPath = "com.ning.web.jotato.common.utils.NullAwareBeanUtils";
 
 
 
@@ -55,10 +68,11 @@ public class CURDGenerator {
             "\n" +
             "\n" +
             "    /**\n" +
-            "     * 列表查询\n" +
+            "     * 列表查询€Name\n" +
             "     * @param request 查询参数\n" +
             "     * @return BaseResultData<Page<Resp€NameList>> 返回结果\n" +
-            "     * @author ning\n"+
+            "     * @author €Author\n"+
+            "     * @since €Time\n"+
             "     */\n" +
             "    @PostMapping(value = \"/list\")\n" +
             "    public BaseResultData<Page<Resp€NameList>> list(@RequestBody Req€NameList request) {\n" +
@@ -67,10 +81,11 @@ public class CURDGenerator {
             "    }\n" +
             "\n" +
             "    /**\n" +
-            "     * 创建\n" +
+            "     * 创建€Name\n" +
             "     * @param request 创建参数\n" +
             "     * @return BaseResult 返回结果\n" +
-            "     * @author ning\n"+
+            "     * @author €Author\n"+
+            "     * @since €Time\n"+
             "     */\n"+
             "    @PostMapping(value = \"/create\")\n" +
             "    public BaseResult create(@RequestBody Req€NameCreate request) {\n" +
@@ -79,49 +94,42 @@ public class CURDGenerator {
             "    }\n" +
             "\n" +
             "    /**\n" +
-            "     * 删除\n" +
-            "     * @param request 删除参数\n" +
-            "     * @return BaseResult 返回结果\n" +
-            "     * @author ning\n"+
-            "     */\n"+
-            "    @PostMapping(value = \"/delete\")\n" +
-            "    public BaseResult delete(@RequestParam(\"ids\") List<Long> request) {\n" +
-            "        i€NameService.delete(request);\n" +
-            "        return BaseResultData.success();\n" +
-            "    }\n" +
-            "\n" +
-            "    /**\n" +
-            "     * 更新\n" +
+            "     * 更新€Name\n" +
             "     * @param request 更新参数\n" +
             "     * @return BaseResult 返回结果\n" +
-            "     * @author ning\n"+
+            "     * @author €Author\n"+
+            "     * @since €Time\n"+
             "     */\n"+
             "    @PostMapping(value = \"/update\")\n" +
             "    public BaseResult update(@RequestBody Req€NameUpdate request) {\n" +
             "        i€NameService.update(request);\n" +
             "        return BaseResult.success();\n" +
+            "    }\n"+
+            "\n" +
+            "    /**\n" +
+            "     * 删除€Name\n" +
+            "     * @param request 删除参数\n" +
+            "     * @return BaseResult 返回结果\n" +
+            "     * @author €Author\n"+
+            "     * @since €Time\n"+
+            "     */\n"+
+            "    @PostMapping(value = \"/delete\")\n" +
+            "    public BaseResult delete(@RequestParam(\"ids\") List<Long> request) {\n" +
+            "        i€NameService.delete(request);\n" +
+            "        return BaseResultData.success();\n" +
             "    }\n"
             ;
 
     private static final String FILE_Service_CONTENT = "" +
-            "\n"+
-            "    void create(Req€NameCreate request);\n" +
             "\n" +
             "    Page<Resp€NameList> list(Req€NameList request);\n" +
+            "\n"+
+            "    void create(Req€NameCreate request);\n" +
             "\n" +
             "    void update(Req€NameUpdate request);\n" +
             "\n" +
             "    void delete(List<Long> request);";
     private static final String FILE_Impl_CONTENT = " " +
-            "\n"+
-            "    @Override\n" +
-            "    public void create(Req€NameCreate request) {\n" +
-            "\n"+
-            "        €NameEntity entity = new €NameEntity();\n" +
-            "        BeanUtils.copyProperties(request, entity);\n" +
-            "        //TODO 校验参数\n" +
-            "        this.save(entity);\n"+
-            "    }\n" +
             "\n" +
             "    @Override\n" +
             "    public Page<Resp€NameList> list(Req€NameList request) {\n" +
@@ -137,6 +145,15 @@ public class CURDGenerator {
             "        Page<Resp€NameList> objectPage = new Page<>(request.getPageNo(), request.getPageSize(), result.getTotal());\n" +
             "        objectPage.setRecords(convertList);\n" +
             "        return  objectPage;\n"+
+            "    }\n" +
+            "\n"+
+            "    @Override\n" +
+            "    public void create(Req€NameCreate request) {\n" +
+            "\n"+
+            "        €NameEntity entity = new €NameEntity();\n" +
+            "        BeanUtils.copyProperties(request, entity);\n" +
+            "        //TODO 校验参数\n" +
+            "        this.save(entity);\n"+
             "    }\n" +
             "\n" +
             "    @Override\n" +
@@ -174,6 +191,11 @@ public class CURDGenerator {
             "\n" +
             "import java.util.List;\n" +
             "\n" +
+            "/**\n" +
+            "* €Name类型转换器\n" +
+            "* @author €Author\n"+
+            "* @since €Time\n"+
+            "*/\n"+
             "@Mapper(componentModel = \"spring\")\n" +
             "public interface €NameEntityConvertor {\n" +
             "\n" +
@@ -190,6 +212,11 @@ public class CURDGenerator {
             "import lombok.Data;\n" +
             "import lombok.EqualsAndHashCode;\n" +
             "\n" +
+            "/**\n" +
+            "* €Name创建参数\n" +
+            "* @author €Author\n"+
+            "* @since €Time\n"+
+            "*/\n"+
             "@EqualsAndHashCode(callSuper = true)\n" +
             "@Data\n" +
             "public class Req€NameCreate extends BaseReq {\n" +
@@ -202,10 +229,14 @@ public class CURDGenerator {
             "import lombok.Data;\n" +
             "import lombok.EqualsAndHashCode;\n" +
             "\n" +
+            "/**\n" +
+            "* €Name更新参数\n" +
+            "* @author €Author\n"+
+            "* @since €Time\n"+
+            "*/\n"+
             "@EqualsAndHashCode(callSuper = true)\n" +
             "@Data\n" +
             "public class Req€NameUpdate extends BaseReq {\n" +
-            "\n" +
             "\n" +
             "}\n";
     private static final String ReqList_CONTENT = "" +
@@ -215,6 +246,11 @@ public class CURDGenerator {
             "import lombok.Data;\n" +
             "import lombok.EqualsAndHashCode;\n" +
             "\n" +
+            "/**\n" +
+            "* €Name列表查询参数\n" +
+            "* @author €Author\n"+
+            "* @since €Time\n"+
+            "*/\n"+
             "@EqualsAndHashCode(callSuper = true)\n" +
             "@Data\n" +
             "public class Req€NameList extends BasePageQuery {\n" +
@@ -224,17 +260,40 @@ public class CURDGenerator {
             "package €Package;\n" +
             "import lombok.Data;\n" +
             "\n" +
+            "/**\n" +
+            "* €Name列表返回结果\n" +
+            "* @author €Author\n"+
+            "* @since €Time\n"+
+            "*/\n"+
             "@Data\n" +
             "public class Resp€NameList {\n" +
             "\n" +
             "}\n";
 
     private static final List<String> operateFileList = new ArrayList<>();
-    private static final List<String> operateName = new ArrayList<>();
+    private static final List<String> tableName = new ArrayList<>();
 
     // 主方法
     public static void main(String[] args) throws IOException, InterruptedException {
-        //读取目录下的所有文件
+        Object[] array = Arrays.stream(TABLES).toArray();
+        Object[] prefixs = Arrays.stream(PREFIX).toArray();
+        String[] prefixArray = Arrays.copyOf(prefixs, prefixs.length, String[].class);
+
+        //获取code generator当前生成的表，不影响其他文件
+        for (Object obj : array) {
+            String table = (String) obj;
+            for (int i = 0; i < prefixArray.length; i++) {
+                table = table.replace(prefixArray[i], "");
+            }
+            String[] words = table.split("_");
+            StringBuilder result = new StringBuilder();
+            for (String word : words) {
+                if (!word.isEmpty()) {
+                    result.append(Character.toUpperCase(word.charAt(0))).append(word.substring(1));
+                }
+            }
+            tableName.add(result.toString());
+        }
 
         ArrayList<String> list = new ArrayList<>();
         list.add(PROJECT_PATH + MODULE_PATH + PATH + BASE_PACKAGE + PACKAGE_CONTROLLER);
@@ -284,7 +343,7 @@ public class CURDGenerator {
                         name = StringUtils.replace(name, "Update.java", "");
 
                         // 不是操作的controller文件则跳过
-                        if (!operateName.contains(name)){
+                        if (!tableName.contains(name)){
                             continue;
                         }
 
@@ -310,7 +369,7 @@ public class CURDGenerator {
                         name = StringUtils.replace(name, "List.java", "");
 
                         // 不是操作的controller文件则跳过
-                        if (!operateName.contains(name)){
+                        if (!tableName.contains(name)){
                             continue;
                         }
 
@@ -401,23 +460,7 @@ public class CURDGenerator {
         // 检查目录是否为空
         if (files != null && files.length > 0) {
             for (File file : files) {
-                if (file.isDirectory()) {
-                   /* System.out.println("Directory: " + file.getAbsolutePath());
-                    // 递归读取子目录
-                    listFiles(file);*/
-                } else {
-                    String fileType = "";
-                    if (file.getName().endsWith("Controller.java")) {
-                        fileType = "Controller";
-                    } else if (file.getName().endsWith("Service.java")) {
-                        fileType = "Service";
-                    }else if (file.getName().endsWith("ServiceImpl.java")) {
-                        fileType = "Impl";
-                    }else {
-                        continue;
-                    }
-                    modifyFileContent(file,fileType);
-                }
+                modifyFileContent(file);
             }
         } else {
             System.out.println("The directory " + dir.getAbsolutePath() + " is empty.");
@@ -425,13 +468,13 @@ public class CURDGenerator {
     }
 
     // 修改文件内容
-    public static void modifyFileContent(File file,String fileType) throws IOException {
+    public static void modifyFileContent(File file) throws IOException {
 
-
-        switch (fileType){
-        case "Controller":
+        if (file.getName().endsWith("Controller.java")){
             String controllerName = StringUtils.replace(file.getName(), "Controller.java", "");
-
+            if (!tableName.contains(controllerName)){
+                return;
+            }
             List<String> clines = new ArrayList<>();
             boolean cline2 = false, cline3 = false, cline4 = false, cline5 = false, cline6 = false, cline7 = false, cline8 = false;
 
@@ -447,6 +490,17 @@ public class CURDGenerator {
                     // 跳过/p
                     if (line.contains("<p>") || line.contains("</p>")) {
                         continue;
+                    }
+                    // replace
+                    if (line.contains("前端控制器")) {
+                        line = StringUtils.replace(line,"表 前端控制器","管理");
+                    }
+                    // 处理接口
+                    if (line.contains("@RequestMapping")){
+                        line = StringUtils.replace(line,"-","/");
+                        //将line最后一个/之后的都裁掉,然后格式补充完整
+                        line = line.substring(0,line.lastIndexOf("/"));
+                        line = line + "\")";
                     }
 
                     // 检查特定行的条件
@@ -475,10 +529,13 @@ public class CURDGenerator {
                     // 如果特定行的条件都满足，并且当前行是第 19 行且为空行，则修改第 19 行内容
                     if (cline2 && cline3 && cline4 && cline5 && cline6 && cline7 && cline8 && lineNumber == 19 && line.trim().isEmpty()) {
                         String content = StringUtils.replace(FILE_Controller_CONTENT, "€Name", controllerName);
+                        content = StringUtils.replace(content, "€Author", AUTHOR);
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                        sdf.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
+                        content = StringUtils.replace(content, "€Time", sdf.format(new Date()));
                         clines.add(content);
 
                         operateFileList.add(file.getAbsolutePath());
-                        operateName.add(controllerName);
                         createFile(controllerName);
                     } else {
                         //不写入
@@ -494,9 +551,13 @@ public class CURDGenerator {
                     writer.newLine();
                 }
             }
-        case "Service":
+        }
+        if (file.getName().endsWith("Service.java")){
             String iName = StringUtils.replace(file.getName(), "Service.java", "");
             String serviceName = StringUtils.replace(iName, "I", "");
+            if (!tableName.contains(serviceName)){
+                return;
+            }
             List<String> slines = new ArrayList<>();
             boolean sline2 = false, sline3 = false, sline4 = false, sline5 = false,sline6 = false;
 
@@ -546,8 +607,12 @@ public class CURDGenerator {
                     writer.newLine();
                 }
             }
-        case "Impl":
+        }
+        if (file.getName().endsWith("ServiceImpl.java")){
             String implName = StringUtils.replace(file.getName(), "ServiceImpl.java", "");
+            if (!tableName.contains(implName)){
+                return;
+            }
             List<String> ilines = new ArrayList<>();
             boolean iline2 = false, iline6 = false, iline7 = false, iline8 = false,iline9 = false;
 
@@ -599,7 +664,6 @@ public class CURDGenerator {
                 }
             }
         }
-
     }
 
     public static void createFile(String name) throws IOException {
@@ -612,9 +676,13 @@ public class CURDGenerator {
 
     //创建ReqCreate
     public static void createFile1(String path,String name) throws IOException {
-        String createContent = StringUtils.replace(ReqCreate_CONTENT, "€Name", name);
-        createContent = StringUtils.replace(createContent, "€BaseReq", baseReqImportPath);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        sdf.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
 
+        String createContent = StringUtils.replace(ReqCreate_CONTENT, "€Author", AUTHOR);
+        createContent = StringUtils.replace(createContent, "€Name", name);
+        createContent = StringUtils.replace(createContent, "€Time", sdf.format(new Date()));
+        createContent = StringUtils.replace(createContent, "€BaseReq", baseReqImportPath);
         createContent = StringUtils.replace(createContent, "€Package", pathConvert(BASE_PACKAGE+PACKAGE_REQ));
         String createFileName = "Req" +name + "Create.java";
 
@@ -633,7 +701,12 @@ public class CURDGenerator {
     }
     //创建ReqUpdate
     public static void createFile2(String path,String name) throws IOException {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        sdf.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
+
         String reqUpdateContent = StringUtils.replace(ReqUpdate_CONTENT, "€Name", name);
+        reqUpdateContent = StringUtils.replace(reqUpdateContent, "€Author", AUTHOR);
+        reqUpdateContent = StringUtils.replace(reqUpdateContent, "€Time", sdf.format(new Date()));
         reqUpdateContent = StringUtils.replace(reqUpdateContent, "€BaseReq", baseReqImportPath);
         reqUpdateContent = StringUtils.replace(reqUpdateContent, "€Package", pathConvert(BASE_PACKAGE+PACKAGE_REQ));
 
@@ -654,7 +727,12 @@ public class CURDGenerator {
     }
     //创建ReqList
     public static void createFile3(String path,String name) throws IOException {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        sdf.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
+
         String reqListContent = StringUtils.replace(ReqList_CONTENT, "€Name", name);
+        reqListContent = StringUtils.replace(reqListContent, "€Author", AUTHOR);
+        reqListContent = StringUtils.replace(reqListContent, "€Time", sdf.format(new Date()));
         reqListContent = StringUtils.replace(reqListContent, "€BasePage", basePageImportPath);
         reqListContent = StringUtils.replace(reqListContent, "€Package", pathConvert(BASE_PACKAGE+PACKAGE_REQ));
 
@@ -675,7 +753,12 @@ public class CURDGenerator {
     }
     //创建RespList
     public static void createFile4(String path,String name) throws IOException {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        sdf.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
+
         String respListContent = StringUtils.replace(RespList_CONTENT, "€Name", name);
+        respListContent = StringUtils.replace(respListContent, "€Author", AUTHOR);
+        respListContent = StringUtils.replace(respListContent, "€Time", sdf.format(new Date()));
         respListContent = StringUtils.replace(respListContent, "€Package", pathConvert(BASE_PACKAGE+PACKAGE_RESP));
 
         String respListFileName = "Resp" +name + "List.java";
@@ -695,7 +778,12 @@ public class CURDGenerator {
     }
     //创建convertor
     public static void createFile5(String path,String name) throws IOException {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        sdf.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
+
         String respListContent = StringUtils.replace(FILE_Converter_CONTENT, "€Name", name);
+        respListContent = StringUtils.replace(respListContent,"€Author", AUTHOR);
+        respListContent = StringUtils.replace(respListContent,"€Time", sdf.format(new Date()));
         respListContent = StringUtils.replace(respListContent, "€Package", pathConvert(BASE_PACKAGE+PACKAGE_CONVERT));
         respListContent = StringUtils.replace(respListContent, "€EntityImportPath", pathConvert(BASE_PACKAGE+PACKAGE_ENTITY));
         respListContent = StringUtils.replace(respListContent, "€RespImportPath", pathConvert(BASE_PACKAGE+PACKAGE_RESP));
@@ -722,7 +810,7 @@ public class CURDGenerator {
     public static void importPackage(String operateFile) throws IOException {
         File file = new File(operateFile);
 
-        if (file.getName().contains("Controller.java")) {
+        if (file.getName().endsWith("Controller.java")) {
             String name = StringUtils.replace(file.getName(), "Controller.java", "");
             ArrayList<String> packageList = new ArrayList<>();
             packageList.add("javax.annotation.Resource");
@@ -737,7 +825,7 @@ public class CURDGenerator {
             packageList.add(resultImportPath +"." + "BaseResult");
             packageList.add(resultImportPath +"." +"BaseResultData");
             writePackage(operateFile, packageList);
-        }else if (file.getName().contains("Service.java")) {
+        }else if (file.getName().endsWith("Service.java")) {
             String name = StringUtils.replace(file.getName(), "Service.java", "");
             name = StringUtils.replace(name, "I", "");
             ArrayList<String> packageList = new ArrayList<>();
@@ -750,7 +838,7 @@ public class CURDGenerator {
             packageList.add(pathConvert(BASE_PACKAGE+PACKAGE_RESP)+"." + "Resp"+name+"List");
             packageList.add(pathConvert(BASE_PACKAGE+PACKAGE_ENTITY) + "." + name+"Entity");
             writePackage(operateFile, packageList);
-        }else if (file.getName().contains("ServiceImpl.java")) {
+        }else if (file.getName().endsWith("ServiceImpl.java")) {
             String name = StringUtils.replace(file.getName(), "ServiceImpl.java", "");
             ArrayList<String> packageList = new ArrayList<>();
             packageList.add("java.util.List");
@@ -768,6 +856,9 @@ public class CURDGenerator {
 
             packageList.add(pathConvert(BASE_PACKAGE+PACKAGE_CONVERT) + "." + name+"EntityConvertor");
             packageList.add(pathConvert(BASE_PACKAGE+PACKAGE_MAPPER) + "." + name+"Mapper");
+            packageList.add(restExceptionImportPath);
+            packageList.add(nullAwareBeanUtilsImportPath);
+
             writePackage(operateFile, packageList);
         }else if (file.getName().contains("Convertor.java")) {
             String name = StringUtils.replace(file.getName(), "Convertor.java", "");
@@ -777,8 +868,10 @@ public class CURDGenerator {
             packageList.add(PROJECT_PATH + MODULE_PATH + PATH + BASE_PACKAGE + PACKAGE_RESP +"Resp"+ name+"List");
             writePackage(operateFile, packageList);
         }
-
     }
+
+
+
     public static void writePackage(String operateFile,List<String> packageList) throws IOException {
 
         File file = new File(operateFile);
