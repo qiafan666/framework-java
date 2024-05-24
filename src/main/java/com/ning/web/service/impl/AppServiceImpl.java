@@ -66,7 +66,7 @@ public class AppServiceImpl extends ServiceImpl<AppMapper, AppEntity> implements
     public void update(ReqAppUpdate request) {
         AppEntity appEntity = this.getById(request.getAppId());
         if(ObjectUtil.isNull(appEntity)){
-            throw new RestException("AE0001");
+            throw new RestException("COMMON001");
         }
         NullAwareBeanUtils.copyProperties(appEntity,request);
 
@@ -79,7 +79,7 @@ public class AppServiceImpl extends ServiceImpl<AppMapper, AppEntity> implements
         request.forEach(appId -> {
             AppEntity appEntity = this.getById(appId);
             if(appEntity == null){
-                throw new RestException("AE0001");
+                throw new RestException("COMMON001");
             }
             appEntity.setIsDeleted(1);
             this.updateById(appEntity);

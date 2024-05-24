@@ -5,8 +5,40 @@ import org.apache.commons.lang3.StringUtils;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
+
+import static java.lang.Thread.sleep;
 
 public class CURDGenerator {
+    // controller、service、impl、req、resp路径
+    // 注意：当前自动生成代码是在CodeGenerator.java中基础上生成的，一旦CodeGenerator.java修改，这里的代码也要改
+/*===================================================================================================================*/
+    //code generator 里面的PROJECT_PATH
+    private static final String PROJECT_PATH = "D:\\java\\src\\framework-java";
+    //code generator 里面的MODULE_PATH
+    private static final String MODULE_PATH = "";
+    //code generator 里面的输出路径
+    private static final String PATH = "\\src\\main\\java";
+    //code generator 里面的BASE_PACKAGE
+    private static final String BASE_PACKAGE = "\\com\\ning\\web";
+
+    private static final String PACKAGE_CONTROLLER = "\\controller";
+    private static final String PACKAGE_SERVICE = "\\service";
+    private static final String PACKAGE_IMPL = "\\service\\impl";
+    private static final String PACKAGE_ENTITY = "\\entity";
+    private static final String PACKAGE_MAPPER = "\\mapper";
+    private static final String PACKAGE_CONVERT = "\\convert";
+    private static final String PACKAGE_REQ = "\\pojo\\req";
+    private static final String PACKAGE_RESP = "\\pojo\\resp";
+    //全局搜索BaseResult的包路径
+    private static final String resultImportPath = "com.ning.web.jotato.base.model.result";
+    //全局搜索BaseReq的包路径
+    private static final String baseReqImportPath = "com.ning.web.jotato.core.request.BaseReq";
+    //全局搜索BasePage的包路径
+    private static final String basePageImportPath = "com.ning.web.jotato.core.request.BasePageQuery";
+
+
 
     private static final String FILE_Controller_CONTENT = " " +
             "   @Resource\n" +
@@ -123,6 +155,10 @@ public class CURDGenerator {
             "        });\n"+
             "    }";
     private static final String FILE_Converter_CONTENT = "\n" +
+            "package €Package;\n" +
+            "\n" +
+            "import €EntityImportPath.€NameEntity;\n"+
+            "import €RespImportPath.Resp€NameList;\n"+
             "import org.mapstruct.Mapper;\n" +
             "import org.mapstruct.factory.Mappers;\n" +
             "\n" +
@@ -139,14 +175,21 @@ public class CURDGenerator {
             "    List<Resp€NameList> €NameEntityToResp€NameList(List<€NameEntity> records);\n" +
             "}\n";
     private static final String ReqCreate_CONTENT = "" +
+            "package €Package;\n" +
+            "\n"+
+            "import €BaseReq;\n"+
             "import lombok.Data;\n" +
             "import lombok.EqualsAndHashCode;\n" +
             "\n" +
             "@EqualsAndHashCode(callSuper = true)\n" +
             "@Data\n" +
             "public class Req€NameCreate extends BaseReq {\n" +
+            "\n" +
             "}";
     private static final String ReqUpdate_CONTENT = "" +
+            "package €Package;\n" +
+            "\n"+
+            "import €BaseReq;\n"+
             "import lombok.Data;\n" +
             "import lombok.EqualsAndHashCode;\n" +
             "\n" +
@@ -154,40 +197,40 @@ public class CURDGenerator {
             "@Data\n" +
             "public class Req€NameUpdate extends BaseReq {\n" +
             "\n" +
-            "    private Long id;\n" +
+            "\n" +
             "}\n";
     private static final String ReqList_CONTENT = "" +
+            "package €Package;\n" +
+            "\n"+
+            "import €BasePage;\n"+
             "import lombok.Data;\n" +
             "import lombok.EqualsAndHashCode;\n" +
             "\n" +
             "@EqualsAndHashCode(callSuper = true)\n" +
             "@Data\n" +
             "public class Req€NameList extends BasePageQuery {\n" +
+            "\n" +
             "}\n";
     private static final String RespList_CONTENT = "" +
+            "package €Package;\n" +
             "import lombok.Data;\n" +
             "\n" +
             "@Data\n" +
             "public class Resp€NameList {\n" +
+            "\n" +
             "}\n";
 
-    // controller、service、impl、req、resp路径
-    // 注意：当前自动生成代码是在CodeGenerator.java中基础上生成的，一旦CodeGenerator.java修改，这里的代码也要改
-    private static final String controllerPath = "D:\\java\\src\\framework-java\\src\\main\\java\\com\\ning\\web\\controller";
-    private static final String servicePath = "D:\\java\\src\\framework-java\\src\\main\\java\\com\\ning\\web\\service";
-    private static final String implPath = "D:\\java\\src\\framework-java\\src\\main\\java\\com\\ning\\web\\service\\impl";
-    private static final String reqPath = "D:\\java\\src\\framework-java\\src\\main\\java\\com\\ning\\web\\pojo\\req";
-    private static final String respPath = "D:\\java\\src\\framework-java\\src\\main\\java\\com\\ning\\web\\pojo\\resp";
-    private static final String converterPath = "D:\\java\\src\\framework-java\\src\\main\\java\\com\\ning\\web\\convert";
+    private static final List<String> operateFileList = new ArrayList<>();
+    private static final List<String> operateName = new ArrayList<>();
 
     // 主方法
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, InterruptedException {
         //读取目录下的所有文件
 
         ArrayList<String> list = new ArrayList<>();
-        list.add(controllerPath);
-        list.add(servicePath);
-        list.add(implPath);
+        list.add(PROJECT_PATH + MODULE_PATH + PATH + BASE_PACKAGE + PACKAGE_CONTROLLER);
+        list.add(PROJECT_PATH + MODULE_PATH + PATH + BASE_PACKAGE + PACKAGE_SERVICE);
+        list.add(PROJECT_PATH + MODULE_PATH + PATH + BASE_PACKAGE + PACKAGE_IMPL);
 
         for (String path : list) {
             File dir = new File(path);
@@ -199,8 +242,153 @@ public class CURDGenerator {
                 System.out.println("The specified path is not a directory or does not exist.");
             }
         }
+
+        //休息10秒
+        for (int i = 0; i < 2; i++) {
+            System.out.println("正在生成代码，请稍后...");
+            sleep(1000);
+            System.out.println("代码生成完成！");
+        }
+
+        //向写入的文件里导入包
+        for (String operateFile : operateFileList) {
+            importPackage(operateFile);
+        }
+
+        //向req,resp,写入默认内容
+        File entitydir = new File(PROJECT_PATH + MODULE_PATH + PATH + BASE_PACKAGE + PACKAGE_ENTITY);
+        File[] entityfiles = entitydir.listFiles();
+
+        File dir = new File(PROJECT_PATH + MODULE_PATH + PATH + BASE_PACKAGE + PACKAGE_REQ);
+        File dir1 = new File(PROJECT_PATH + MODULE_PATH + PATH + BASE_PACKAGE + PACKAGE_RESP);
+
+        // 检查目录是否存在
+        if (dir.exists() && dir.isDirectory()) {
+            File[] files = dir.listFiles();
+            for (File file : files) {
+
+                if (file.isFile() && file.getName().endsWith(".java")) {
+                    if (!file.getName().endsWith("List.java")) {
+                        //不是req list文件则找到entity对应实例的文件内容写入
+                        String name = StringUtils.replace(file.getName(), "Req", "");
+                        name = StringUtils.replace(name, "Create.java", "");
+                        name = StringUtils.replace(name, "Update.java", "");
+
+                        // 不是操作的controller文件则跳过
+                        if (!operateName.contains(name)){
+                            continue;
+                        }
+
+                        for (File entityfile : entityfiles) {
+                            if (entityfile.getName().contains(name + "Entity")){
+                                // 找到 "{ }" 的内容，把内容写到 req{} 里面去
+                                String entityContent = extractEntityContent(entityfile);
+                                insertContentIntoReqFile(file, entityContent);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        if (dir1.exists() && dir1.isDirectory()) {
+            File[] files = dir1.listFiles();
+            for (File file : files) {
+                // 不是操作的controller文件则跳过
+                if (!operateName.contains(file.getName())){
+                    continue;
+                }
+
+                if (file.isFile() && file.getName().endsWith(".java")) {
+                    if (file.getName().endsWith("List.java")) {
+                        //不是req list文件则找到entity对应实例的文件内容写入
+                        String name = StringUtils.replace(file.getName(), "Resp","");
+                        name = StringUtils.replace(name, "List.java", "");
+
+                        // 不是操作的controller文件则跳过
+                        if (!operateName.contains(name)){
+                            continue;
+                        }
+
+                        for (File entityfile : entityfiles) {
+                            if (entityfile.getName().contains(name + "Entity")){
+                                // 找到 "{ }" 的内容，把内容写到 req{} 里面去
+                                String entityContent = extractEntityContent(entityfile);
+                                insertContentIntoReqFile(file, entityContent);
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
+    private static String pathConvert(String path) {
+        String replacedString = path.replace("\\", "."); // 用 "." 替换 "\"
+        if (replacedString.startsWith(".")) {
+            replacedString = replacedString.substring(1); // 去除开头的 "."
+        }
+        if (replacedString.endsWith(".")) {
+            replacedString = replacedString.substring(0, replacedString.length() - 1); // 去除结尾的 "."
+        }
+        return replacedString; // 返回处理后的字符串
+    }
+    private static String extractEntityContent(File entityFile) throws IOException {
+        StringBuilder content = new StringBuilder();
+        try (BufferedReader reader = new BufferedReader(new FileReader(entityFile))) {
+            String line;
+            boolean isContent = false;
+            while ((line = reader.readLine()) != null) {
+
+                if (line.contains("{")) {
+                    isContent = true;
+                    continue; // 跳过当前行，因为已经处理过了
+                }
+                if (isContent) {
+                    if (line.contains("}") ||
+                            line.contains("isDeleted") || line.contains("isDelete") ||
+                            line.contains("updatedTime") || line.contains("createdTime") ||
+                            line.contains("updateTime") || line.contains("createTime")) {
+                        break; // 如果遇到 '}'，表示内容读取完成，退出循环
+                    }
+                    if (line.contains("Table")) {
+                        continue; // 跳过表注释
+                    }
+                    content.append(line).append(System.lineSeparator());
+                }
+            }
+        }
+        content.append("\n");
+        return content.toString();
+    }
+
+    private static void insertContentIntoReqFile(File reqFile, String entityContent) throws IOException {
+        File tempFile = new File(reqFile.getAbsolutePath() + ".tmp");
+        try (BufferedReader reader = new BufferedReader(new FileReader(reqFile));
+             BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile))) {
+            String line;
+            boolean isReqContent = false;
+            boolean contentInserted = false; // 标志以确保只插入一次
+            while ((line = reader.readLine()) != null) {
+                if (line.contains("{")) {
+                    isReqContent = true;
+                    writer.write(line);
+                    writer.newLine();
+                    continue; // 继续到下一行
+                }
+                if (line.contains("}") && isReqContent && !contentInserted) {
+                    writer.write(entityContent);
+                    writer.newLine();
+                    contentInserted = true;
+                    isReqContent = false;
+                }
+                writer.write(line);
+                writer.newLine();
+            }
+        }
+
+        // 替换原文件
+        Files.move(tempFile.toPath(), reqFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+    }
     // 递归方法列出目录中的所有文件
     public static void listFiles(File dir) throws IOException {
         File[] files = dir.listFiles();
@@ -279,6 +467,8 @@ public class CURDGenerator {
                         String content = StringUtils.replace(FILE_Controller_CONTENT, "€Name", controllerName);
                         clines.add(content);
 
+                        operateFileList.add(file.getAbsolutePath());
+                        operateName.add(controllerName);
                         createFile(controllerName);
                     } else {
                         //不写入
@@ -330,6 +520,8 @@ public class CURDGenerator {
                     if (sline2 && sline3 && sline4 && sline5 && sline6 && lineNumber == 15 && line.trim().isEmpty()) {
                         String content = StringUtils.replace(FILE_Service_CONTENT, "€Name", serviceName);
                         slines.add(content);
+
+                        operateFileList.add(file.getAbsolutePath());
                     } else {
                         //不写入
                         slines.add(line);
@@ -380,6 +572,8 @@ public class CURDGenerator {
                     if (iline2 && iline6 && iline7 && iline8 && iline9 && lineNumber == 19 && line.trim().isEmpty()) {
                         String content = StringUtils.replace(FILE_Impl_CONTENT, "€Name", implName);
                         ilines.add(content);
+
+                        operateFileList.add(file.getAbsolutePath());
                     } else {
                         //不写入
                         ilines.add(line);
@@ -399,15 +593,19 @@ public class CURDGenerator {
     }
 
     public static void createFile(String name) throws IOException {
-        createFile1(reqPath,name);
-        createFile2(reqPath,name);
-        createFile3(reqPath,name);
-        createFile4(respPath,name);
-        createFile5(converterPath,name);
+        createFile1(PROJECT_PATH + MODULE_PATH + PATH + BASE_PACKAGE + PACKAGE_REQ,name);
+        createFile2(PROJECT_PATH + MODULE_PATH + PATH + BASE_PACKAGE + PACKAGE_REQ,name);
+        createFile3(PROJECT_PATH + MODULE_PATH + PATH + BASE_PACKAGE + PACKAGE_REQ,name);
+        createFile4(PROJECT_PATH + MODULE_PATH + PATH + BASE_PACKAGE + PACKAGE_RESP,name);
+        createFile5(PROJECT_PATH + MODULE_PATH + PATH + BASE_PACKAGE + PACKAGE_CONVERT,name);
     }
 
+    //创建ReqCreate
     public static void createFile1(String path,String name) throws IOException {
         String createContent = StringUtils.replace(ReqCreate_CONTENT, "€Name", name);
+        createContent = StringUtils.replace(createContent, "€BaseReq", baseReqImportPath);
+
+        createContent = StringUtils.replace(createContent, "€Package", pathConvert(BASE_PACKAGE+PACKAGE_REQ));
         String createFileName = "Req" +name + "Create.java";
 
         File file = new File(path, createFileName);
@@ -423,8 +621,12 @@ public class CURDGenerator {
             bufferedWriter.write(createContent);
         }
     }
+    //创建ReqUpdate
     public static void createFile2(String path,String name) throws IOException {
         String reqUpdateContent = StringUtils.replace(ReqUpdate_CONTENT, "€Name", name);
+        reqUpdateContent = StringUtils.replace(reqUpdateContent, "€BaseReq", baseReqImportPath);
+        reqUpdateContent = StringUtils.replace(reqUpdateContent, "€Package", pathConvert(BASE_PACKAGE+PACKAGE_REQ));
+
         String reqUpdateFileName = "Req" +name + "Update.java";
 
         File file1 = new File(path, reqUpdateFileName);
@@ -440,8 +642,12 @@ public class CURDGenerator {
             bufferedWriter.write(reqUpdateContent);
         }
     }
+    //创建ReqList
     public static void createFile3(String path,String name) throws IOException {
         String reqListContent = StringUtils.replace(ReqList_CONTENT, "€Name", name);
+        reqListContent = StringUtils.replace(reqListContent, "€BasePage", basePageImportPath);
+        reqListContent = StringUtils.replace(reqListContent, "€Package", pathConvert(BASE_PACKAGE+PACKAGE_REQ));
+
         String reqListFileName = "Req" +name + "List.java";
 
         File file2 = new File(path, reqListFileName);
@@ -457,8 +663,11 @@ public class CURDGenerator {
             bufferedWriter.write(reqListContent);
         }
     }
+    //创建RespList
     public static void createFile4(String path,String name) throws IOException {
         String respListContent = StringUtils.replace(RespList_CONTENT, "€Name", name);
+        respListContent = StringUtils.replace(respListContent, "€Package", pathConvert(BASE_PACKAGE+PACKAGE_RESP));
+
         String respListFileName = "Resp" +name + "List.java";
 
         File file3 = new File(path, respListFileName);
@@ -474,8 +683,12 @@ public class CURDGenerator {
             bufferedWriter.write(respListContent);
         }
     }
+    //创建convertor
     public static void createFile5(String path,String name) throws IOException {
         String respListContent = StringUtils.replace(FILE_Converter_CONTENT, "€Name", name);
+        respListContent = StringUtils.replace(respListContent, "€Package", pathConvert(BASE_PACKAGE+PACKAGE_CONVERT));
+        respListContent = StringUtils.replace(respListContent, "€EntityImportPath", pathConvert(BASE_PACKAGE+PACKAGE_ENTITY));
+        respListContent = StringUtils.replace(respListContent, "€RespImportPath", pathConvert(BASE_PACKAGE+PACKAGE_RESP));
         String respListFileName = name + "EntityConvertor.java";
 
         File file3 = new File(path, respListFileName);
@@ -483,12 +696,121 @@ public class CURDGenerator {
         // 如果文件不存在，则创建新文件
         if (!file3.exists()) {
             file3.createNewFile();
+
+            // 写入文件内容
+            try (FileWriter writer = new FileWriter(file3);
+                 BufferedWriter bufferedWriter = new BufferedWriter(writer)) {
+                bufferedWriter.write(respListContent);
+            }
+        }else {
+            System.out.println(file3.getName() + "文件已存在");
         }
 
-        // 写入文件内容
-        try (FileWriter writer = new FileWriter(file3);
-             BufferedWriter bufferedWriter = new BufferedWriter(writer)) {
-            bufferedWriter.write(respListContent);
+
+    }
+
+    public static void importPackage(String operateFile) throws IOException {
+        File file = new File(operateFile);
+
+        if (file.getName().contains("Controller.java")) {
+            String name = StringUtils.replace(file.getName(), "Controller.java", "");
+            ArrayList<String> packageList = new ArrayList<>();
+            packageList.add("javax.annotation.Resource");
+            packageList.add("org.springframework.web.bind.annotation.*");
+            packageList.add("java.util.List");
+            packageList.add("com.baomidou.mybatisplus.extension.plugins.pagination.Page");
+            packageList.add(pathConvert(BASE_PACKAGE+PACKAGE_REQ)+"." + "Req"+name+"Create");
+            packageList.add(pathConvert(BASE_PACKAGE+PACKAGE_REQ)+"." + "Req"+name+"Update");
+            packageList.add(pathConvert(BASE_PACKAGE+PACKAGE_REQ)+"." + "Req"+name+"List");
+            packageList.add(pathConvert(BASE_PACKAGE+PACKAGE_RESP)+"." + "Resp"+name+"List");
+            packageList.add(pathConvert(BASE_PACKAGE+PACKAGE_SERVICE)+"." + "I"+name+"Service");
+            packageList.add(resultImportPath +"." + "BaseResult");
+            packageList.add(resultImportPath +"." +"BaseResultData");
+            writePackage(operateFile, packageList);
+        }else if (file.getName().contains("Service.java")) {
+            String name = StringUtils.replace(file.getName(), "Service.java", "");
+            name = StringUtils.replace(name, "I", "");
+            ArrayList<String> packageList = new ArrayList<>();
+            packageList.add("java.util.List");
+            packageList.add("com.baomidou.mybatisplus.extension.plugins.pagination.Page");
+            packageList.add("com.baomidou.mybatisplus.extension.service.IService");
+            packageList.add(pathConvert(BASE_PACKAGE+PACKAGE_REQ)+"." + "Req"+name+"Create");
+            packageList.add(pathConvert(BASE_PACKAGE+PACKAGE_REQ)+"." + "Req"+name+"Update");
+            packageList.add(pathConvert(BASE_PACKAGE+PACKAGE_REQ)+"." + "Req"+name+"List");
+            packageList.add(pathConvert(BASE_PACKAGE+PACKAGE_RESP)+"." + "Resp"+name+"List");
+            packageList.add(pathConvert(BASE_PACKAGE+PACKAGE_ENTITY) + "." + name+"Entity");
+            writePackage(operateFile, packageList);
+        }else if (file.getName().contains("ServiceImpl.java")) {
+            String name = StringUtils.replace(file.getName(), "ServiceImpl.java", "");
+            ArrayList<String> packageList = new ArrayList<>();
+            packageList.add("java.util.List");
+            packageList.add("com.baomidou.mybatisplus.extension.plugins.pagination.Page");
+            packageList.add("com.baomidou.mybatisplus.extension.service.impl.ServiceImpl");
+            packageList.add("com.baomidou.mybatisplus.core.toolkit.Wrappers");
+            packageList.add("com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper");
+            packageList.add("org.springframework.beans.BeanUtils");
+            packageList.add("org.springframework.stereotype.Service");
+            packageList.add(pathConvert(BASE_PACKAGE+PACKAGE_REQ)+"."+ "Req"+name+"Create");
+            packageList.add(pathConvert(BASE_PACKAGE+PACKAGE_REQ)+"."+ "Req"+name+"Update");
+            packageList.add(pathConvert(BASE_PACKAGE+PACKAGE_REQ)+"." + "Req"+name+"List");
+            packageList.add(pathConvert(BASE_PACKAGE+PACKAGE_RESP)+"."+ "Resp"+name+"List");
+            packageList.add(pathConvert(BASE_PACKAGE+PACKAGE_SERVICE)+"."+ "I"+name+"Service");
+
+            packageList.add(pathConvert(BASE_PACKAGE+PACKAGE_CONVERT) + "." + name+"EntityConvertor");
+            packageList.add(pathConvert(BASE_PACKAGE+PACKAGE_MAPPER) + "." + name+"Mapper");
+            writePackage(operateFile, packageList);
+        }else if (file.getName().contains("Convertor.java")) {
+            String name = StringUtils.replace(file.getName(), "Convertor.java", "");
+            ArrayList<String> packageList = new ArrayList<>();
+            packageList.add("java.util.List");
+            packageList.add(pathConvert(BASE_PACKAGE+PACKAGE_ENTITY) + "." + name+"Entity");
+            packageList.add(PROJECT_PATH + MODULE_PATH + PATH + BASE_PACKAGE + PACKAGE_RESP +"Resp"+ name+"List");
+            writePackage(operateFile, packageList);
+        }
+
+    }
+    public static void writePackage(String operateFile,List<String> packageList) throws IOException {
+
+        File file = new File(operateFile);
+        File tempFile = new File(file.getAbsolutePath() + ".tmp");
+
+        // 使用 BufferedWriter 来写入文件
+        try (BufferedReader reader = new BufferedReader(new FileReader(file));
+             BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile))) {
+            String line;
+            boolean importFound = false;
+            boolean packagesWritten = false;
+
+            while ((line = reader.readLine()) != null) {
+                writer.write(line);
+                writer.newLine();
+
+                // 检查是否包含 "import"
+                if (line.contains("import")) {
+                    importFound = true;
+                    continue;
+                }
+
+                // 如果上一行包含 "import" 并且当前行为空，则插入数据
+                if (importFound && line.trim().isEmpty() && !packagesWritten) {
+                    for (String packageName : packageList) {
+                        writer.write("import " + packageName + ";");
+                        writer.newLine();
+                    }
+                    packagesWritten = true;  // 设置标志，确保只写一次包路径
+                }
+            }
+        }
+
+        // 删除原文件
+        if (!file.delete()) {
+            System.err.println("Could not delete original file");
+            return;
+        }
+
+        // 将临时文件重命名为原文件名
+        if (!tempFile.renameTo(file)) {
+            System.err.println("Could not rename temp file");
         }
     }
 }

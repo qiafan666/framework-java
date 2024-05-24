@@ -36,10 +36,13 @@ public class CodeGenerator {
     //当前项目路径 + 项目路径
     private static final String PROJECT_PATH = "/java/src/framework-java";
 
-    private static final String PROJECT_MODULE = "";
-
+    private static final String MODULE_PATH = "";
+    private static final String PATH = "/src/main/java";
     private static final String BASE_PACKAGE = "com.ning.web";
 
+    private static final String PACKAGE_CONTROLLER = "controller";
+    private static final String PACKAGE_SERVICE = "service";
+    private static final String PACKAGE_IMPL = "service.impl";
     private static final String PACKAGE_ENTITY = "entity";
     private static final String PACKAGE_MAPPER = "mapper";
     // mapp.xml 生成路径
@@ -82,7 +85,7 @@ public class CodeGenerator {
                     // 设置作者名
                     .author(AUTHOR)
                     //设置输出路径
-                    .outputDir(projectPath.concat("/src/main/java"))
+                    .outputDir(projectPath.concat(PATH))
                     //注释日期
                     .commentDate("yyyy-MM-dd hh:mm:ss")
                     //定义生成的实体类中日期的类型 TIME_PACK=LocalDateTime;ONLY_DATE=Date
@@ -110,13 +113,13 @@ public class CodeGenerator {
                     // 设置父包名
                     .parent(BASE_PACKAGE)
                     //设置模块包名
-                    .moduleName(PROJECT_MODULE)
+                    .moduleName(MODULE_PATH)
                     //Controller 包名
-                    .controller("controller")
+                    .controller(PACKAGE_CONTROLLER)
                     //Service 包名
-                    .service("service")
+                    .service(PACKAGE_SERVICE)
                     // ***ServiceImpl 包名
-                    .serviceImpl("service.impl")
+                    .serviceImpl(PACKAGE_IMPL)
                     //pojo 实体类包名
                     .entity(PACKAGE_ENTITY)
                     //Mapper 包名
