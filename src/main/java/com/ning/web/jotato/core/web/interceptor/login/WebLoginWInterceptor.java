@@ -1,6 +1,7 @@
 package com.ning.web.jotato.core.web.interceptor.login;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.ning.web.jotato.common.constants.Consts;
 import com.ning.web.jotato.common.constants.TokenConsts;
 import com.ning.web.jotato.common.exception.RestException;
@@ -43,21 +44,23 @@ public class WebLoginWInterceptor implements WInterceptor {
 
             String aesToken = AESUtil.decrypt(Consts.RS, userToken, AESUtil.EncryptMode.ECB);
             //token
-            String userInfo = TokenUtil.verifyToken(aesToken, TokenConsts.TOKEN_DTO, TokenConsts.PUBLIC_KEY);
+            String userInfo = TokenUtil.defaultVerifyToken(aesToken);
             if (StringUtils.isEmpty(userInfo)) {
                 throw new RestException("UE00001");
             }
 
+            //这里使用的是SessionUser，而不是User，可以自己修改
             SessionUser user = JSON.parseObject(userInfo, SessionUser.class);
             if (Objects.isNull(user) ||  Objects.isNull(user.getUserId())) {
                 throw new RestException("UE00001");
             }
 
-            //token续期
-//            boolean renewal = tokenRenewal.renewal(Consts.SYS_USER_TYPE.ADMIN_USER, user.getUserId(),userToken);
-//            if (!renewal) {
-//                throw new RestException("UE00001");
-//            }
+            // 这个 baseId 就是request里面的baseId
+            // BP
+            String inPacket = actionContext.getInPacket();
+            JSONObject jsonObject = StringUtils.isBlank(inPacket) ? new JSONObject() : JSONObject.parseObject(inPacket);
+            jsonObject.put("baseId", user.getUserId());
+            actionContext.setInPacket(jsonObject.toJSONString());
 
         }
     }

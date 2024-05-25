@@ -42,7 +42,7 @@ public class SessionUser implements Serializable {
     private Date loginTime;
 
 
-    public static SessionUser of() {
+    public static SessionUser newSessionUser() {
         return new SessionUser();
     }
 }

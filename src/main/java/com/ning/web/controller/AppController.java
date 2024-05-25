@@ -6,6 +6,8 @@ import com.ning.web.jotato.base.model.result.BaseResult;
 import com.ning.web.jotato.base.model.result.BaseResultData;
 import com.ning.web.jotato.common.exception.RestException;
 import com.ning.web.jotato.core.annotion.MessageValid;
+import com.ning.web.jotato.core.annotion.WIntercepts;
+import com.ning.web.jotato.core.web.interceptor.login.WebLoginWInterceptor;
 import com.ning.web.pojo.req.ReqAppCreate;
 import com.ning.web.pojo.req.ReqAppList;
 import com.ning.web.pojo.req.ReqAppUpdate;
@@ -32,6 +34,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/api/v1/app")
+@WIntercepts(before = WebLoginWInterceptor.class) // 登录拦截器,校验token
 public class AppController {
 
     @Resource
