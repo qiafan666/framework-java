@@ -25,13 +25,13 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * 应用表 前端控制器
+ * 应用管理
  *
  * @author ning
  * @since 2024-05-16 06:26:42
  */
 @RestController
-@RequestMapping("/app")
+@RequestMapping("/api/v1/app")
 public class AppController {
 
     @Resource

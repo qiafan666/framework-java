@@ -65,9 +65,7 @@ public class AppServiceImpl extends ServiceImpl<AppMapper, AppEntity> implements
     @Override
     public void update(ReqAppUpdate request) {
         AppEntity appEntity = this.getById(request.getAppId());
-        if(ObjectUtil.isNull(appEntity)){
-            throw new RestException("COMMON001");
-        }
+        RestException.TrueThrow(appEntity == null, "COMMON001");
         NullAwareBeanUtils.copyProperties(appEntity,request);
 
         //TODO：条件校验
@@ -78,9 +76,7 @@ public class AppServiceImpl extends ServiceImpl<AppMapper, AppEntity> implements
     public void delete(List<Long> request) {
         request.forEach(appId -> {
             AppEntity appEntity = this.getById(appId);
-            if(appEntity == null){
-                throw new RestException("COMMON001");
-            }
+            RestException.TrueThrow(appEntity == null, "COMMON001");
             appEntity.setIsDeleted(1);
             this.updateById(appEntity);
         });
@@ -90,13 +86,12 @@ public class AppServiceImpl extends ServiceImpl<AppMapper, AppEntity> implements
     @Override
     public void processFile(MultipartFile multipartFile) {
         //处理文件导入
-        if (multipartFile == null) {
-            throw new RestException("FE00002");
-        }
+        RestException.TrueThrow(multipartFile == null, "FE00002");
+
         String originalFilename = multipartFile.getOriginalFilename();
-        if (originalFilename == null || !originalFilename.endsWith("xlsx")) {
-            throw new RestException("FE00003");
-        }
+        RestException.TrueThrow(originalFilename == null ||
+                !originalFilename.endsWith("xlsx"), "FE00001");
+
         List<AppImportDTO> list = new LinkedList<>();
         try {
             EasyExcel.read(multipartFile.getInputStream(),AppImportDTO.class,new AppImportListenner(list)).sheet().doRead();
@@ -104,9 +99,7 @@ public class AppServiceImpl extends ServiceImpl<AppMapper, AppEntity> implements
             throw new RestException("FE00004");
         }
 
-        if (CollectionUtil.isEmpty(list)) {
-            throw new RestException("FE00005");
-        }
+        RestException.TrueThrow(CollectionUtil.isEmpty(list), "FE00005");
 
         ArrayList<AppEntity> appEntities = new ArrayList<>();
         for (AppImportDTO result : list) {

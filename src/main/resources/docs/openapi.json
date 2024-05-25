@@ -1,0 +1,1505 @@
+{
+  "basePath": "/",
+  "paths": {
+    "/alarm/detail/update": {
+      "post": {
+        "summary": "更新AlarmDetail",
+        "deprecated": false,
+        "description": "更新AlarmDetail",
+        "tags": [
+          "告警详情管理"
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/BaseResult_response"
+            },
+            "description": "OK"
+          }
+        },
+        "operationId": "alarmdetailupdate",
+        "parameters": [
+          {
+            "schema": {
+              "$ref": "#/definitions/ReqAlarmDetailUpdate_request"
+            },
+            "in": "body",
+            "name": "update"
+          }
+        ]
+      }
+    },
+    "/api/v1/app/create": {
+      "post": {
+        "summary": "创建",
+        "deprecated": false,
+        "description": "创建",
+        "tags": [
+          "应用管理"
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/BaseResult_response"
+            },
+            "description": "OK"
+          }
+        },
+        "operationId": "apiv1appcreate",
+        "parameters": [
+          {
+            "schema": {
+              "format": "string",
+              "type": "string"
+            },
+            "in": "header",
+            "description": "Authorization Token",
+            "type": "string",
+            "required": true,
+            "name": "Authorization"
+          },
+          {
+            "schema": {
+              "$ref": "#/definitions/ReqAppCreate_request"
+            },
+            "in": "body",
+            "name": "create"
+          }
+        ]
+      }
+    },
+    "/api/v1/app/update": {
+      "post": {
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "应用管理"
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/BaseResult_response"
+            },
+            "description": "OK"
+          }
+        },
+        "operationId": "apiv1appupdate",
+        "parameters": [
+          {
+            "schema": {
+              "format": "string",
+              "type": "string"
+            },
+            "in": "header",
+            "description": "Authorization Token",
+            "type": "string",
+            "required": true,
+            "name": "Authorization"
+          },
+          {
+            "schema": {
+              "$ref": "#/definitions/ReqAppUpdate_request"
+            },
+            "in": "body",
+            "name": "update"
+          }
+        ]
+      }
+    },
+    "/alarm/detail/list": {
+      "post": {
+        "summary": "列表查询AlarmDetail",
+        "deprecated": false,
+        "description": "列表查询AlarmDetail",
+        "tags": [
+          "告警详情管理"
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/BaseResultDataPageRespAlarmDetailList_response"
+            },
+            "description": "OK"
+          }
+        },
+        "operationId": "alarmdetaillist",
+        "parameters": [
+          {
+            "schema": {
+              "$ref": "#/definitions/ReqAlarmDetailList_request"
+            },
+            "in": "body",
+            "name": "list"
+          }
+        ]
+      }
+    },
+    "/api/v1/alarm/update": {
+      "post": {
+        "summary": "更新alarm",
+        "deprecated": false,
+        "description": "更新alarm",
+        "tags": [
+          "告警信息管理"
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/BaseResult_response"
+            },
+            "description": "OK"
+          }
+        },
+        "operationId": "apiv1alarmupdate",
+        "parameters": [
+          {
+            "schema": {
+              "format": "string",
+              "type": "string"
+            },
+            "in": "header",
+            "description": "Authorization Token",
+            "type": "string",
+            "required": true,
+            "name": "Authorization"
+          },
+          {
+            "schema": {
+              "$ref": "#/definitions/ReqAlarmUpdate_request"
+            },
+            "in": "body",
+            "name": "update"
+          }
+        ]
+      }
+    },
+    "/api/v1/alarm/create": {
+      "post": {
+        "summary": "创建alarm",
+        "deprecated": false,
+        "description": "创建alarm",
+        "tags": [
+          "告警信息管理"
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/BaseResult_response"
+            },
+            "description": "OK"
+          }
+        },
+        "operationId": "apiv1alarmcreate",
+        "parameters": [
+          {
+            "schema": {
+              "format": "string",
+              "type": "string"
+            },
+            "in": "header",
+            "description": "Authorization Token",
+            "type": "string",
+            "required": true,
+            "name": "Authorization"
+          },
+          {
+            "schema": {
+              "$ref": "#/definitions/ReqAlarmCreate_request"
+            },
+            "in": "body",
+            "name": "create"
+          }
+        ]
+      }
+    },
+    "/alarm/detail/create": {
+      "post": {
+        "summary": "创建AlarmDetail",
+        "deprecated": false,
+        "description": "创建AlarmDetail",
+        "tags": [
+          "告警详情管理"
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/BaseResult_response"
+            },
+            "description": "OK"
+          }
+        },
+        "operationId": "alarmdetailcreate",
+        "parameters": [
+          {
+            "schema": {
+              "$ref": "#/definitions/ReqAlarmDetailCreate_request"
+            },
+            "in": "body",
+            "name": "create"
+          }
+        ]
+      }
+    },
+    "/api/v1/app/list": {
+      "post": {
+        "summary": "列表查询",
+        "deprecated": false,
+        "description": "列表查询",
+        "tags": [
+          "应用管理"
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/BaseResultDataPageRespAppList_response"
+            },
+            "description": "OK"
+          }
+        },
+        "operationId": "apiv1applist",
+        "parameters": [
+          {
+            "schema": {
+              "format": "string",
+              "type": "string"
+            },
+            "in": "header",
+            "description": "Authorization Token",
+            "type": "string",
+            "required": true,
+            "name": "Authorization"
+          },
+          {
+            "schema": {
+              "$ref": "#/definitions/ReqAppList_request"
+            },
+            "in": "body",
+            "name": "list"
+          }
+        ]
+      }
+    },
+    "/api/v1/app/download": {
+      "get": {
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "应用管理"
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/InputStreamResource_response"
+            },
+            "description": "OK"
+          }
+        },
+        "operationId": "apiv1appdownload",
+        "parameters": [
+          {
+            "schema": {
+              "format": "string",
+              "type": "string"
+            },
+            "in": "header",
+            "description": "Authorization Token",
+            "type": "string",
+            "required": true,
+            "name": "Authorization"
+          }
+        ]
+      }
+    },
+    "/api/v1/app/import": {
+      "post": {
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "应用管理"
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/BaseResult_response"
+            },
+            "description": "OK"
+          }
+        },
+        "operationId": "apiv1appimport",
+        "parameters": [
+          {
+            "in": "formData",
+            "description": "No comments found.",
+            "type": "file",
+            "required": true,
+            "name": "file"
+          },
+          {
+            "schema": {
+              "format": "string",
+              "type": "string"
+            },
+            "in": "header",
+            "description": "Authorization Token",
+            "type": "string",
+            "required": true,
+            "name": "Authorization"
+          }
+        ],
+        "consumes": [
+          "multipart/form-data"
+        ]
+      }
+    },
+    "/api/v1/app/export": {
+      "post": {
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "应用管理"
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/BaseResultDataString_response"
+            },
+            "description": "OK"
+          }
+        },
+        "operationId": "apiv1appexport",
+        "parameters": [
+          {
+            "in": "query",
+            "description": "No comments found.,[array of int64]",
+            "type": "array",
+            "required": true,
+            "name": "appIds",
+            "items": {
+              "type": "integer"
+            }
+          },
+          {
+            "schema": {
+              "format": "string",
+              "type": "string"
+            },
+            "in": "header",
+            "description": "Authorization Token",
+            "type": "string",
+            "required": true,
+            "name": "Authorization"
+          }
+        ]
+      }
+    },
+    "/api/v1/alarm/list": {
+      "post": {
+        "summary": "列表alarm",
+        "deprecated": false,
+        "description": "列表alarm",
+        "tags": [
+          "告警信息管理"
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/BaseResultDataPageRespAlarmList_response"
+            },
+            "description": "OK"
+          }
+        },
+        "operationId": "apiv1alarmlist",
+        "parameters": [
+          {
+            "schema": {
+              "format": "string",
+              "type": "string"
+            },
+            "in": "header",
+            "description": "Authorization Token",
+            "type": "string",
+            "required": true,
+            "name": "Authorization"
+          },
+          {
+            "schema": {
+              "$ref": "#/definitions/ReqAlarmList_request"
+            },
+            "in": "body",
+            "name": "list"
+          }
+        ]
+      }
+    },
+    "/api/v1/alarm/delete": {
+      "post": {
+        "summary": "删除alarm",
+        "deprecated": false,
+        "description": "删除alarm",
+        "tags": [
+          "告警信息管理"
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/BaseResult_response"
+            },
+            "description": "OK"
+          }
+        },
+        "operationId": "apiv1alarmdelete",
+        "parameters": [
+          {
+            "in": "query",
+            "description": "删除参数,[array of int64]",
+            "type": "array",
+            "required": true,
+            "name": "ids",
+            "items": {
+              "type": "integer"
+            }
+          },
+          {
+            "schema": {
+              "format": "string",
+              "type": "string"
+            },
+            "in": "header",
+            "description": "Authorization Token",
+            "type": "string",
+            "required": true,
+            "name": "Authorization"
+          }
+        ]
+      }
+    },
+    "/alarm/detail/delete": {
+      "post": {
+        "summary": "删除AlarmDetail",
+        "deprecated": false,
+        "description": "删除AlarmDetail",
+        "tags": [
+          "告警详情管理"
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/BaseResult_response"
+            },
+            "description": "OK"
+          }
+        },
+        "operationId": "alarmdetaildelete",
+        "parameters": [
+          {
+            "in": "query",
+            "description": "删除参数,[array of int64]",
+            "type": "array",
+            "required": true,
+            "name": "ids",
+            "items": {
+              "type": "integer"
+            }
+          }
+        ]
+      }
+    },
+    "/api/v1/app/delete": {
+      "delete": {
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "应用管理"
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/BaseResult_response"
+            },
+            "description": "OK"
+          }
+        },
+        "operationId": "apiv1appdelete",
+        "parameters": [
+          {
+            "in": "query",
+            "description": "No comments found.,[array of int64]",
+            "type": "array",
+            "required": true,
+            "name": "ids",
+            "items": {
+              "type": "integer"
+            }
+          },
+          {
+            "schema": {
+              "format": "string",
+              "type": "string"
+            },
+            "in": "header",
+            "description": "Authorization Token",
+            "type": "string",
+            "required": true,
+            "name": "Authorization"
+          }
+        ]
+      }
+    }
+  },
+  "host": "http://localhost:8080",
+  "definitions": {
+    "ReqAppCreate_request": {
+      "properties": {
+        "requestId": {
+          "format": "string",
+          "description": "No comments found.",
+          "type": "string",
+          "example": "166"
+        },
+        "appName": {
+          "format": "string",
+          "description": "应用名称",
+          "type": "string",
+          "example": "anneliese.nitzsche"
+        }
+      }
+    },
+    "string": {
+      "format": "string",
+      "type": "string"
+    },
+    "RespAlarmDetailList_response": {
+      "properties": {
+        "id": {
+          "format": "int64",
+          "description": "No comments found.",
+          "type": "number",
+          "example": "793"
+        },
+        "alarmId": {
+          "format": "int64",
+          "description": "告警主键id",
+          "type": "number",
+          "example": "215"
+        },
+        "userId": {
+          "format": "int64",
+          "description": "操作人",
+          "type": "number",
+          "example": "596"
+        },
+        "ip": {
+          "format": "string",
+          "description": "操作人告警时的ip地址",
+          "type": "string",
+          "example": "235.165.149.171"
+        },
+        "appId": {
+          "format": "int64",
+          "description": "应用主键id",
+          "type": "number",
+          "example": "833"
+        },
+        "strategyId": {
+          "format": "int64",
+          "description": "策略主键id",
+          "type": "number",
+          "example": "670"
+        },
+        "behaviorId": {
+          "format": "int64",
+          "description": "行为主键id",
+          "type": "number",
+          "example": "818"
+        }
+      }
+    },
+    "ReqAlarmDetailCreate_request": {
+      "properties": {
+        "requestId": {
+          "format": "string",
+          "description": "No comments found.",
+          "type": "string",
+          "example": "166"
+        },
+        "id": {
+          "format": "int64",
+          "description": "No comments found.",
+          "type": "number",
+          "example": "907"
+        },
+        "alarmId": {
+          "format": "int64",
+          "description": "告警主键id",
+          "type": "number",
+          "example": "980"
+        },
+        "userId": {
+          "format": "int64",
+          "description": "操作人",
+          "type": "number",
+          "example": "685"
+        },
+        "ip": {
+          "format": "string",
+          "description": "操作人告警时的ip地址",
+          "type": "string",
+          "example": "235.165.149.171"
+        },
+        "appId": {
+          "format": "int64",
+          "description": "应用主键id",
+          "type": "number",
+          "example": "836"
+        },
+        "strategyId": {
+          "format": "int64",
+          "description": "策略主键id",
+          "type": "number",
+          "example": "322"
+        },
+        "behaviorId": {
+          "format": "int64",
+          "description": "行为主键id",
+          "type": "number",
+          "example": "253"
+        }
+      }
+    },
+    "ReqAppList_request": {
+      "properties": {
+        "requestId": {
+          "format": "string",
+          "description": "No comments found.",
+          "type": "string",
+          "example": "166"
+        },
+        "pageSize": {
+          "format": "int32",
+          "description": "No comments found.",
+          "type": "integer",
+          "example": "10"
+        },
+        "pageNo": {
+          "format": "int32",
+          "description": "No comments found.",
+          "type": "integer",
+          "example": "364"
+        },
+        "needTotalCount": {
+          "format": "boolean",
+          "description": "No comments found.",
+          "type": "boolean",
+          "example": "true"
+        }
+      },
+      "required": [
+        "pageSize",
+        "pageNo"
+      ]
+    },
+    "BaseResultDataString_response": {
+      "properties": {
+        "requestId": {
+          "format": "string",
+          "description": "No comments found.",
+          "type": "string",
+          "example": "166"
+        },
+        "success": {
+          "format": "boolean",
+          "description": "No comments found.",
+          "type": "boolean",
+          "example": "true"
+        },
+        "code": {
+          "format": "string",
+          "description": "No comments found.",
+          "type": "string",
+          "example": "70798"
+        },
+        "msg": {
+          "format": "string",
+          "description": "No comments found.",
+          "type": "string",
+          "example": "tuy1u4"
+        },
+        "data": {
+          "format": "string",
+          "description": "No comments found.",
+          "type": "string"
+        }
+      }
+    },
+    "URL_response": {
+      "properties": {
+        "protocol": {
+          "format": "string",
+          "description": "No comments found.",
+          "type": "string",
+          "example": "ccz6nd"
+        },
+        "host": {
+          "format": "string",
+          "description": "No comments found.",
+          "type": "string",
+          "example": "8eboc2"
+        },
+        "port": {
+          "format": "int32",
+          "description": "No comments found.",
+          "type": "integer",
+          "example": "887"
+        },
+        "file": {
+          "format": "string",
+          "description": "No comments found.",
+          "type": "string",
+          "example": "1izipe"
+        },
+        "authority": {
+          "format": "string",
+          "description": "No comments found.",
+          "type": "string",
+          "example": "rcuupn"
+        },
+        "ref": {
+          "format": "string",
+          "description": "No comments found.",
+          "type": "string",
+          "example": "v3st7d"
+        },
+        "hashCode": {
+          "format": "int32",
+          "description": "No comments found.",
+          "type": "integer",
+          "example": "870"
+        }
+      }
+    },
+    "BaseResultDataPageRespAppList_response": {
+      "properties": {
+        "requestId": {
+          "format": "string",
+          "description": "No comments found.",
+          "type": "string",
+          "example": "166"
+        },
+        "success": {
+          "format": "boolean",
+          "description": "No comments found.",
+          "type": "boolean",
+          "example": "true"
+        },
+        "code": {
+          "format": "string",
+          "description": "No comments found.",
+          "type": "string",
+          "example": "70798"
+        },
+        "msg": {
+          "format": "string",
+          "description": "No comments found.",
+          "type": "string",
+          "example": "qd4biv"
+        },
+        "data": {
+          "description": "No comments found.(object)",
+          "type": "object",
+          "$ref": "#/definitions/PageRespAppList_response"
+        }
+      }
+    },
+    "URI_response": {
+      "properties": {
+        "string": {
+          "format": "string",
+          "description": "No comments found.",
+          "type": "string",
+          "example": "854c0m"
+        }
+      }
+    },
+    "ReqAlarmDetailUpdate_request": {
+      "properties": {
+        "requestId": {
+          "format": "string",
+          "description": "No comments found.",
+          "type": "string",
+          "example": "166"
+        },
+        "id": {
+          "format": "int64",
+          "description": "No comments found.",
+          "type": "number",
+          "example": "933"
+        },
+        "alarmId": {
+          "format": "int64",
+          "description": "告警主键id",
+          "type": "number",
+          "example": "918"
+        },
+        "userId": {
+          "format": "int64",
+          "description": "操作人",
+          "type": "number",
+          "example": "851"
+        },
+        "ip": {
+          "format": "string",
+          "description": "操作人告警时的ip地址",
+          "type": "string",
+          "example": "235.165.149.171"
+        },
+        "appId": {
+          "format": "int64",
+          "description": "应用主键id",
+          "type": "number",
+          "example": "964"
+        },
+        "strategyId": {
+          "format": "int64",
+          "description": "策略主键id",
+          "type": "number",
+          "example": "689"
+        },
+        "behaviorId": {
+          "format": "int64",
+          "description": "行为主键id",
+          "type": "number",
+          "example": "246"
+        }
+      }
+    },
+    "PageRespAlarmDetailList_response": {
+      "properties": {
+        "pages": {
+          "format": "int64",
+          "description": "当前分页总页数",
+          "type": "number",
+          "example": "485"
+        },
+        "records": {
+          "description": "查询数据列表",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RespAlarmDetailList_response"
+          }
+        },
+        "total": {
+          "format": "int64",
+          "description": "总数",
+          "type": "number",
+          "example": "889"
+        },
+        "size": {
+          "format": "int64",
+          "description": "每页显示条数，默认 10",
+          "type": "number",
+          "example": "992"
+        },
+        "current": {
+          "format": "int64",
+          "description": "当前页",
+          "type": "number",
+          "example": "666"
+        },
+        "orders": {
+          "description": "排序字段信息",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/OrderItem_response"
+          }
+        },
+        "optimizeCountSql": {
+          "format": "boolean",
+          "description": "自动优化 COUNT SQL",
+          "type": "boolean",
+          "example": "true"
+        },
+        "searchCount": {
+          "format": "boolean",
+          "description": "是否进行 count 查询",
+          "type": "boolean",
+          "example": "true"
+        },
+        "optimizeJoinOfCountSql": {
+          "format": "boolean",
+          "description": "{@link #optimizeJoinOfCountSql()}",
+          "type": "boolean",
+          "example": "true"
+        },
+        "countId": {
+          "format": "string",
+          "description": "countId",
+          "type": "string",
+          "example": "166"
+        },
+        "maxLimit": {
+          "format": "int64",
+          "description": "countId",
+          "type": "number",
+          "example": "589"
+        }
+      }
+    },
+    "PageRespAlarmList_response": {
+      "properties": {
+        "pages": {
+          "format": "int64",
+          "description": "当前分页总页数",
+          "type": "number",
+          "example": "662"
+        },
+        "records": {
+          "description": "查询数据列表",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RespAlarmList_response"
+          }
+        },
+        "total": {
+          "format": "int64",
+          "description": "总数",
+          "type": "number",
+          "example": "169"
+        },
+        "size": {
+          "format": "int64",
+          "description": "每页显示条数，默认 10",
+          "type": "number",
+          "example": "204"
+        },
+        "current": {
+          "format": "int64",
+          "description": "当前页",
+          "type": "number",
+          "example": "727"
+        },
+        "orders": {
+          "description": "排序字段信息",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/OrderItem_response"
+          }
+        },
+        "optimizeCountSql": {
+          "format": "boolean",
+          "description": "自动优化 COUNT SQL",
+          "type": "boolean",
+          "example": "true"
+        },
+        "searchCount": {
+          "format": "boolean",
+          "description": "是否进行 count 查询",
+          "type": "boolean",
+          "example": "true"
+        },
+        "optimizeJoinOfCountSql": {
+          "format": "boolean",
+          "description": "{@link #optimizeJoinOfCountSql()}",
+          "type": "boolean",
+          "example": "true"
+        },
+        "countId": {
+          "format": "string",
+          "description": "countId",
+          "type": "string",
+          "example": "166"
+        },
+        "maxLimit": {
+          "format": "int64",
+          "description": "countId",
+          "type": "number",
+          "example": "260"
+        }
+      }
+    },
+    "ReqAlarmDetailList_request": {
+      "properties": {
+        "requestId": {
+          "format": "string",
+          "description": "No comments found.",
+          "type": "string",
+          "example": "166"
+        },
+        "pageSize": {
+          "format": "int32",
+          "description": "No comments found.",
+          "type": "integer",
+          "example": "10"
+        },
+        "pageNo": {
+          "format": "int32",
+          "description": "No comments found.",
+          "type": "integer",
+          "example": "611"
+        },
+        "needTotalCount": {
+          "format": "boolean",
+          "description": "No comments found.",
+          "type": "boolean",
+          "example": "true"
+        }
+      },
+      "required": [
+        "pageSize",
+        "pageNo"
+      ]
+    },
+    "BaseResultDataPageRespAlarmDetailList_response": {
+      "properties": {
+        "requestId": {
+          "format": "string",
+          "description": "No comments found.",
+          "type": "string",
+          "example": "166"
+        },
+        "success": {
+          "format": "boolean",
+          "description": "No comments found.",
+          "type": "boolean",
+          "example": "true"
+        },
+        "code": {
+          "format": "string",
+          "description": "No comments found.",
+          "type": "string",
+          "example": "70798"
+        },
+        "msg": {
+          "format": "string",
+          "description": "No comments found.",
+          "type": "string",
+          "example": "v5mvmf"
+        },
+        "data": {
+          "description": "No comments found.(object)",
+          "type": "object",
+          "$ref": "#/definitions/PageRespAlarmDetailList_response"
+        }
+      }
+    },
+    "PageRespAppList_response": {
+      "properties": {
+        "pages": {
+          "format": "int64",
+          "description": "当前分页总页数",
+          "type": "number",
+          "example": "66"
+        },
+        "records": {
+          "description": "查询数据列表",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "total": {
+          "format": "int64",
+          "description": "总数",
+          "type": "number",
+          "example": "322"
+        },
+        "size": {
+          "format": "int64",
+          "description": "每页显示条数，默认 10",
+          "type": "number",
+          "example": "714"
+        },
+        "current": {
+          "format": "int64",
+          "description": "当前页",
+          "type": "number",
+          "example": "940"
+        },
+        "orders": {
+          "description": "排序字段信息",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/OrderItem_response"
+          }
+        },
+        "optimizeCountSql": {
+          "format": "boolean",
+          "description": "自动优化 COUNT SQL",
+          "type": "boolean",
+          "example": "true"
+        },
+        "searchCount": {
+          "format": "boolean",
+          "description": "是否进行 count 查询",
+          "type": "boolean",
+          "example": "true"
+        },
+        "optimizeJoinOfCountSql": {
+          "format": "boolean",
+          "description": "{@link #optimizeJoinOfCountSql()}",
+          "type": "boolean",
+          "example": "true"
+        },
+        "countId": {
+          "format": "string",
+          "description": "countId",
+          "type": "string",
+          "example": "166"
+        },
+        "maxLimit": {
+          "format": "int64",
+          "description": "countId",
+          "type": "number",
+          "example": "709"
+        }
+      }
+    },
+    "RespAlarmList_response": {
+      "properties": {
+        "id": {
+          "format": "int64",
+          "description": "No comments found.",
+          "type": "number",
+          "example": "100"
+        },
+        "userId": {
+          "format": "int64",
+          "description": "操作人",
+          "type": "number",
+          "example": "136"
+        },
+        "ip": {
+          "format": "string",
+          "description": "操作人告警时的ip",
+          "type": "string",
+          "example": "235.165.149.171"
+        },
+        "appId": {
+          "format": "int64",
+          "description": "应用主键id",
+          "type": "number",
+          "example": "148"
+        },
+        "strategyId": {
+          "format": "int64",
+          "description": "策略主键id",
+          "type": "number",
+          "example": "438"
+        },
+        "behaviorId": {
+          "format": "int64",
+          "description": "行为主键id",
+          "type": "number",
+          "example": "297"
+        },
+        "trustedCred": {
+          "format": "string",
+          "description": "可信凭证",
+          "type": "string",
+          "example": "k5c984"
+        }
+      }
+    },
+    "ReqAlarmCreate_request": {
+      "properties": {
+        "requestId": {
+          "format": "string",
+          "description": "No comments found.",
+          "type": "string",
+          "example": "166"
+        },
+        "id": {
+          "format": "int64",
+          "description": "No comments found.",
+          "type": "number",
+          "example": "538"
+        },
+        "userId": {
+          "format": "int64",
+          "description": "操作人",
+          "type": "number",
+          "example": "711"
+        },
+        "ip": {
+          "format": "string",
+          "description": "操作人告警时的ip",
+          "type": "string",
+          "example": "235.165.149.171"
+        },
+        "appId": {
+          "format": "int64",
+          "description": "应用主键id",
+          "type": "number",
+          "example": "924"
+        },
+        "strategyId": {
+          "format": "int64",
+          "description": "策略主键id",
+          "type": "number",
+          "example": "235"
+        },
+        "behaviorId": {
+          "format": "int64",
+          "description": "行为主键id",
+          "type": "number",
+          "example": "233"
+        },
+        "trustedCred": {
+          "format": "string",
+          "description": "可信凭证",
+          "type": "string",
+          "example": "1ykd15"
+        }
+      }
+    },
+    "OrderItem_response": {
+      "properties": {
+        "column": {
+          "format": "string",
+          "description": "需要进行排序的字段",
+          "type": "string",
+          "example": "gxspuk"
+        },
+        "asc": {
+          "format": "boolean",
+          "description": "是否正序排列，默认 true",
+          "type": "boolean",
+          "example": "true"
+        }
+      }
+    },
+    "BaseResultDataPageRespAlarmList_response": {
+      "properties": {
+        "requestId": {
+          "format": "string",
+          "description": "No comments found.",
+          "type": "string",
+          "example": "166"
+        },
+        "success": {
+          "format": "boolean",
+          "description": "No comments found.",
+          "type": "boolean",
+          "example": "true"
+        },
+        "code": {
+          "format": "string",
+          "description": "No comments found.",
+          "type": "string",
+          "example": "70798"
+        },
+        "msg": {
+          "format": "string",
+          "description": "No comments found.",
+          "type": "string",
+          "example": "7ukw4z"
+        },
+        "data": {
+          "description": "No comments found.(object)",
+          "type": "object",
+          "$ref": "#/definitions/PageRespAlarmList_response"
+        }
+      }
+    },
+    "BaseResult_response": {
+      "properties": {
+        "requestId": {
+          "format": "string",
+          "description": "No comments found.",
+          "type": "string",
+          "example": "166"
+        },
+        "success": {
+          "format": "boolean",
+          "description": "No comments found.",
+          "type": "boolean",
+          "example": "true"
+        },
+        "code": {
+          "format": "string",
+          "description": "No comments found.",
+          "type": "string",
+          "example": "70798"
+        },
+        "msg": {
+          "format": "string",
+          "description": "No comments found.",
+          "type": "string",
+          "example": "1fqoar"
+        }
+      }
+    },
+    "ReqAppUpdate_request": {
+      "properties": {
+        "requestId": {
+          "format": "string",
+          "description": "No comments found.",
+          "type": "string",
+          "example": "166"
+        },
+        "appId": {
+          "format": "int64",
+          "description": "No comments found.",
+          "type": "number",
+          "example": "962"
+        }
+      }
+    },
+    "ReqAlarmList_request": {
+      "properties": {
+        "requestId": {
+          "format": "string",
+          "description": "No comments found.",
+          "type": "string",
+          "example": "166"
+        },
+        "pageSize": {
+          "format": "int32",
+          "description": "No comments found.",
+          "type": "integer",
+          "example": "10"
+        },
+        "pageNo": {
+          "format": "int32",
+          "description": "No comments found.",
+          "type": "integer",
+          "example": "200"
+        },
+        "needTotalCount": {
+          "format": "boolean",
+          "description": "No comments found.",
+          "type": "boolean",
+          "example": "true"
+        }
+      },
+      "required": [
+        "pageSize",
+        "pageNo"
+      ]
+    },
+    "InputStreamResource_response": {
+      "properties": {
+        "open": {
+          "format": "boolean",
+          "description": "No comments found.",
+          "type": "boolean",
+          "example": "true"
+        },
+        "uRL": {
+          "description": "No comments found.(object)",
+          "type": "object",
+          "$ref": "#/definitions/URL_response"
+        },
+        "file": {
+          "format": "boolean",
+          "description": "No comments found.",
+          "type": "boolean",
+          "example": "true"
+        },
+        "readable": {
+          "format": "boolean",
+          "description": "No comments found.",
+          "type": "boolean",
+          "example": "true"
+        },
+        "uRI": {
+          "description": "No comments found.(object)",
+          "type": "object",
+          "$ref": "#/definitions/URI_response"
+        },
+        "filename": {
+          "format": "string",
+          "description": "No comments found.",
+          "type": "string",
+          "example": "anneliese.nitzsche"
+        },
+        "inputStream": {
+          "description": "No comments found.(object)",
+          "type": "object"
+        },
+        "description": {
+          "format": "string",
+          "description": "No comments found.",
+          "type": "string",
+          "example": "2i1gew"
+        },
+        "read": {
+          "format": "boolean",
+          "description": "No comments found.",
+          "type": "boolean",
+          "example": "true"
+        }
+      }
+    },
+    "ReqAlarmUpdate_request": {
+      "properties": {
+        "requestId": {
+          "format": "string",
+          "description": "No comments found.",
+          "type": "string",
+          "example": "166"
+        },
+        "id": {
+          "format": "int64",
+          "description": "No comments found.",
+          "type": "number",
+          "example": "798"
+        },
+        "userId": {
+          "format": "int64",
+          "description": "操作人",
+          "type": "number",
+          "example": "849"
+        },
+        "ip": {
+          "format": "string",
+          "description": "操作人告警时的ip",
+          "type": "string",
+          "example": "235.165.149.171"
+        },
+        "appId": {
+          "format": "int64",
+          "description": "应用主键id",
+          "type": "number",
+          "example": "278"
+        },
+        "strategyId": {
+          "format": "int64",
+          "description": "策略主键id",
+          "type": "number",
+          "example": "766"
+        },
+        "behaviorId": {
+          "format": "int64",
+          "description": "行为主键id",
+          "type": "number",
+          "example": "61"
+        },
+        "trustedCred": {
+          "format": "string",
+          "description": "可信凭证",
+          "type": "string",
+          "example": "tzy6uz"
+        }
+      }
+    }
+  },
+  "swagger": "2.0",
+  "info": {
+    "title": "framework-java",
+    "version": "1.0.0"
+  },
+  "tags": [
+    {
+      "name": "告警详情管理",
+      "description": "告警详情管理"
+    },
+    {
+      "name": "告警信息管理",
+      "description": "告警信息管理"
+    },
+    {
+      "name": "应用管理",
+      "description": "应用管理"
+    }
+  ]
+}

@@ -32,12 +32,14 @@ public class CURDGenerator {
 /*===================================================================================================================*/
 
     private static final String AUTHOR = "ning";
+    // api增加 example:/api/v1/app
+    private static final String API_VERSION = "/api/v1";
     //code generator 里面的PROJECT_PATH
     private static final String PROJECT_PATH = "D:\\java\\src\\framework-java";
     //code generator 里面的MODULE_PATH
     private static final String MODULE_PATH = "";
     //code generator 里面的输出路径
-    private static final String PATH = "\\src\\main\\java";
+    private static final String BASE_PATH = "\\src\\main\\java";
     //code generator 里面的BASE_PACKAGE
     private static final String BASE_PACKAGE = "\\com\\ning\\web";
 
@@ -68,7 +70,7 @@ public class CURDGenerator {
             "\n" +
             "\n" +
             "    /**\n" +
-            "     * 列表查询€Name\n" +
+            "     * 列表€name\n" +
             "     * @param request 查询参数\n" +
             "     * @return BaseResultData<Page<Resp€NameList>> 返回结果\n" +
             "     * @author €Author\n"+
@@ -81,7 +83,7 @@ public class CURDGenerator {
             "    }\n" +
             "\n" +
             "    /**\n" +
-            "     * 创建€Name\n" +
+            "     * 创建€name\n" +
             "     * @param request 创建参数\n" +
             "     * @return BaseResult 返回结果\n" +
             "     * @author €Author\n"+
@@ -94,7 +96,7 @@ public class CURDGenerator {
             "    }\n" +
             "\n" +
             "    /**\n" +
-            "     * 更新€Name\n" +
+            "     * 更新€name\n" +
             "     * @param request 更新参数\n" +
             "     * @return BaseResult 返回结果\n" +
             "     * @author €Author\n"+
@@ -107,7 +109,7 @@ public class CURDGenerator {
             "    }\n"+
             "\n" +
             "    /**\n" +
-            "     * 删除€Name\n" +
+            "     * 删除€name\n" +
             "     * @param request 删除参数\n" +
             "     * @return BaseResult 返回结果\n" +
             "     * @author €Author\n"+
@@ -144,7 +146,7 @@ public class CURDGenerator {
             "        List<Resp€NameList> convertList = €NameEntityConvertor.INSTANCE.€NameEntityToResp€NameList(result.getRecords());\n" +
             "        Page<Resp€NameList> objectPage = new Page<>(request.getPageNo(), request.getPageSize(), result.getTotal());\n" +
             "        objectPage.setRecords(convertList);\n" +
-            "        return  objectPage;\n"+
+            "        return objectPage;\n"+
             "    }\n" +
             "\n"+
             "    @Override\n" +
@@ -160,9 +162,7 @@ public class CURDGenerator {
             "    public void update(Req€NameUpdate request) {\n" +
             "\n" +
             "        €NameEntity entity = this.getById(request.getId());\n" +
-            "        if (entity == null) {\n" +
-            "            throw new RestException(\"COMMON0001\");\n" +
-            "        }\n" +
+            "        RestException.TrueThrow(entity == null, \"COMMON0001\");"+
             "        NullAwareBeanUtils.copyProperties(request, entity);\n" +
             "        //TODO 参数校验\n" +
             "        this.updateById(entity);\n"+
@@ -173,9 +173,7 @@ public class CURDGenerator {
             "\n"+
             "        request.forEach(id -> {\n" +
             "        €NameEntity entity = this.getById(id);\n" +
-            "        if (entity == null) {\n" +
-            "            throw new RestException(\"COMMON0001\");\n" +
-            "            }\n" +
+            "        RestException.TrueThrow(entity == null, \"COMMON0001\");"+
             "        entity.setIsDeleted(1);\n" +
             "        this.updateById(entity);\n" +
             "        });\n"+
@@ -296,9 +294,9 @@ public class CURDGenerator {
         }
 
         ArrayList<String> list = new ArrayList<>();
-        list.add(PROJECT_PATH + MODULE_PATH + PATH + BASE_PACKAGE + PACKAGE_CONTROLLER);
-        list.add(PROJECT_PATH + MODULE_PATH + PATH + BASE_PACKAGE + PACKAGE_SERVICE);
-        list.add(PROJECT_PATH + MODULE_PATH + PATH + BASE_PACKAGE + PACKAGE_IMPL);
+        list.add(PROJECT_PATH + MODULE_PATH + BASE_PATH + BASE_PACKAGE + PACKAGE_CONTROLLER);
+        list.add(PROJECT_PATH + MODULE_PATH + BASE_PATH + BASE_PACKAGE + PACKAGE_SERVICE);
+        list.add(PROJECT_PATH + MODULE_PATH + BASE_PATH + BASE_PACKAGE + PACKAGE_IMPL);
 
         for (String path : list) {
             File dir = new File(path);
@@ -324,11 +322,11 @@ public class CURDGenerator {
         }
 
         //向req,resp,写入默认内容
-        File entitydir = new File(PROJECT_PATH + MODULE_PATH + PATH + BASE_PACKAGE + PACKAGE_ENTITY);
+        File entitydir = new File(PROJECT_PATH + MODULE_PATH + BASE_PATH + BASE_PACKAGE + PACKAGE_ENTITY);
         File[] entityfiles = entitydir.listFiles();
 
-        File dir = new File(PROJECT_PATH + MODULE_PATH + PATH + BASE_PACKAGE + PACKAGE_REQ);
-        File dir1 = new File(PROJECT_PATH + MODULE_PATH + PATH + BASE_PACKAGE + PACKAGE_RESP);
+        File dir = new File(PROJECT_PATH + MODULE_PATH + BASE_PATH + BASE_PACKAGE + PACKAGE_REQ);
+        File dir1 = new File(PROJECT_PATH + MODULE_PATH + BASE_PATH + BASE_PACKAGE + PACKAGE_RESP);
 
         // 检查目录是否存在
         if (dir.exists() && dir.isDirectory()) {
@@ -497,6 +495,9 @@ public class CURDGenerator {
                     }
                     // 处理接口
                     if (line.contains("@RequestMapping")){
+                        //在第一个/后面加上api/v1/
+                        line = line.substring(0,line.indexOf("/")) + API_VERSION + line.substring(line.indexOf("/"));
+
                         line = StringUtils.replace(line,"-","/");
                         //将line最后一个/之后的都裁掉,然后格式补充完整
                         line = line.substring(0,line.lastIndexOf("/"));
@@ -528,7 +529,11 @@ public class CURDGenerator {
 
                     // 如果特定行的条件都满足，并且当前行是第 19 行且为空行，则修改第 19 行内容
                     if (cline2 && cline3 && cline4 && cline5 && cline6 && cline7 && cline8 && lineNumber == 19 && line.trim().isEmpty()) {
+
                         String content = StringUtils.replace(FILE_Controller_CONTENT, "€Name", controllerName);
+                        //对controllerName进行处理,AppDetail变成app.detail
+                        String processedName = controllerName.replaceAll("([a-z0-9])([A-Z])", "$1.$2").toLowerCase();
+                        content = StringUtils.replace(content, "€name", processedName);
                         content = StringUtils.replace(content, "€Author", AUTHOR);
                         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         sdf.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
@@ -667,11 +672,11 @@ public class CURDGenerator {
     }
 
     public static void createFile(String name) throws IOException {
-        createFile1(PROJECT_PATH + MODULE_PATH + PATH + BASE_PACKAGE + PACKAGE_REQ,name);
-        createFile2(PROJECT_PATH + MODULE_PATH + PATH + BASE_PACKAGE + PACKAGE_REQ,name);
-        createFile3(PROJECT_PATH + MODULE_PATH + PATH + BASE_PACKAGE + PACKAGE_REQ,name);
-        createFile4(PROJECT_PATH + MODULE_PATH + PATH + BASE_PACKAGE + PACKAGE_RESP,name);
-        createFile5(PROJECT_PATH + MODULE_PATH + PATH + BASE_PACKAGE + PACKAGE_CONVERT,name);
+        createFile1(PROJECT_PATH + MODULE_PATH + BASE_PATH + BASE_PACKAGE + PACKAGE_REQ,name);
+        createFile2(PROJECT_PATH + MODULE_PATH + BASE_PATH + BASE_PACKAGE + PACKAGE_REQ,name);
+        createFile3(PROJECT_PATH + MODULE_PATH + BASE_PATH + BASE_PACKAGE + PACKAGE_REQ,name);
+        createFile4(PROJECT_PATH + MODULE_PATH + BASE_PATH + BASE_PACKAGE + PACKAGE_RESP,name);
+        createFile5(PROJECT_PATH + MODULE_PATH + BASE_PATH + BASE_PACKAGE + PACKAGE_CONVERT,name);
     }
 
     //创建ReqCreate
@@ -865,7 +870,7 @@ public class CURDGenerator {
             ArrayList<String> packageList = new ArrayList<>();
             packageList.add("java.util.List");
             packageList.add(pathConvert(BASE_PACKAGE+PACKAGE_ENTITY) + "." + name+"Entity");
-            packageList.add(PROJECT_PATH + MODULE_PATH + PATH + BASE_PACKAGE + PACKAGE_RESP +"Resp"+ name+"List");
+            packageList.add(PROJECT_PATH + MODULE_PATH + BASE_PATH + BASE_PACKAGE + PACKAGE_RESP +"Resp"+ name+"List");
             writePackage(operateFile, packageList);
         }
     }

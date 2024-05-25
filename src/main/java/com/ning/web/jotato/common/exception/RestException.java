@@ -34,4 +34,16 @@ public class RestException extends RuntimeException {
     public void setMsg(String msg) {
         this.msg = msg;
     }
+
+    public static void TrueThrow(boolean condition, String code) {
+        if (condition) {
+            throw new RestException(code);
+        }
+    }
+
+    public static void TrueThrow(boolean condition, String code, String msg) {
+        if (condition) {
+            throw new RestException(code, msg);
+        }
+    }
 }
