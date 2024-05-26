@@ -162,7 +162,7 @@ public class CURDGenerator {
             "    public void update(Req€NameUpdate request) {\n" +
             "\n" +
             "        €NameEntity entity = this.getById(request.getId());\n" +
-            "        RestException.TrueThrow(entity == null, \"COMMON0001\");"+
+            "        RestException.TrueThrow(entity == null, \"COMMON0001\");\n"+
             "        NullAwareBeanUtils.copyProperties(request, entity);\n" +
             "        //TODO 参数校验\n" +
             "        this.updateById(entity);\n"+
@@ -173,7 +173,7 @@ public class CURDGenerator {
             "\n"+
             "        request.forEach(id -> {\n" +
             "        €NameEntity entity = this.getById(id);\n" +
-            "        RestException.TrueThrow(entity == null, \"COMMON0001\");"+
+            "        RestException.TrueThrow(entity == null, \"COMMON0001\");\n"+
             "        entity.setIsDeleted(1);\n" +
             "        this.updateById(entity);\n" +
             "        });\n"+

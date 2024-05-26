@@ -62,7 +62,8 @@ public class AlarmServiceImpl extends ServiceImpl<AlarmMapper, AlarmEntity> impl
     public void update(ReqAlarmUpdate request) {
 
         AlarmEntity entity = this.getById(request.getId());
-        RestException.TrueThrow(entity == null, "COMMON0001");        NullAwareBeanUtils.copyProperties(request, entity);
+        RestException.TrueThrow(entity == null, "COMMON0001");
+        NullAwareBeanUtils.copyProperties(request, entity);
         //TODO 参数校验
         this.updateById(entity);
     }
@@ -72,7 +73,8 @@ public class AlarmServiceImpl extends ServiceImpl<AlarmMapper, AlarmEntity> impl
 
         request.forEach(id -> {
         AlarmEntity entity = this.getById(id);
-        RestException.TrueThrow(entity == null, "COMMON0001");        entity.setIsDeleted(1);
+        RestException.TrueThrow(entity == null, "COMMON0001");
+        entity.setIsDeleted(1);
         this.updateById(entity);
         });
     }
