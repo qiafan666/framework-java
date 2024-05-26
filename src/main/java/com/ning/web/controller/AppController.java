@@ -7,6 +7,7 @@ import com.ning.web.jotato.base.model.result.BaseResultData;
 import com.ning.web.jotato.common.exception.RestException;
 import com.ning.web.jotato.core.annotion.MessageValid;
 import com.ning.web.jotato.core.annotion.WIntercepts;
+import com.ning.web.jotato.core.validator.field.FieldValidator;
 import com.ning.web.jotato.core.web.interceptor.login.WebLoginWInterceptor;
 import com.ning.web.pojo.req.ReqAppCreate;
 import com.ning.web.pojo.req.ReqAppList;
@@ -34,7 +35,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/api/v1/app")
-@WIntercepts(before = WebLoginWInterceptor.class) // 登录拦截器,校验token
+//@WIntercepts(before = WebLoginWInterceptor.class) // 登录拦截器,校验token
 public class AppController {
 
     @Resource
@@ -63,6 +64,7 @@ public class AppController {
             "appStatus:string:must:unempty::32:::^(online|offline)$"
     })
     public BaseResult create(@RequestBody ReqAppCreate request) {
+        FieldValidator.validate(request); // 校验参数 需要使用@FieldValidation注解 MessageValid是另一种方式，自选
         iAppService.create(request);
         return BaseResultData.success();
     }

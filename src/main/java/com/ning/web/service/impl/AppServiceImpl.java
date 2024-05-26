@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ning.web.convert.AppEntityConvertor;
+import com.ning.web.entity.AlarmEntity;
 import com.ning.web.entity.AppEntity;
 import com.ning.web.jotato.common.exception.RestException;
 import com.ning.web.jotato.common.utils.NullAwareBeanUtils;
@@ -58,8 +59,10 @@ public class AppServiceImpl extends ServiceImpl<AppMapper, AppEntity> implements
 
     @Override
     public void create(ReqAppCreate request) {
-        AppEntity appEntity = AppEntityConvertor.INSTANCE.appCreateRequestToAppEntity(request);
-        this.save(appEntity);
+        AppEntity entity = new AppEntity();
+        BeanUtils.copyProperties(request, entity);
+        //TODO 校验参数
+        this.save(entity);
     }
 
     @Override

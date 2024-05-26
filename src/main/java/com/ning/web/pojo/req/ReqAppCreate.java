@@ -1,5 +1,6 @@
 package com.ning.web.pojo.req;
 
+import com.ning.web.jotato.core.annotion.FieldValidation;
 import com.ning.web.jotato.core.request.BaseReq;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -10,5 +11,6 @@ public class ReqAppCreate extends BaseReq {
     /**
      * 应用名称
      */
-    private String appName;
+    @FieldValidation(min = 1, max = 50)
+    private Integer appName;
 }
