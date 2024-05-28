@@ -8,8 +8,7 @@ import java.util.*;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 
-import static com.ning.web.generator.CodeGenerator.PREFIX;
-import static com.ning.web.generator.CodeGenerator.TABLES;
+import static com.ning.web.generator.CodeGenerator.*;
 import static java.lang.Thread.sleep;
 
 public class CURDGenerator {
@@ -31,7 +30,6 @@ public class CURDGenerator {
     // com.ning.web.jotato.common.utils.NullAwareBeanUtils      ======>   com.xxx.xxx
 /*===================================================================================================================*/
 
-    private static final String AUTHOR = "ning";
     // api增加 example:/api/v1/app
     private static final String API_VERSION = "/api/v1";
     //code generator 里面的PROJECT_PATH
@@ -61,6 +59,10 @@ public class CURDGenerator {
     private static final String restExceptionImportPath = "com.ning.web.jotato.common.exception.RestException";
     //全局搜索NullAwareBeanUtils的包路径
     private static final String nullAwareBeanUtilsImportPath = "com.ning.web.jotato.common.utils.NullAwareBeanUtils";
+    //全局搜索MyPage的包路径
+    private static final String myPageImportPath = "com.ning.web.jotato.base.model.page.MyPage";
+    //全局搜索MyPageResult的包路径
+    private static final String myPageResultImportPath = "com.ning.web.jotato.base.model.page.MyPageResult";
 
 
 
@@ -125,6 +127,9 @@ public class CURDGenerator {
     private static final String FILE_Service_CONTENT = "" +
             "\n" +
             "    Page<Resp€NameList> list(Req€NameList req);\n" +
+            "\n" +
+            "    //数据联表查询\n" +
+            "    MyPageResult<Resp€NameList> linkList(Req€NameList req);\n" +
             "\n"+
             "    void create(Req€NameCreate req);\n" +
             "\n" +
@@ -148,6 +153,24 @@ public class CURDGenerator {
             "        objectPage.setRecords(convertList);\n" +
             "        return objectPage;\n"+
             "    }\n" +
+            "\n" +
+            "    //数据联表查询\n" +
+            "    @Override\n" +
+            "    public MyPageResult<Resp€NameList> linkList(Req€NameList req) {\n" +
+            "//        Page<Resp€NameList> page = new Page<>(req.getPageNo(), req.getPageSize(),true);\n" +
+            "//        IPage<Resp€NameList> iPage = mapper.queryPage(page, req);\n" +
+            "//        List<Resp€NameList> list = iPage.getRecords();\n" +
+            "//\n" +
+            "//        MyPageResult<Resp€NameList> myPageResult = new MyPageResult<>();\n" +
+            "//        myPageResult.setList(list);\n" +
+            "//        MyPage myPage = new MyPage();\n" +
+            "//        myPage.setPageNo(req.getPageNo());\n" +
+            "//        myPage.setPageSize(req.getPageSize());\n" +
+            "//        myPage.setTotalRecord(iPage.getTotal());\n" +
+            "//        myPageResult.setPage(myPage);\n" +
+            "//        return myPageResult;\n" +
+            "        return null;"+
+            "    }"+
             "\n"+
             "    @Override\n" +
             "    public void create(Req€NameCreate req) {\n" +
@@ -384,6 +407,7 @@ public class CURDGenerator {
         }
     }
 
+    //.换成\
     private static String pathConvert(String path) {
         String replacedString = path.replace("\\", "."); // 用 "." 替换 "\"
         if (replacedString.startsWith(".")) {
@@ -393,6 +417,14 @@ public class CURDGenerator {
             replacedString = replacedString.substring(0, replacedString.length() - 1); // 去除结尾的 "."
         }
         return replacedString; // 返回处理后的字符串
+    }
+
+    // /换成\\
+    public String convertPath(String originalPath) {
+        if (!originalPath.startsWith("/")) {
+            originalPath = "/" + originalPath;
+        }
+        return originalPath.replace("/", "\\");
     }
     private static String extractEntityContent(File entityFile) throws IOException {
         StringBuilder content = new StringBuilder();
@@ -842,6 +874,7 @@ public class CURDGenerator {
             packageList.add(pathConvert(BASE_PACKAGE+PACKAGE_REQ)+"." + "Req"+name+"List");
             packageList.add(pathConvert(BASE_PACKAGE+PACKAGE_RESP)+"." + "Resp"+name+"List");
             packageList.add(pathConvert(BASE_PACKAGE+PACKAGE_ENTITY) + "." + name+"Entity");
+            packageList.add(pathConvert(myPageResultImportPath));
             writePackage(operateFile, packageList);
         }else if (file.getName().endsWith("ServiceImpl.java")) {
             String name = StringUtils.replace(file.getName(), "ServiceImpl.java", "");
@@ -863,6 +896,8 @@ public class CURDGenerator {
             packageList.add(pathConvert(BASE_PACKAGE+PACKAGE_MAPPER) + "." + name+"Mapper");
             packageList.add(restExceptionImportPath);
             packageList.add(nullAwareBeanUtilsImportPath);
+            packageList.add(myPageImportPath);
+            packageList.add(myPageResultImportPath);
 
             writePackage(operateFile, packageList);
         }else if (file.getName().contains("Convertor.java")) {

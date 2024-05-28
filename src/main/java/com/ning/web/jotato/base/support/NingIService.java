@@ -3,8 +3,8 @@ package com.ning.web.jotato.base.support;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.ning.web.jotato.base.model.page.Page;
-import com.ning.web.jotato.base.model.page.PageResult;
+import com.ning.web.jotato.base.model.page.MyPage;
+import com.ning.web.jotato.base.model.page.MyPageResult;
 import com.ning.web.jotato.base.model.page.ScrollPage;
 import com.ning.web.jotato.base.model.page.ScrollPageResult;
 
@@ -12,15 +12,15 @@ import java.util.List;
 import java.util.Map;
 
 public interface NingIService<T> extends IService<T> {
-    PageResult<T> selectPage(Page var1, Wrapper<T> var2);
+    MyPageResult<T> selectPage(MyPage var1, Wrapper<T> var2);
 
-    default PageResult<T> selectPage(Page page) {
+    default MyPageResult<T> selectPage(MyPage page) {
         return this.selectPage(page, Wrappers.emptyWrapper());
     }
 
-    PageResult<Map<String, Object>> selectMapsPage(Page var1, Wrapper<T> var2);
+    MyPageResult<Map<String, Object>> selectMapsPage(MyPage var1, Wrapper<T> var2);
 
-    default PageResult<Map<String, Object>> selectMapsPage(Page page) {
+    default MyPageResult<Map<String, Object>> selectMapsPage(MyPage page) {
         return this.selectMapsPage(page, Wrappers.emptyWrapper());
     }
 

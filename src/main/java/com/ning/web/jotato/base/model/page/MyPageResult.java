@@ -6,28 +6,28 @@ import java.io.Serializable;
 import java.util.List;
 
 @Getter
-public class PageResult<T> implements Serializable {
+public class MyPageResult<T> implements Serializable {
     private static final long serialVersionUID = 8328637522112232308L;
-    private Page page;
+    private MyPage page;
     private List<T> list;
 
-    public PageResult(Page page) {
+    public MyPageResult(MyPage page) {
         this.page = page;
     }
 
-    public PageResult(List<T> list) {
+    public MyPageResult(List<T> list) {
         this.list = list;
     }
 
-    public PageResult() {
+    public MyPageResult() {
     }
 
-    public PageResult(Page page, List<T> list) {
+    public MyPageResult(MyPage page, List<T> list) {
         this.page = page;
         this.list = list;
     }
 
-    public void setPage(Page page) {
+    public void setPage(MyPage page) {
         this.page = page;
     }
 
@@ -38,10 +38,10 @@ public class PageResult<T> implements Serializable {
     public boolean equals(Object o) {
         if (o == this) {
             return true;
-        } else if (!(o instanceof PageResult)) {
+        } else if (!(o instanceof MyPageResult)) {
             return false;
         } else {
-            PageResult<?> other = (PageResult)o;
+            MyPageResult<?> other = (MyPageResult)o;
             if (!other.canEqual(this)) {
                 return false;
             } else {
@@ -71,7 +71,7 @@ public class PageResult<T> implements Serializable {
     }
 
     protected boolean canEqual(Object other) {
-        return other instanceof PageResult;
+        return other instanceof MyPageResult;
     }
 
     public int hashCode() {

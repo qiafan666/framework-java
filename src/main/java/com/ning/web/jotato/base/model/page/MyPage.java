@@ -1,8 +1,11 @@
 package com.ning.web.jotato.base.model.page;
 
+import lombok.Getter;
+
 import java.io.Serializable;
 
-public class Page implements Serializable {
+@Getter
+public class MyPage implements Serializable {
     private static final long serialVersionUID = -816030718296977748L;
     private Long pageSize;
     private Long pageNo;
@@ -28,18 +31,6 @@ public class Page implements Serializable {
         return new PageBuilder();
     }
 
-    public Long getPageSize() {
-        return this.pageSize;
-    }
-
-    public Long getPageNo() {
-        return this.pageNo;
-    }
-
-    public Long getTotalRecord() {
-        return this.totalRecord;
-    }
-
     public void setTotalRecord(Long totalRecord) {
         this.totalRecord = totalRecord;
     }
@@ -47,10 +38,10 @@ public class Page implements Serializable {
     public boolean equals(Object o) {
         if (o == this) {
             return true;
-        } else if (!(o instanceof Page)) {
+        } else if (!(o instanceof MyPage)) {
             return false;
         } else {
-            Page other = (Page)o;
+            MyPage other = (MyPage)o;
             if (!other.canEqual(this)) {
                 return false;
             } else {
@@ -94,7 +85,7 @@ public class Page implements Serializable {
     }
 
     protected boolean canEqual(Object other) {
-        return other instanceof Page;
+        return other instanceof MyPage;
     }
 
     public int hashCode() {
@@ -109,10 +100,10 @@ public class Page implements Serializable {
         return result;
     }
 
-    public Page() {
+    public MyPage() {
     }
 
-    public Page(Long pageSize, Long pageNo, Long totalRecord) {
+    public MyPage(Long pageSize, Long pageNo, Long totalRecord) {
         this.pageSize = pageSize;
         this.pageNo = pageNo;
         this.totalRecord = totalRecord;
@@ -145,8 +136,8 @@ public class Page implements Serializable {
             return this;
         }
 
-        public Page build() {
-            return new Page(this.pageSize, this.pageNo, this.totalRecord);
+        public MyPage build() {
+            return new MyPage(this.pageSize, this.pageNo, this.totalRecord);
         }
 
         public String toString() {

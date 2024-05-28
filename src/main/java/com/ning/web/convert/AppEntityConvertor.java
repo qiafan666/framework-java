@@ -15,8 +15,8 @@ public interface AppEntityConvertor {
     AppEntityConvertor INSTANCE = Mappers.getMapper(AppEntityConvertor.class);
 
 
-    List<RespAppList> appEntityToRespAppList(List<AppEntity> request);
+    List<RespAppList> appEntityToRespAppList(List<AppEntity> req);
 
-    AppEntity appCreateRequestToAppEntity(ReqAppCreate request);
+    AppEntity appCreateRequestToAppEntity(ReqAppCreate req);
 
 }

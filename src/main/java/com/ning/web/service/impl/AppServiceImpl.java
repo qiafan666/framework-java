@@ -1,14 +1,15 @@
 package com.ning.web.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
-import cn.hutool.core.util.ObjectUtil;
 import com.alibaba.excel.EasyExcel;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ning.web.convert.AppEntityConvertor;
-import com.ning.web.entity.AlarmEntity;
 import com.ning.web.entity.AppEntity;
+import com.ning.web.jotato.base.model.page.MyPage;
+import com.ning.web.jotato.base.model.page.MyPageResult;
 import com.ning.web.jotato.common.exception.RestException;
 import com.ning.web.jotato.common.utils.NullAwareBeanUtils;
 import com.ning.web.listenner.AppImportListenner;
@@ -26,11 +27,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.Resource;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * <p>
@@ -43,18 +44,38 @@ import java.util.Objects;
 @Service
 public class AppServiceImpl extends ServiceImpl<AppMapper, AppEntity> implements IAppService {
 
+    @Resource
+    private AppMapper appMapper;
+
     @Override
-    public Page<RespAppList> list(ReqAppList request) {
-        Page<AppEntity> page = new Page<>(request.getPageNo(), request.getPageSize());
+    public Page<RespAppList> list(ReqAppList req) {
+        Page<AppEntity> page = new Page<>(req.getPageNo(), req.getPageSize());
         LambdaQueryWrapper<AppEntity> queryWrapper = Wrappers.lambdaQuery();
         queryWrapper.eq(AppEntity::getIsDeleted, 0);
         Page<AppEntity> appEntityPage = this.page(page, queryWrapper);
 
         //TODO 条件校验
         List<RespAppList> appListResponseList = AppEntityConvertor.INSTANCE.appEntityToRespAppList(appEntityPage.getRecords());
-        Page<RespAppList> objectPage = new Page<>(request.getPageNo(), request.getPageSize(), appEntityPage.getTotal());
+        Page<RespAppList> objectPage = new Page<>(req.getPageNo(), req.getPageSize(), appEntityPage.getTotal());
         objectPage.setRecords(appListResponseList);
         return  objectPage;
+    }
+
+    @Override
+    public MyPageResult<RespAppList> linkList(ReqAppList req) {
+        //=====================下面是联查的写法=======================
+        Page<RespAppList> page = new Page<>(req.getPageNo(), req.getPageSize(),true);
+        IPage<RespAppList> iPage = appMapper.queryPage(page, req);
+        List<RespAppList> list = iPage.getRecords();
+
+        MyPageResult<RespAppList> myPageResult = new MyPageResult<>();
+        myPageResult.setList(list);
+        MyPage myPage = new MyPage();
+        myPage.setPageNo(req.getPageNo());
+        myPage.setPageSize(req.getPageSize());
+        myPage.setTotalRecord(iPage.getTotal());
+        myPageResult.setPage(myPage);
+        return myPageResult;
     }
 
     @Override
@@ -66,18 +87,18 @@ public class AppServiceImpl extends ServiceImpl<AppMapper, AppEntity> implements
     }
 
     @Override
-    public void update(ReqAppUpdate request) {
-        AppEntity appEntity = this.getById(request.getAppId());
+    public void update(ReqAppUpdate req) {
+        AppEntity appEntity = this.getById(req.getAppId());
         RestException.TrueThrow(appEntity == null, "COMMON001");
-        NullAwareBeanUtils.copyProperties(appEntity,request);
+        NullAwareBeanUtils.copyProperties(appEntity,req);
 
         //TODO：条件校验
         this.updateById(appEntity);
     }
 
     @Override
-    public void delete(List<Long> request) {
-        request.forEach(appId -> {
+    public void delete(List<Long> req) {
+        req.forEach(appId -> {
             AppEntity appEntity = this.getById(appId);
             RestException.TrueThrow(appEntity == null, "COMMON001");
             appEntity.setIsDeleted(1);

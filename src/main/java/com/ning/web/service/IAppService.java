@@ -3,6 +3,7 @@ package com.ning.web.service;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ning.web.entity.AppEntity;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.ning.web.jotato.base.model.page.MyPageResult;
 import com.ning.web.pojo.req.ReqAppCreate;
 import com.ning.web.pojo.req.ReqAppList;
 import com.ning.web.pojo.req.ReqAppUpdate;
@@ -21,13 +22,15 @@ import java.util.List;
  */
 public interface IAppService extends IService<AppEntity> {
 
-    Page<RespAppList> list(ReqAppList request);
+    Page<RespAppList> list(ReqAppList req);
 
-    void create(ReqAppCreate request);
+    MyPageResult<RespAppList> linkList(ReqAppList req);
 
-    void update(ReqAppUpdate request);
+    void create(ReqAppCreate req);
 
-    void delete(List<Long> request);
+    void update(ReqAppUpdate req);
+
+    void delete(List<Long> req);
 
     void processFile(MultipartFile multipartFile);
 }

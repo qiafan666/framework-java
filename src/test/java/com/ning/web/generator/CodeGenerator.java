@@ -20,14 +20,12 @@ import java.util.Collections;
 @Slf4j
 public class CodeGenerator {
 
-    // ======================================================
-    // ======================================================
     //作者名
-    private static final String AUTHOR = "ning";
+    public static final String AUTHOR = "ning";
     //表table的前缀，不加到生成的类名中
     public static final String[] PREFIX = {"sys_","yw_"};
     //要生成的表名
-    public static final String[] TABLES = {"yw_alarm"};
+    public static final String[] TABLES = {"yw_alarm_detail"};
     private static final String DB_ColumnName_create_time = "created_time";
     private static final String DB_ColumnName_modify_time = "updated_time";
     private static final String DB_ColumnName_is_deleted = "is_deleted";
@@ -48,11 +46,10 @@ public class CodeGenerator {
     // mapp.xml 生成路径
     private static final String XML_PACKAGE = "/src/main/resources/mapper";
 
-    private static final String JDBC_URL = "jdbc:mysql://192.168.1.181:3306/trusted_dev?useUnicode=true&characterEncoding=UTF-8&useSSL=false";
+    private static final String JDBC_URL = "jdbc:mysql://localhost:3306/trusted?useUnicode=true&characterEncoding=UTF-8&useSSL=false";
     private static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-    private static final String JDBC_USERNAME = "trusted_dev";
-    private static final String JDBC_PASSWORD = "Trusted123!@#";
-    // ======================================================
+    private static final String JDBC_USERNAME = "root";
+    private static final String JDBC_PASSWORD = "admin123";
     // ======================================================
 
     public static void main(String[] args) {

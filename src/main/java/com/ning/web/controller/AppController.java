@@ -2,6 +2,7 @@ package com.ning.web.controller;
 
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.ning.web.jotato.base.model.page.MyPageResult;
 import com.ning.web.jotato.base.model.result.BaseResult;
 import com.ning.web.jotato.base.model.result.BaseResultData;
 import com.ning.web.jotato.common.exception.RestException;
@@ -44,18 +45,29 @@ public class AppController {
 
     /**
      * 列表查询
-     * @param request 查询列表
+     * @param req 查询列表
      * @return BaseResultData<Page<RespAppList>>
      */
     @PostMapping(value = "/list")
-    public BaseResultData<Page<RespAppList>> list(@RequestBody ReqAppList request) {
-        Page<RespAppList> page =  iAppService.list(request);
+    public BaseResultData<Page<RespAppList>> list(@RequestBody ReqAppList req) {
+        Page<RespAppList> page =  iAppService.list(req);
         return BaseResultData.success(page);
     }
 
     /**
+     * 列表查询
+     * @param req 查询列表
+     * @return BaseResultData<MyPageResult<RespAppList>>
+     */
+    @PostMapping(value = "/list2")
+    public BaseResultData<MyPageResult<RespAppList>> list2(@RequestBody ReqAppList req) {
+        MyPageResult<RespAppList> myPageResult =  iAppService.linkList(req);
+        return BaseResultData.success(myPageResult);
+    }
+
+    /**
      * 创建
-     * @param request 创建
+     * @param req 创建
      * @return BaseResult
      */
     @PostMapping(value = "/create")
@@ -63,21 +75,21 @@ public class AppController {
             "appName:number:must:unempty",
             "appStatus:string:must:unempty::32:::^(online|offline)$"
     })
-    public BaseResult create(@RequestBody ReqAppCreate request) {
-        FieldValidator.validate(request); // 校验参数 需要使用@FieldValidation注解 MessageValid是另一种方式，自选
-        iAppService.create(request);
+    public BaseResult create(@RequestBody ReqAppCreate req) {
+        FieldValidator.validate(req); // 校验参数 需要使用@FieldValidation注解 MessageValid是另一种方式，自选
+        iAppService.create(req);
         return BaseResultData.success();
     }
 
     @PostMapping(value = "/update")
-    public BaseResult update(@RequestBody ReqAppUpdate request) {
-        iAppService.update(request);
+    public BaseResult update(@RequestBody ReqAppUpdate req) {
+        iAppService.update(req);
         return BaseResult.success();
     }
 
     @DeleteMapping(value = "/delete")
-    public BaseResult delete(@RequestParam("ids") List<Long> request) {
-        iAppService.delete(request);
+    public BaseResult delete(@RequestParam("ids") List<Long> req) {
+        iAppService.delete(req);
         return BaseResultData.success();
     }
 

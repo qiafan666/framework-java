@@ -1,8 +1,8 @@
 package com.ning.web.jotato.base.support;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.ning.web.jotato.base.model.page.Page;
-import com.ning.web.jotato.base.model.page.PageResult;
+import com.ning.web.jotato.base.model.page.MyPage;
+import com.ning.web.jotato.base.model.page.MyPageResult;
 import com.ning.web.jotato.base.model.page.ScrollPage;
 import com.ning.web.jotato.base.model.page.ScrollPageResult;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
@@ -13,20 +13,20 @@ import java.util.Map;
 
 
 public interface WebBaseMapper<T> extends BaseMapper<T> {
-    default <E> PageResult<E> selectPageSql(Page page, NingPageSqlInterface<E> target) {
+    default <E> MyPageResult<E> selectPageSql(MyPage page, NingPageSqlInterface<E> target) {
         com.baomidou.mybatisplus.extension.plugins.pagination.Page<E> req = new com.baomidou.mybatisplus.extension.plugins.pagination.Page<>(page.getPageNo(), page.getPageSize());
         IPage<E> res = target.getPageList(req);
-        PageResult<E> result = new PageResult<>();
+        MyPageResult<E> result = new MyPageResult<>();
         page.setTotalRecord(res.getTotal());
         result.setPage(page);
         result.setList(res.getRecords());
         return result;
     }
 
-    default PageResult<Map<String, Object>> selectMapsPageSql(Page page, NingPageSqlInterface<Map<String, Object>> target) {
+    default MyPageResult<Map<String, Object>> selectMapsPageSql(MyPage page, NingPageSqlInterface<Map<String, Object>> target) {
         com.baomidou.mybatisplus.extension.plugins.pagination.Page<Map<String, Object>> req = new com.baomidou.mybatisplus.extension.plugins.pagination.Page<>(page.getPageNo(), page.getPageSize());
         IPage<Map<String, Object>> res = target.getPageList(req);
-        PageResult<Map<String, Object>> result = new PageResult<>();
+        MyPageResult<Map<String, Object>> result = new MyPageResult<>();
         page.setTotalRecord(res.getTotal());
         result.setPage(page);
         result.setList(res.getRecords());
@@ -53,20 +53,20 @@ public interface WebBaseMapper<T> extends BaseMapper<T> {
         return result;
     }
 
-    default PageResult<T> selectPage(Page page, @Param("ew") Wrapper<T> queryWrapper) {
+    default MyPageResult<T> selectPage(MyPage page, @Param("ew") Wrapper<T> queryWrapper) {
         com.baomidou.mybatisplus.extension.plugins.pagination.Page<T> req = new com.baomidou.mybatisplus.extension.plugins.pagination.Page<>(page.getPageNo(), page.getPageSize());
         req = this.selectPage(req, queryWrapper);
-        PageResult<T> result = new PageResult<>();
+        MyPageResult<T> result = new MyPageResult<>();
         page.setTotalRecord(req.getTotal());
         result.setPage(page);
         result.setList(req.getRecords());
         return result;
     }
 
-    default PageResult<Map<String, Object>> selectMapsPage(Page page, @Param("ew") Wrapper<T> queryWrapper) {
+    default MyPageResult<Map<String, Object>> selectMapsPage(MyPage page, @Param("ew") Wrapper<T> queryWrapper) {
         com.baomidou.mybatisplus.extension.plugins.pagination.Page<Map<String, Object>> req = new com.baomidou.mybatisplus.extension.plugins.pagination.Page<>(page.getPageNo(), page.getPageSize());
         req = this.selectMapsPage(req, queryWrapper);
-        PageResult<Map<String, Object>> result = new PageResult<>();
+        MyPageResult<Map<String, Object>> result = new MyPageResult<>();
         page.setTotalRecord(req.getTotal());
         result.setPage(page);
         result.setList(req.getRecords());
