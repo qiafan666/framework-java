@@ -46,9 +46,12 @@ public class CodeGenerator {
     public static final String PACKAGE_IMPL = "service.impl";
     public static final String PACKAGE_ENTITY = "entity";
     public static final String PACKAGE_MAPPER = "mapper";
+
+    //===================以下三项内容是CURDGenerator的配置如果需要修改路径可以修改上面的路径之后再执行CURDGenerator=
     public static final String PACKAGE_CONVERT = "convert";
     public static final String PACKAGE_REQ = "pojo.req";
     public static final String PACKAGE_RESP = "pojo.resp";
+    //===================================
     // mapp.xml 生成路径
     private static final String XML_PACKAGE = "/src/main/resources/mapper";
 
@@ -88,7 +91,7 @@ public class CodeGenerator {
                     // 设置作者名
                     .author(AUTHOR)
                     //设置输出路径
-                    .outputDir(projectPath.concat(PATH))
+                    .outputDir(projectPath.concat(MODULE_PATH).concat(PATH))
                     //注释日期
                     .commentDate("yyyy-MM-dd hh:mm:ss")
                     //定义生成的实体类中日期的类型 TIME_PACK=LocalDateTime;ONLY_DATE=Date
@@ -115,8 +118,6 @@ public class CodeGenerator {
             builder
                     // 设置父包名
                     .parent(BASE_PACKAGE)
-                    //设置模块包名
-                    .moduleName(MODULE_PATH)
                     //Controller 包名
                     .controller(PACKAGE_CONTROLLER)
                     //Service 包名
