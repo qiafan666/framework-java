@@ -28,27 +28,9 @@ public class CURDGenerator {
     // com.ning.web.jotato.core.request.BasePageQuery      ======>   com.xxx.xxx
     // com.ning.web.jotato.common.exception.RestException      ======>   com.xxx.xxx
     // com.ning.web.jotato.common.utils.NullAwareBeanUtils      ======>   com.xxx.xxx
+    // com.ning.web.jotato.base.model.page.MyPage      ======>   com.xxx.xxx
+    // com.ning.web.jotato.base.model.page.MyPageResult      ======>   com.xxx.xxx
 /*===================================================================================================================*/
-
-    // api增加 example:/api/v1/app
-    private static final String API_VERSION = "/api/v1";
-    //code generator 里面的PROJECT_PATH
-    private static final String PROJECT_PATH = "D:\\java\\src\\framework-java";
-    //code generator 里面的MODULE_PATH
-    private static final String MODULE_PATH = "";
-    //code generator 里面的输出路径
-    private static final String BASE_PATH = "\\src\\main\\java";
-    //code generator 里面的BASE_PACKAGE
-    private static final String BASE_PACKAGE = "\\com\\ning\\web";
-
-    private static final String PACKAGE_CONTROLLER = "\\controller";
-    private static final String PACKAGE_SERVICE = "\\service";
-    private static final String PACKAGE_IMPL = "\\service\\impl";
-    private static final String PACKAGE_ENTITY = "\\entity";
-    private static final String PACKAGE_MAPPER = "\\mapper";
-    private static final String PACKAGE_CONVERT = "\\convert";
-    private static final String PACKAGE_REQ = "\\pojo\\req";
-    private static final String PACKAGE_RESP = "\\pojo\\resp";
     //全局搜索BaseResult的包路径
     private static final String resultImportPath = "com.ning.web.jotato.base.model.result";
     //全局搜索BaseReq的包路径
@@ -63,7 +45,6 @@ public class CURDGenerator {
     private static final String myPageImportPath = "com.ning.web.jotato.base.model.page.MyPage";
     //全局搜索MyPageResult的包路径
     private static final String myPageResultImportPath = "com.ning.web.jotato.base.model.page.MyPageResult";
-
 
 
     private static final String FILE_Controller_CONTENT = " " +
@@ -317,9 +298,9 @@ public class CURDGenerator {
         }
 
         ArrayList<String> list = new ArrayList<>();
-        list.add(PROJECT_PATH + MODULE_PATH + BASE_PATH + BASE_PACKAGE + PACKAGE_CONTROLLER);
-        list.add(PROJECT_PATH + MODULE_PATH + BASE_PATH + BASE_PACKAGE + PACKAGE_SERVICE);
-        list.add(PROJECT_PATH + MODULE_PATH + BASE_PATH + BASE_PACKAGE + PACKAGE_IMPL);
+        list.add(ABSOLUTE_PROJECT_PATH + convertPath(MODULE_PATH) + convertPath(PATH)+ convertPath2(BASE_PACKAGE) + convertPath2(PACKAGE_CONTROLLER));
+        list.add(ABSOLUTE_PROJECT_PATH + convertPath(MODULE_PATH) + convertPath(PATH) + convertPath2(BASE_PACKAGE) + convertPath2(PACKAGE_SERVICE));
+        list.add(ABSOLUTE_PROJECT_PATH + convertPath(MODULE_PATH) + convertPath(PATH) + convertPath2(BASE_PACKAGE) + convertPath2(PACKAGE_IMPL));
 
         for (String path : list) {
             File dir = new File(path);
@@ -345,11 +326,11 @@ public class CURDGenerator {
         }
 
         //向req,resp,写入默认内容
-        File entitydir = new File(PROJECT_PATH + MODULE_PATH + BASE_PATH + BASE_PACKAGE + PACKAGE_ENTITY);
+        File entitydir = new File(ABSOLUTE_PROJECT_PATH + convertPath(MODULE_PATH) + convertPath(PATH) + convertPath2(BASE_PACKAGE) + convertPath2(PACKAGE_ENTITY));
         File[] entityfiles = entitydir.listFiles();
 
-        File dir = new File(PROJECT_PATH + MODULE_PATH + BASE_PATH + BASE_PACKAGE + PACKAGE_REQ);
-        File dir1 = new File(PROJECT_PATH + MODULE_PATH + BASE_PATH + BASE_PACKAGE + PACKAGE_RESP);
+        File dir = new File(ABSOLUTE_PROJECT_PATH + convertPath(MODULE_PATH) + convertPath(PATH) + convertPath2(BASE_PACKAGE) + convertPath2(PACKAGE_REQ));
+        File dir1 = new File(ABSOLUTE_PROJECT_PATH + convertPath(MODULE_PATH) + convertPath(PATH) + convertPath2(BASE_PACKAGE) + convertPath2(PACKAGE_RESP));
 
         // 检查目录是否存在
         if (dir.exists() && dir.isDirectory()) {
@@ -407,8 +388,11 @@ public class CURDGenerator {
         }
     }
 
-    //.换成\
+    // \\换成.
     private static String pathConvert(String path) {
+        if (path.isEmpty()){
+            return "";
+        }
         String replacedString = path.replace("\\", "."); // 用 "." 替换 "\"
         if (replacedString.startsWith(".")) {
             replacedString = replacedString.substring(1); // 去除开头的 "."
@@ -420,11 +404,31 @@ public class CURDGenerator {
     }
 
     // /换成\\
-    public String convertPath(String originalPath) {
+    public static String convertPath(String originalPath) {
+        if (originalPath.isEmpty()){
+            return "";
+        }
         if (!originalPath.startsWith("/")) {
             originalPath = "/" + originalPath;
         }
+        if (originalPath.endsWith("/")) {
+            originalPath = originalPath.substring(0, originalPath.length() - 1);
+        }
         return originalPath.replace("/", "\\");
+    }
+
+    // .换成\\
+    public static String convertPath2(String originalPath) {
+        if (originalPath.isEmpty()){
+            return "";
+        }
+        if (!originalPath.startsWith(".")) {
+            originalPath = "\\" + originalPath;
+        }
+        if (originalPath.endsWith(".")) {
+            originalPath = originalPath.substring(0, originalPath.length() - 1);
+        }
+        return originalPath.replace(".", "\\");
     }
     private static String extractEntityContent(File entityFile) throws IOException {
         StringBuilder content = new StringBuilder();
@@ -704,11 +708,11 @@ public class CURDGenerator {
     }
 
     public static void createFile(String name) throws IOException {
-        createFile1(PROJECT_PATH + MODULE_PATH + BASE_PATH + BASE_PACKAGE + PACKAGE_REQ,name);
-        createFile2(PROJECT_PATH + MODULE_PATH + BASE_PATH + BASE_PACKAGE + PACKAGE_REQ,name);
-        createFile3(PROJECT_PATH + MODULE_PATH + BASE_PATH + BASE_PACKAGE + PACKAGE_REQ,name);
-        createFile4(PROJECT_PATH + MODULE_PATH + BASE_PATH + BASE_PACKAGE + PACKAGE_RESP,name);
-        createFile5(PROJECT_PATH + MODULE_PATH + BASE_PATH + BASE_PACKAGE + PACKAGE_CONVERT,name);
+        createFile1(ABSOLUTE_PROJECT_PATH + convertPath(MODULE_PATH) + convertPath(PATH) + convertPath2(BASE_PACKAGE) + convertPath2(PACKAGE_REQ),name);
+        createFile2(ABSOLUTE_PROJECT_PATH + convertPath(MODULE_PATH) + convertPath(PATH) + convertPath2(BASE_PACKAGE) + convertPath2(PACKAGE_REQ),name);
+        createFile3(ABSOLUTE_PROJECT_PATH + convertPath(MODULE_PATH) + convertPath(PATH) + convertPath2(BASE_PACKAGE) + convertPath2(PACKAGE_REQ),name);
+        createFile4(ABSOLUTE_PROJECT_PATH + convertPath(MODULE_PATH) + convertPath(PATH) + convertPath2(BASE_PACKAGE) + convertPath2(PACKAGE_RESP),name);
+        createFile5(ABSOLUTE_PROJECT_PATH + convertPath(MODULE_PATH) + convertPath(PATH) + convertPath2(BASE_PACKAGE) + convertPath2(PACKAGE_CONVERT),name);
     }
 
     //创建ReqCreate
@@ -720,8 +724,15 @@ public class CURDGenerator {
         createContent = StringUtils.replace(createContent, "€Name", name);
         createContent = StringUtils.replace(createContent, "€Time", sdf.format(new Date()));
         createContent = StringUtils.replace(createContent, "€BaseReq", baseReqImportPath);
-        createContent = StringUtils.replace(createContent, "€Package", pathConvert(BASE_PACKAGE+PACKAGE_REQ));
+        createContent = StringUtils.replace(createContent, "€Package", pathConvert(convertPath2(BASE_PACKAGE)+convertPath2(PACKAGE_REQ)));
         String createFileName = "Req" +name + "Create.java";
+
+        File directory = new File(path);
+
+        // 如果目录不存在，则创建目录
+        if (!directory.exists()) {
+            directory.mkdirs();
+        }
 
         File file = new File(path, createFileName);
 
@@ -745,9 +756,16 @@ public class CURDGenerator {
         reqUpdateContent = StringUtils.replace(reqUpdateContent, "€Author", AUTHOR);
         reqUpdateContent = StringUtils.replace(reqUpdateContent, "€Time", sdf.format(new Date()));
         reqUpdateContent = StringUtils.replace(reqUpdateContent, "€BaseReq", baseReqImportPath);
-        reqUpdateContent = StringUtils.replace(reqUpdateContent, "€Package", pathConvert(BASE_PACKAGE+PACKAGE_REQ));
+        reqUpdateContent = StringUtils.replace(reqUpdateContent, "€Package", pathConvert(convertPath2(BASE_PACKAGE)+convertPath2(PACKAGE_REQ)));
 
         String reqUpdateFileName = "Req" +name + "Update.java";
+
+        File directory = new File(path);
+
+        // 如果目录不存在，则创建目录
+        if (!directory.exists()) {
+            directory.mkdirs();
+        }
 
         File file1 = new File(path, reqUpdateFileName);
 
@@ -771,9 +789,16 @@ public class CURDGenerator {
         reqListContent = StringUtils.replace(reqListContent, "€Author", AUTHOR);
         reqListContent = StringUtils.replace(reqListContent, "€Time", sdf.format(new Date()));
         reqListContent = StringUtils.replace(reqListContent, "€BasePage", basePageImportPath);
-        reqListContent = StringUtils.replace(reqListContent, "€Package", pathConvert(BASE_PACKAGE+PACKAGE_REQ));
+        reqListContent = StringUtils.replace(reqListContent, "€Package", pathConvert(convertPath2(BASE_PACKAGE)+convertPath2(PACKAGE_REQ)));
 
         String reqListFileName = "Req" +name + "List.java";
+
+        File directory = new File(path);
+
+        // 如果目录不存在，则创建目录
+        if (!directory.exists()) {
+            directory.mkdirs();
+        }
 
         File file2 = new File(path, reqListFileName);
 
@@ -796,9 +821,16 @@ public class CURDGenerator {
         String respListContent = StringUtils.replace(RespList_CONTENT, "€Name", name);
         respListContent = StringUtils.replace(respListContent, "€Author", AUTHOR);
         respListContent = StringUtils.replace(respListContent, "€Time", sdf.format(new Date()));
-        respListContent = StringUtils.replace(respListContent, "€Package", pathConvert(BASE_PACKAGE+PACKAGE_RESP));
+        respListContent = StringUtils.replace(respListContent, "€Package", pathConvert(convertPath2(BASE_PACKAGE)+convertPath2(PACKAGE_RESP)));
 
         String respListFileName = "Resp" +name + "List.java";
+
+        File directory = new File(path);
+
+        // 如果目录不存在，则创建目录
+        if (!directory.exists()) {
+            directory.mkdirs();
+        }
 
         File file3 = new File(path, respListFileName);
 
@@ -821,10 +853,17 @@ public class CURDGenerator {
         String respListContent = StringUtils.replace(FILE_Converter_CONTENT, "€Name", name);
         respListContent = StringUtils.replace(respListContent,"€Author", AUTHOR);
         respListContent = StringUtils.replace(respListContent,"€Time", sdf.format(new Date()));
-        respListContent = StringUtils.replace(respListContent, "€Package", pathConvert(BASE_PACKAGE+PACKAGE_CONVERT));
-        respListContent = StringUtils.replace(respListContent, "€EntityImportPath", pathConvert(BASE_PACKAGE+PACKAGE_ENTITY));
-        respListContent = StringUtils.replace(respListContent, "€RespImportPath", pathConvert(BASE_PACKAGE+PACKAGE_RESP));
+        respListContent = StringUtils.replace(respListContent, "€Package", pathConvert(convertPath2(BASE_PACKAGE)+convertPath2(PACKAGE_CONVERT)));
+        respListContent = StringUtils.replace(respListContent, "€EntityImportPath", pathConvert(convertPath2(BASE_PACKAGE)+convertPath2(PACKAGE_ENTITY)));
+        respListContent = StringUtils.replace(respListContent, "€RespImportPath", pathConvert(convertPath2(BASE_PACKAGE)+convertPath2(PACKAGE_RESP)));
         String respListFileName = name + "EntityConvertor.java";
+
+        File directory = new File(path);
+
+        // 如果目录不存在，则创建目录
+        if (!directory.exists()) {
+            directory.mkdirs();
+        }
 
         File file3 = new File(path, respListFileName);
 
@@ -854,11 +893,11 @@ public class CURDGenerator {
             packageList.add("org.springframework.web.bind.annotation.*");
             packageList.add("java.util.List");
             packageList.add("com.baomidou.mybatisplus.extension.plugins.pagination.Page");
-            packageList.add(pathConvert(BASE_PACKAGE+PACKAGE_REQ)+"." + "Req"+name+"Create");
-            packageList.add(pathConvert(BASE_PACKAGE+PACKAGE_REQ)+"." + "Req"+name+"Update");
-            packageList.add(pathConvert(BASE_PACKAGE+PACKAGE_REQ)+"." + "Req"+name+"List");
-            packageList.add(pathConvert(BASE_PACKAGE+PACKAGE_RESP)+"." + "Resp"+name+"List");
-            packageList.add(pathConvert(BASE_PACKAGE+PACKAGE_SERVICE)+"." + "I"+name+"Service");
+            packageList.add(pathConvert(convertPath2(BASE_PACKAGE)+convertPath2(PACKAGE_REQ))+"." + "Req"+name+"Create");
+            packageList.add(pathConvert(convertPath2(BASE_PACKAGE)+convertPath2(PACKAGE_REQ))+"." + "Req"+name+"Update");
+            packageList.add(pathConvert(convertPath2(BASE_PACKAGE)+convertPath2(PACKAGE_REQ))+"." + "Req"+name+"List");
+            packageList.add(pathConvert(convertPath2(BASE_PACKAGE)+convertPath2(PACKAGE_RESP))+"." + "Resp"+name+"List");
+            packageList.add(pathConvert(convertPath2(BASE_PACKAGE)+convertPath2(PACKAGE_SERVICE))+"." + "I"+name+"Service");
             packageList.add(resultImportPath +"." + "BaseResult");
             packageList.add(resultImportPath +"." +"BaseResultData");
             writePackage(operateFile, packageList);
@@ -869,11 +908,11 @@ public class CURDGenerator {
             packageList.add("java.util.List");
             packageList.add("com.baomidou.mybatisplus.extension.plugins.pagination.Page");
             packageList.add("com.baomidou.mybatisplus.extension.service.IService");
-            packageList.add(pathConvert(BASE_PACKAGE+PACKAGE_REQ)+"." + "Req"+name+"Create");
-            packageList.add(pathConvert(BASE_PACKAGE+PACKAGE_REQ)+"." + "Req"+name+"Update");
-            packageList.add(pathConvert(BASE_PACKAGE+PACKAGE_REQ)+"." + "Req"+name+"List");
-            packageList.add(pathConvert(BASE_PACKAGE+PACKAGE_RESP)+"." + "Resp"+name+"List");
-            packageList.add(pathConvert(BASE_PACKAGE+PACKAGE_ENTITY) + "." + name+"Entity");
+            packageList.add(pathConvert(convertPath2(BASE_PACKAGE)+convertPath2(PACKAGE_REQ))+"." + "Req"+name+"Create");
+            packageList.add(pathConvert(convertPath2(BASE_PACKAGE)+convertPath2(PACKAGE_REQ))+"." + "Req"+name+"Update");
+            packageList.add(pathConvert(convertPath2(BASE_PACKAGE)+convertPath2(PACKAGE_REQ))+"." + "Req"+name+"List");
+            packageList.add(pathConvert(convertPath2(BASE_PACKAGE)+convertPath2(PACKAGE_RESP))+"." + "Resp"+name+"List");
+            packageList.add(pathConvert(convertPath2(BASE_PACKAGE)+convertPath2(PACKAGE_ENTITY)) + "." + name+"Entity");
             packageList.add(pathConvert(myPageResultImportPath));
             writePackage(operateFile, packageList);
         }else if (file.getName().endsWith("ServiceImpl.java")) {
@@ -886,14 +925,14 @@ public class CURDGenerator {
             packageList.add("com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper");
             packageList.add("org.springframework.beans.BeanUtils");
             packageList.add("org.springframework.stereotype.Service");
-            packageList.add(pathConvert(BASE_PACKAGE+PACKAGE_REQ)+"."+ "Req"+name+"Create");
-            packageList.add(pathConvert(BASE_PACKAGE+PACKAGE_REQ)+"."+ "Req"+name+"Update");
-            packageList.add(pathConvert(BASE_PACKAGE+PACKAGE_REQ)+"." + "Req"+name+"List");
-            packageList.add(pathConvert(BASE_PACKAGE+PACKAGE_RESP)+"."+ "Resp"+name+"List");
-            packageList.add(pathConvert(BASE_PACKAGE+PACKAGE_SERVICE)+"."+ "I"+name+"Service");
+            packageList.add(pathConvert(convertPath2(BASE_PACKAGE)+convertPath2(PACKAGE_REQ))+"."+ "Req"+name+"Create");
+            packageList.add(pathConvert(convertPath2(BASE_PACKAGE)+convertPath2(PACKAGE_REQ))+"."+ "Req"+name+"Update");
+            packageList.add(pathConvert(convertPath2(BASE_PACKAGE)+convertPath2(PACKAGE_REQ))+"." + "Req"+name+"List");
+            packageList.add(pathConvert(convertPath2(BASE_PACKAGE)+convertPath2(PACKAGE_RESP))+"."+ "Resp"+name+"List");
+            packageList.add(pathConvert(convertPath2(BASE_PACKAGE)+convertPath2(PACKAGE_SERVICE))+"."+ "I"+name+"Service");
 
-            packageList.add(pathConvert(BASE_PACKAGE+PACKAGE_CONVERT) + "." + name+"EntityConvertor");
-            packageList.add(pathConvert(BASE_PACKAGE+PACKAGE_MAPPER) + "." + name+"Mapper");
+            packageList.add(pathConvert(convertPath2(BASE_PACKAGE)+convertPath2(PACKAGE_CONVERT) + name+"EntityConvertor"));
+            packageList.add(pathConvert(convertPath2(BASE_PACKAGE)+convertPath2(PACKAGE_MAPPER)) + "." + name+"Mapper");
             packageList.add(restExceptionImportPath);
             packageList.add(nullAwareBeanUtilsImportPath);
             packageList.add(myPageImportPath);
@@ -904,8 +943,8 @@ public class CURDGenerator {
             String name = StringUtils.replace(file.getName(), "Convertor.java", "");
             ArrayList<String> packageList = new ArrayList<>();
             packageList.add("java.util.List");
-            packageList.add(pathConvert(BASE_PACKAGE+PACKAGE_ENTITY) + "." + name+"Entity");
-            packageList.add(PROJECT_PATH + MODULE_PATH + BASE_PATH + BASE_PACKAGE + PACKAGE_RESP +"Resp"+ name+"List");
+            packageList.add(pathConvert(convertPath2(BASE_PACKAGE)+convertPath2(PACKAGE_ENTITY)) + "." + name+"Entity");
+            packageList.add(ABSOLUTE_PROJECT_PATH + convertPath(MODULE_PATH) + convertPath(PATH) + convertPath2(BASE_PACKAGE) + convertPath2(PACKAGE_RESP) +"Resp"+ name+"List");
             writePackage(operateFile, packageList);
         }
     }

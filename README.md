@@ -2,9 +2,11 @@
 
 
 使用方式
+项目中放入Resources文件夹，项目中放入jotato 然后运行test两个文件，剩下的curd都会根据数据库表自动生成
 
+test.java.com.ning.web.generator 
 
-test.java.com.ning.web.generator 在CodeGenerator中填入对应数据库配置
+在CodeGenerator中填入对应数据库配置
 
 运行CodeGenerator
 

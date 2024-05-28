@@ -22,10 +22,12 @@ public class CodeGenerator {
 
     //作者名
     public static final String AUTHOR = "ning";
+    // api增加 example:/api/v1/app
+    public static final String API_VERSION = "/api/v1";
     //表table的前缀，不加到生成的类名中
     public static final String[] PREFIX = {"sys_","yw_"};
     //要生成的表名
-    public static final String[] TABLES = {"yw_alarm_detail"};
+    public static final String[] TABLES = {"yw_alarm"};
     private static final String DB_ColumnName_create_time = "created_time";
     private static final String DB_ColumnName_modify_time = "updated_time";
     private static final String DB_ColumnName_is_deleted = "is_deleted";
@@ -33,16 +35,20 @@ public class CodeGenerator {
     //功能模块名称，生成的文件会存放到模块下
     //当前项目路径 + 项目路径
     private static final String PROJECT_PATH = "/java/src/framework-java";
+    public static final String ABSOLUTE_PROJECT_PATH = "D:\\java\\src\\framework-java";
 
-    private static final String MODULE_PATH = "";
-    private static final String PATH = "/src/main/java";
-    private static final String BASE_PACKAGE = "com.ning.web";
+    public static final String MODULE_PATH = "";
+    public static final String PATH = "/src/main/java";
+    public static final String BASE_PACKAGE = "com.ning.web";
 
-    private static final String PACKAGE_CONTROLLER = "controller";
-    private static final String PACKAGE_SERVICE = "service";
-    private static final String PACKAGE_IMPL = "service.impl";
-    private static final String PACKAGE_ENTITY = "entity";
-    private static final String PACKAGE_MAPPER = "mapper";
+    public static final String PACKAGE_CONTROLLER = "controller";
+    public static final String PACKAGE_SERVICE = "service";
+    public static final String PACKAGE_IMPL = "service.impl";
+    public static final String PACKAGE_ENTITY = "entity";
+    public static final String PACKAGE_MAPPER = "mapper";
+    public static final String PACKAGE_CONVERT = "convert";
+    public static final String PACKAGE_REQ = "pojo.req";
+    public static final String PACKAGE_RESP = "pojo.resp";
     // mapp.xml 生成路径
     private static final String XML_PACKAGE = "/src/main/resources/mapper";
 
