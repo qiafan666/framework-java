@@ -71,72 +71,72 @@ public class CURDGenerator {
             "\n" +
             "    /**\n" +
             "     * 列表€name\n" +
-            "     * @param request 查询参数\n" +
+            "     * @param req 查询参数\n" +
             "     * @return BaseResultData<Page<Resp€NameList>> 返回结果\n" +
             "     * @author €Author\n"+
             "     * @since €Time\n"+
             "     */\n" +
             "    @PostMapping(value = \"/list\")\n" +
-            "    public BaseResultData<Page<Resp€NameList>> list(@RequestBody Req€NameList request) {\n" +
-            "        Page<Resp€NameList> page =  i€NameService.list(request);\n" +
+            "    public BaseResultData<Page<Resp€NameList>> list(@RequestBody Req€NameList req) {\n" +
+            "        Page<Resp€NameList> page =  i€NameService.list(req);\n" +
             "        return BaseResultData.success(page);\n" +
             "    }\n" +
             "\n" +
             "    /**\n" +
             "     * 创建€name\n" +
-            "     * @param request 创建参数\n" +
+            "     * @param req 创建参数\n" +
             "     * @return BaseResult 返回结果\n" +
             "     * @author €Author\n"+
             "     * @since €Time\n"+
             "     */\n"+
             "    @PostMapping(value = \"/create\")\n" +
-            "    public BaseResult create(@RequestBody Req€NameCreate request) {\n" +
-            "        i€NameService.create(request);\n" +
+            "    public BaseResult create(@RequestBody Req€NameCreate req) {\n" +
+            "        i€NameService.create(req);\n" +
             "        return BaseResultData.success();\n" +
             "    }\n" +
             "\n" +
             "    /**\n" +
             "     * 更新€name\n" +
-            "     * @param request 更新参数\n" +
+            "     * @param req 更新参数\n" +
             "     * @return BaseResult 返回结果\n" +
             "     * @author €Author\n"+
             "     * @since €Time\n"+
             "     */\n"+
             "    @PostMapping(value = \"/update\")\n" +
-            "    public BaseResult update(@RequestBody Req€NameUpdate request) {\n" +
-            "        i€NameService.update(request);\n" +
+            "    public BaseResult update(@RequestBody Req€NameUpdate req) {\n" +
+            "        i€NameService.update(req);\n" +
             "        return BaseResult.success();\n" +
             "    }\n"+
             "\n" +
             "    /**\n" +
             "     * 删除€name\n" +
-            "     * @param request 删除参数\n" +
+            "     * @param req 删除参数\n" +
             "     * @return BaseResult 返回结果\n" +
             "     * @author €Author\n"+
             "     * @since €Time\n"+
             "     */\n"+
             "    @PostMapping(value = \"/delete\")\n" +
-            "    public BaseResult delete(@RequestParam(\"ids\") List<Long> request) {\n" +
-            "        i€NameService.delete(request);\n" +
+            "    public BaseResult delete(@RequestParam(\"ids\") List<Long> req) {\n" +
+            "        i€NameService.delete(req);\n" +
             "        return BaseResultData.success();\n" +
             "    }\n"
             ;
 
     private static final String FILE_Service_CONTENT = "" +
             "\n" +
-            "    Page<Resp€NameList> list(Req€NameList request);\n" +
+            "    Page<Resp€NameList> list(Req€NameList req);\n" +
             "\n"+
-            "    void create(Req€NameCreate request);\n" +
+            "    void create(Req€NameCreate req);\n" +
             "\n" +
-            "    void update(Req€NameUpdate request);\n" +
+            "    void update(Req€NameUpdate req);\n" +
             "\n" +
-            "    void delete(List<Long> request);";
+            "    void delete(List<Long> req);";
     private static final String FILE_Impl_CONTENT = " " +
             "\n" +
             "    @Override\n" +
-            "    public Page<Resp€NameList> list(Req€NameList request) {\n" +
+            "    public Page<Resp€NameList> list(Req€NameList req) {\n" +
             "\n"+
-            "        Page<€NameEntity> page = new Page<>(request.getPageNo(), request.getPageSize());\n" +
+            "        Page<€NameEntity> page = new Page<>(req.getPageNo(), req.getPageSize());\n" +
             "        LambdaQueryWrapper<€NameEntity> queryWrapper = Wrappers.lambdaQuery();\n" +
             "        queryWrapper.orderByDesc(€NameEntity::getCreatedTime);\n" +
             "        //TODO 查询条件\n" +
@@ -144,34 +144,34 @@ public class CURDGenerator {
             "        Page<€NameEntity> result = this.page(page, queryWrapper);\n" +
             "\n" +
             "        List<Resp€NameList> convertList = €NameEntityConvertor.INSTANCE.€NameEntityToResp€NameList(result.getRecords());\n" +
-            "        Page<Resp€NameList> objectPage = new Page<>(request.getPageNo(), request.getPageSize(), result.getTotal());\n" +
+            "        Page<Resp€NameList> objectPage = new Page<>(req.getPageNo(), req.getPageSize(), result.getTotal());\n" +
             "        objectPage.setRecords(convertList);\n" +
             "        return objectPage;\n"+
             "    }\n" +
             "\n"+
             "    @Override\n" +
-            "    public void create(Req€NameCreate request) {\n" +
+            "    public void create(Req€NameCreate req) {\n" +
             "\n"+
             "        €NameEntity entity = new €NameEntity();\n" +
-            "        BeanUtils.copyProperties(request, entity);\n" +
+            "        BeanUtils.copyProperties(req, entity);\n" +
             "        //TODO 校验参数\n" +
             "        this.save(entity);\n"+
             "    }\n" +
             "\n" +
             "    @Override\n" +
-            "    public void update(Req€NameUpdate request) {\n" +
+            "    public void update(Req€NameUpdate req) {\n" +
             "\n" +
-            "        €NameEntity entity = this.getById(request.getId());\n" +
+            "        €NameEntity entity = this.getById(req.getId());\n" +
             "        RestException.TrueThrow(entity == null, \"COMMON0001\");\n"+
-            "        NullAwareBeanUtils.copyProperties(request, entity);\n" +
+            "        NullAwareBeanUtils.copyProperties(req, entity);\n" +
             "        //TODO 参数校验\n" +
             "        this.updateById(entity);\n"+
             "    }\n" +
             "\n" +
             "    @Override\n" +
-            "    public void delete(List<Long> request) {\n" +
+            "    public void delete(List<Long> req) {\n" +
             "\n"+
-            "        request.forEach(id -> {\n" +
+            "        req.forEach(id -> {\n" +
             "        €NameEntity entity = this.getById(id);\n" +
             "        RestException.TrueThrow(entity == null, \"COMMON0001\");\n"+
             "        entity.setIsDeleted(1);\n" +
